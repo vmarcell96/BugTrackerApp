@@ -10,6 +10,7 @@ This is a simple application for managing employees with CRUD operations in a da
 #### First sprint
 
 - Implementing EmployeeController class on back-end
+- Implementing basic github actions
 
 
 ## Features
