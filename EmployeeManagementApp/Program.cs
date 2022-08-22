@@ -1,13 +1,40 @@
+using EmployeeManagementApp.Data;
+using EmployeeManagementApp.Data.Entity;
+using EmployeeManagementApp.Data.Repositories;
+using EmployeeManagementApp.Services;
+using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddControllers()
+    .AddJsonOptions(opt => opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
-builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Add datastore service
+builder.Services.AddDbContext<EmployeeManagementAppContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Add data repository services
+builder.Services.AddTransient<IRepository<Employee>, EmployeeRepository>();
+
+// Add data logic services
+builder.Services.AddTransient<IEmployeeService, EmployeeService>();
+
+
+
+builder.Services.AddTransient<DataSeeder>();
+
+
 var app = builder.Build();
+
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+var initialiser = services.GetRequiredService<DataSeeder>();
+initialiser.Initialize();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
