@@ -22,15 +22,15 @@ namespace EmployeeManagementApp.Controllers
         }
 
         [HttpGet("{id}", Name = "GetEmployee")]
-        public async Task<ActionResult<EmployeeViewDto>> GetEmployeeById(int employeeId)
+        public async Task<ActionResult<EmployeeViewDto>> GetEmployeeById(int id)
         {
             try
             {
-                return await _employeeService.GetEmployeeById(employeeId);
+                return await _employeeService.GetEmployeeById(id);
             }
             catch (InvalidOperationException)
             {
-                return NotFound($"Employee with ID:{employeeId} not found.");
+                return NotFound($"Employee with ID:{id} not found.");
             }
         }
     }
