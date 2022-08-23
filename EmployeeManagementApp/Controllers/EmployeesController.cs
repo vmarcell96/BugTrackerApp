@@ -1,6 +1,7 @@
 ﻿using EmployeeManagementApp.Core.Model.Employees;
 using EmployeeManagementApp.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeManagementApp.Controllers
 {
@@ -31,6 +32,20 @@ namespace EmployeeManagementApp.Controllers
             catch (InvalidOperationException)
             {
                 return NotFound($"Employee with ID:{id} not found.");
+            }
+        }
+
+        [HttpPost("AddEmployee")]
+        public async Task<ActionResult<EmployeeViewDto>> AddEmployee(EmployeeCreateDto newEmployeeDto)
+        {
+            try
+            {
+                var employeeViewDto = await _employeeService.AddNewEmployee(newEmployeeDto);
+                return CreatedAtRoute("AddEmployee", new { id = employeeViewDto.ID }, employeeViewDto);
+            }
+            catch (DbUpdateException)
+            {
+                return BadRequest("Something went wrong adding new employee.");
             }
         }
     }
