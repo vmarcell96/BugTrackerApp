@@ -14,14 +14,16 @@ namespace EmployeeManagementApp.Services
             _employeeRepository = employeeRepository;
         }
 
-        public Task<EmployeeViewDto> AddNewEmployee(EmployeeViewDto newEmployeeDto)
+        public async Task<EmployeeViewDto> AddNewEmployee(EmployeeCreateDto newEmployeeDto)
         {
-            throw new NotImplementedException();
+            Employee entity = newEmployeeDto.ToEmployeeEntity();
+            await _employeeRepository.Add(entity);
+            return entity.ToEmployeeViewDto();
         }
 
-        public Task DeleteEmployeeById(int employeeId)
+        public async Task DeleteEmployeeById(int employeeId)
         {
-            throw new NotImplementedException();
+            await _employeeRepository.Delete(employeeId);
         }
 
         public async Task<List<EmployeeViewDto>> GetAllEmployees()
@@ -30,14 +32,16 @@ namespace EmployeeManagementApp.Services
             return employees.ToEmployeeViewDto();
         }
 
-        public Task<EmployeeViewDto> GetEmployeeById(int employeeId)
+        public async Task<EmployeeViewDto> GetEmployeeById(int employeeId)
         {
-            throw new NotImplementedException();
+            var entity = await _employeeRepository.Get(employeeId);
+            return entity.ToEmployeeViewDto();
         }
 
-        public Task<EmployeeViewDto> UpdateEmployee(EmployeeUpdateDto employeeUpdateDto)
+        public async Task<EmployeeViewDto> UpdateEmployee(EmployeeUpdateDto employeeUpdateDto)
         {
-            throw new NotImplementedException();
+            var entity = await _employeeRepository.Update(employeeUpdateDto.ToEmployeeEntity());
+            return entity.ToEmployeeViewDto();
         }
     }
 }
