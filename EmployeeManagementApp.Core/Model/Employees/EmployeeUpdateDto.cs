@@ -10,5 +10,6 @@ namespace EmployeeManagementApp.Core.Model.Employees
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public DateTime HiringDate { get; set; }
     }
 }
