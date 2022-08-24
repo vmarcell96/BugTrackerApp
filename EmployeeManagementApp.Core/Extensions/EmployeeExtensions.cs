@@ -51,6 +51,7 @@ namespace EmployeeManagementApp.Core.Extensions
         {
             return new Employee()
             {
+                ID = employee.ID,
                 FirstName = employee.FirstName,
                 LastName = employee.LastName,
                 HiringDate = employee.HiringDate,
