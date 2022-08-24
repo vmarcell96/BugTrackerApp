@@ -12,7 +12,8 @@ namespace EmployeeManagementApp.Core.Extensions
             {
                 ID = employee.ID,
                 FirstName = employee.FirstName,
-                LastName = employee.LastName
+                LastName = employee.LastName,
+                HiringDate = employee.HiringDate,
             };
         }
 
@@ -24,6 +25,37 @@ namespace EmployeeManagementApp.Core.Extensions
                 employeeViews.Add(ToEmployeeViewDto(employee));
             }
             return employeeViews;
+        }
+
+        public static EmployeeCreateDto ToEmployeeCreateDto(this EmployeeViewDto employee)
+        {
+            return new EmployeeCreateDto()
+            {
+                FirstName = employee.FirstName,
+                LastName = employee.LastName,
+                HiringDate = DateTime.Now,
+            };
+        }
+
+        public static Employee ToEmployeeEntity(this EmployeeCreateDto newEmployee)
+        {
+            return new Employee()
+            {
+                FirstName = newEmployee.FirstName,
+                LastName = newEmployee.LastName,
+                HiringDate = newEmployee.HiringDate,
+            };
+        }
+
+        public static Employee ToEmployeeEntity(this EmployeeUpdateDto employee)
+        {
+            return new Employee()
+            {
+                ID = employee.ID,
+                FirstName = employee.FirstName,
+                LastName = employee.LastName,
+                HiringDate = employee.HiringDate,
+            };
         }
     }
 }

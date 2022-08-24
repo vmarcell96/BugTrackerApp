@@ -1,10 +1,5 @@
 ﻿using EmployeeManagementApp.Data.Entity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EmployeeManagementApp.Data.Repositories
 {
@@ -17,19 +12,22 @@ namespace EmployeeManagementApp.Data.Repositories
             _context = context;
         }
 
-        public Task Add(Employee entity)
+        public async Task Add(Employee entity)
         {
-            throw new NotImplementedException();
+            await _context.Employees.AddAsync(entity);
+            await _context.SaveChangesAsync();
         }
 
-        public Task Delete(int id)
+        public async Task Delete(int id)
         {
-            throw new NotImplementedException();
+            _context.Employees.Remove(await Get(id));
+            await _context.SaveChangesAsync();
         }
 
-        public Task<Employee> Get(int id)
+        public async Task<Employee> Get(int id)
         {
-            throw new NotImplementedException();
+            var emp = await _context.Employees.SingleOrDefaultAsync(emp => emp.ID == id);
+            return emp;
         }
 
         public async Task<List<Employee>> GetAll()
@@ -37,9 +35,13 @@ namespace EmployeeManagementApp.Data.Repositories
             return await _context.Employees.AsNoTracking().ToListAsync();
         }
 
-        public Task<Employee> Update(Employee entity)
+        public async Task<Employee> Update(Employee entity)
         {
-            throw new NotImplementedException();
+            var employeeToUpdate = await Get(entity.ID);
+            employeeToUpdate.FirstName = entity.FirstName;
+            employeeToUpdate.LastName = entity.LastName;
+            await _context.SaveChangesAsync();
+            return employeeToUpdate;
         }
     }
 }

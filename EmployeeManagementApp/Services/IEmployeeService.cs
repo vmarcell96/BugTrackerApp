@@ -6,7 +6,7 @@ namespace EmployeeManagementApp.Services
     {
         public Task<List<EmployeeViewDto>> GetAllEmployees();
 
-        public Task<EmployeeViewDto> AddNewEmployee(EmployeeViewDto newEmployeeDto);
+        public Task<EmployeeViewDto> AddNewEmployee(EmployeeCreateDto newEmployeeDto);
 
         public Task<EmployeeViewDto> GetEmployeeById(int employeeId);
 
