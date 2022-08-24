@@ -35,17 +35,45 @@ namespace EmployeeManagementApp.Controllers
             }
         }
 
-        [HttpPost("AddEmployee")]
+        [HttpPost]
         public async Task<ActionResult<EmployeeViewDto>> AddEmployee(EmployeeCreateDto newEmployeeDto)
         {
             try
             {
                 var employeeViewDto = await _employeeService.AddNewEmployee(newEmployeeDto);
-                return CreatedAtRoute("AddEmployee", new { id = employeeViewDto.ID }, employeeViewDto);
+                return Ok(employeeViewDto);
             }
             catch (DbUpdateException)
             {
                 return BadRequest("Something went wrong adding new employee.");
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteEmployee(int id)
+        {
+            try
+            {
+                await _employeeService.DeleteEmployeeById(id);
+                return NoContent();
+            }
+            catch (InvalidOperationException)
+            {
+                return NotFound($"Employee with ID:{id} not found.");
+            }
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<EmployeeViewDto>> UpdateEmployee(EmployeeUpdateDto employeeUpdateDto)
+        {
+            try
+            {
+                var updatedEmployeeDto = await _employeeService.UpdateEmployee(employeeUpdateDto);
+                return updatedEmployeeDto;
+            }
+            catch (DbUpdateException)
+            {
+                return NotFound($"Employee with ID:{employeeUpdateDto.ID} not found.");
             }
         }
     }
