@@ -10,8 +10,13 @@ This is a simple application for managing employees with CRUD operations in a da
 #### First sprint
 
 - Implementing EmployeeController class on back-end
+- Using repository-service-controller pattern
 - Implementing basic github actions
 
+
+## Stack
+- ASP.NET Core
+- Entity framework
 
 ## Features
 
@@ -64,7 +69,6 @@ Client should be available at `localhost:3000`
 ## Roadmap
 
 - Reliability improvements (error handling, UI consistency)
-- Implement database
 - Role based authentication (admin, customer, partner)
 - Login / Logout
 - Implement front-end
