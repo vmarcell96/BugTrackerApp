@@ -1,5 +1,6 @@
 ﻿using EmployeeManagementApp.Core.Model.Employees;
 using EmployeeManagementApp.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,12 +17,14 @@ namespace EmployeeManagementApp.Controllers
             _employeeService = employeeService ?? throw new ArgumentNullException(nameof(employeeService));
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<List<EmployeeViewDto>>> ListEmployees()
         {
             return await _employeeService.GetAllEmployees();
         }
 
+        [Authorize]
         [HttpGet("{id}", Name = "GetEmployee")]
         public async Task<ActionResult<EmployeeViewDto>> GetEmployeeById(int id)
         {
@@ -35,6 +38,7 @@ namespace EmployeeManagementApp.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<EmployeeViewDto>> AddEmployee(EmployeeCreateDto newEmployeeDto)
         {
@@ -49,6 +53,7 @@ namespace EmployeeManagementApp.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteEmployee(int id)
         {
@@ -63,6 +68,7 @@ namespace EmployeeManagementApp.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<ActionResult<EmployeeViewDto>> UpdateEmployee(EmployeeUpdateDto employeeUpdateDto)
         {
