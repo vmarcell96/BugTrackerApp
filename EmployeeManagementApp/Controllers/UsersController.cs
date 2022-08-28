@@ -1,6 +1,7 @@
 ﻿using EmployeeManagementApp.Core.Model.Employees;
 using EmployeeManagementApp.Core.Model.Users;
 using EmployeeManagementApp.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,14 +18,16 @@ namespace EmployeeManagementApp.Controllers
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
         }
 
+        [Authorize]
         [HttpGet]
-        public async Task<ActionResult<List<UserViewDto>>> Listusers()
+        public async Task<ActionResult<List<UserViewDto>>> ListUsers()
         {
             return await _userService.GetAllUsers();
         }
 
+        [Authorize]
         [HttpGet("{id}", Name = "Getuser")]
-        public async Task<ActionResult<UserViewDto>> GetuserById(int id)
+        public async Task<ActionResult<UserViewDto>> GetUserById(int id)
         {
             try
             {
@@ -36,6 +39,7 @@ namespace EmployeeManagementApp.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<UserViewDto>> AddUser(UserCreateDto newuserDto)
         {
@@ -50,6 +54,7 @@ namespace EmployeeManagementApp.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteUser(int id)
         {
@@ -64,6 +69,7 @@ namespace EmployeeManagementApp.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<ActionResult<UserViewDto>> UpdateUser(UserUpdateDto userUpdateDto)
         {

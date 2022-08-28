@@ -7,9 +7,9 @@ namespace EmployeeManagementApp.Services
 {
     public class UserService : IUserService
     {
-        private IRepository<User> _userRepository;
+        private IUserRepository _userRepository;
 
-        public UserService(IRepository<User> userRepository)
+        public UserService(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
@@ -42,6 +42,13 @@ namespace EmployeeManagementApp.Services
         {
             var entity = await _userRepository.Update(userUpdateDto.ToUserEntity());
             return entity.ToUserViewDto();
+        }
+
+        public async Task<UserLoginDto> GetLoginDtoByUserName(string userName)
+        {
+            var user = await _userRepository.GetByUserName(userName);
+
+            return user.ToUserLoginDto();
         }
     }
 }

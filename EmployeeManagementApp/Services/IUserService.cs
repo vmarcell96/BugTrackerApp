@@ -14,5 +14,7 @@ namespace EmployeeManagementApp.Services
         public Task DeleteUserById(int userId);
 
         public Task<UserViewDto> UpdateUser(UserUpdateDto userUpdateDto);
+
+        public Task<UserLoginDto> GetLoginDtoByUserName(string username);
     }
 }
