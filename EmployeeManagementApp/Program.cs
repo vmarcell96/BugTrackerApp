@@ -34,14 +34,17 @@ builder.Services.AddDbContext<EmployeeManagementAppContext>(options =>
 
 // Add data repository services
 builder.Services.AddTransient<IRepository<Employee>, EmployeeRepository>();
+builder.Services.AddTransient<IUserRepository, UserRepository>();
 
 // Add data logic services
 builder.Services.AddTransient<IEmployeeService, EmployeeService>();
+builder.Services.AddTransient<IUserService, UserService>();
 
 
 
 builder.Services.AddTransient<DataSeeder>();
-builder.Services.AddTransient<IPasswordHasher, BCyptPasswordHasher>();
+
+builder.Services.AddTransient<IPasswordHasher, BCryptPasswordHasher>();
 
 
 var app = builder.Build();
