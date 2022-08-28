@@ -1,23 +1,19 @@
-import Home from "./components/Home";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Outlet } from "react-router-dom";
 import Navigation from "./components/Navigation";
-import Employees from "./components/Employees";
+import { Container } from "react-bootstrap";
 
 function App() {
   return (
-    <BrowserRouter>
-      <div className="container">
-        <h3 className="m-3 d-flex justify-content-center">
-          Container
-        </h3>
-      <Navigation/>
-
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/employees' element={<Employees />}/>
-      </Routes>
-      </div>
-    </BrowserRouter>
+    <div className="container">
+      <header className="App-header">
+        <Container>
+          <Navigation/>
+        </Container>
+      </header>
+      <Container className='content-container'>
+        <Outlet />
+      </Container>
+    </div>
   );
 }
 
