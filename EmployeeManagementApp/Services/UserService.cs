@@ -1,5 +1,5 @@
 ﻿using EmployeeManagementApp.Core.Extensions;
-using EmployeeManagementApp.Core.Model.Employees;
+using EmployeeManagementApp.Core.Model.Users;
 using EmployeeManagementApp.Data.Entity;
 using EmployeeManagementApp.Data.Repositories;
 
@@ -14,7 +14,7 @@ namespace EmployeeManagementApp.Services
             _userRepository = userRepository;
         }
 
-        public async Task<UserViewDto> AddNewUser(EmployeeCreateDto newUserDto)
+        public async Task<UserViewDto> AddNewUser(UserCreateDto newUserDto)
         {
             User entity = newUserDto.ToUserEntity();
             await _userRepository.Add(entity);

@@ -1,17 +1,18 @@
 ﻿using EmployeeManagementApp.Core.Model.Employees;
+using EmployeeManagementApp.Core.Model.Users;
 
 namespace EmployeeManagementApp.Services
 {
     public interface IUserService
     {
-        public Task<List<EmployeeViewDto>> GetAllUsers();
+        public Task<List<UserViewDto>> GetAllUsers();
 
-        public Task<EmployeeViewDto> AddNewUser(EmployeeCreateDto newEmployeeDto);
+        public Task<UserViewDto> AddNewUser(UserCreateDto newUserDto);
 
-        public Task<EmployeeViewDto> GetUserById(int employeeId);
+        public Task<UserViewDto> GetUserById(int userId);
 
-        public Task DeleteUserById(int employeeId);
+        public Task DeleteUserById(int userId);
 
-        public Task<EmployeeViewDto> UpdateUser(EmployeeUpdateDto employeeUpdateDto);
+        public Task<UserViewDto> UpdateUser(UserUpdateDto userUpdateDto);
     }
 }
