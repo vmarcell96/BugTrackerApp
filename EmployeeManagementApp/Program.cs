@@ -2,6 +2,7 @@ using EmployeeManagementApp.Data;
 using EmployeeManagementApp.Data.Entity;
 using EmployeeManagementApp.Data.Repositories;
 using EmployeeManagementApp.Services;
+using EmployeeManagementApp.Services.PasswordHashers;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -40,6 +41,7 @@ builder.Services.AddTransient<IEmployeeService, EmployeeService>();
 
 
 builder.Services.AddTransient<DataSeeder>();
+builder.Services.AddTransient<IPasswordHasher, BCyptPasswordHasher>();
 
 
 var app = builder.Build();
