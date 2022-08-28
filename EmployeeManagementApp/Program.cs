@@ -1,14 +1,22 @@
+using EmployeeManagementApp.Core.Model.AuthenticationModels;
 using EmployeeManagementApp.Data;
 using EmployeeManagementApp.Data.Entity;
 using EmployeeManagementApp.Data.Repositories;
 using EmployeeManagementApp.Services;
+using EmployeeManagementApp.Services.Authenticator;
 using EmployeeManagementApp.Services.PasswordHashers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using System.Text.Json.Serialization;
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+builder.Services.Configure<AuthenticationConfiguration>(builder.Configuration.GetSection("Authentication"));
 
 builder.Services.AddCors(options =>
 {
@@ -44,7 +52,23 @@ builder.Services.AddTransient<IUserService, UserService>();
 
 builder.Services.AddTransient<DataSeeder>();
 
+builder.Services.AddTransient<Authenticator>();
+
 builder.Services.AddTransient<IPasswordHasher, BCryptPasswordHasher>();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(o =>
+{
+    o.TokenValidationParameters = new TokenValidationParameters()
+    {
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Authentication:AccessTokenSecret"])),
+        ValidIssuer = builder.Configuration["Authentication:Audience"],
+        ValidAudience = builder.Configuration["Authentication:Issuer"],
+        ValidateIssuerSigningKey = true,
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ClockSkew = TimeSpan.Zero
+    };
+});
 
 
 var app = builder.Build();
@@ -64,6 +88,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseCors(MyAllowSpecificOrigins);
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
