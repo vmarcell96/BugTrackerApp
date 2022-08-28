@@ -28,7 +28,7 @@ namespace EmployeeManagementApp.Core.Extensions
             };
         }
 
-        public static UserViewDto ToUserView(this User user)
+        public static UserViewDto ToUserViewDto(this User user)
         {
             return new UserViewDto
             {
@@ -38,6 +38,16 @@ namespace EmployeeManagementApp.Core.Extensions
                 LastName = user.LastName,
                 Role = user.Role,
             };
+        }
+
+        public static List<UserViewDto> ToUserViewDto(this List<User> users)
+        {
+            var userViews = new List<UserViewDto>();
+            foreach (var user in users)
+            {
+                userViews.Add(ToUserViewDto(user));
+            }
+            return userViews;
         }
 
         public static UserLoginDto ToUserLoginDto(this User user)
