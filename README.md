@@ -2,7 +2,7 @@
 
 # Description
 
-This is a simple application for managing employees with CRUD operations in a database with a user interface.
+This is a simple application for managing persisted employees with a React UI.
 
 
 ## Sprints
@@ -13,10 +13,20 @@ This is a simple application for managing employees with CRUD operations in a da
 - Using repository-service-controller pattern
 - Implementing basic github actions
 
+#### Second sprint
+
+- Creating front-end react app with CRUD operations
+- Implementing JWT authentication
+- Implementing protected routes on front-end
+- Implementing role-based authorization
+- Login/Logout
+
+
 
 ## Stack
 - ASP.NET Core
 - Entity framework
+- React
 
 ## Features
 
@@ -48,7 +58,7 @@ Starting frontend:
 Go back to the root directory of the repository and navigate to:
 
 ```bash
-  cd .\el-proyecte-grande-sprint-1-csharp-marcellgim\BpRobotics\Client\bprobotics-client
+  cd .\EmployeeManagementApp\EmployeeManagementApp\ClientApp\manager-app
 ```
 
 Install packages
@@ -69,7 +79,7 @@ Client should be available at `localhost:3000`
 ## Roadmap
 
 - Reliability improvements (error handling, UI consistency)
-- Role based authentication (admin, customer, partner)
+- Role based authentication (admin, user)
 - Login / Logout
 - Implement front-end
 - Improve application design (CSS)
