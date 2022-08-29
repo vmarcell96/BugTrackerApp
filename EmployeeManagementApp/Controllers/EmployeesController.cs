@@ -11,74 +11,103 @@ namespace EmployeeManagementApp.Controllers
     public class EmployeesController : Controller
     {
         private readonly IEmployeeService _employeeService;
+        private readonly ILogger<EmployeesController> _logger;
 
-        public EmployeesController(IEmployeeService employeeService)
+        public EmployeesController(IEmployeeService employeeService, ILogger<EmployeesController> logger)
         {
             _employeeService = employeeService ?? throw new ArgumentNullException(nameof(employeeService));
+            _logger = logger;
         }
 
         [Authorize]
         [HttpGet]
-        public async Task<ActionResult<List<EmployeeViewDto>>> ListEmployees()
+        public async Task<IActionResult> ListEmployees()
         {
-            return await _employeeService.GetAllEmployees();
+            try
+            {
+                var employees = await _employeeService.GetAllEmployees();
+                return StatusCode(200, employees);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
         [Authorize]
         [HttpGet("{id}", Name = "GetEmployee")]
-        public async Task<ActionResult<EmployeeViewDto>> GetEmployeeById(int id)
+        public async Task<IActionResult> GetEmployeeById(int id)
         {
             try
             {
-                return await _employeeService.GetEmployeeById(id);
+                var employee = await _employeeService.GetEmployeeById(id);
+                return StatusCode(200, employee);
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
+                _logger.LogError($"No employee found with id: {id}.", ex);
                 return NotFound($"Employee with ID:{id} not found.");
             }
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<ActionResult<EmployeeViewDto>> AddEmployee(EmployeeCreateDto newEmployeeDto)
+        public async Task<IActionResult> AddEmployee(EmployeeCreateDto newEmployeeDto)
         {
             try
             {
-                var employeeViewDto = await _employeeService.AddNewEmployee(newEmployeeDto);
-                return Ok(employeeViewDto);
+                if (ModelState.IsValid)
+                {
+                    var employeeViewDto = await _employeeService.AddNewEmployee(newEmployeeDto);
+                    return StatusCode(201, employeeViewDto);
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException ex)
             {
-                return BadRequest("Something went wrong adding new employee.");
+                _logger.LogError("Something went wrong when adding new employee.");
+                return BadRequest(ex.Message);
             }
         }
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteEmployee(int id)
+        public async Task<IActionResult> DeleteEmployee(int id)
         {
             try
             {
                 await _employeeService.DeleteEmployeeById(id);
-                return NoContent();
+                return StatusCode(200, true);
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
+                _logger.LogError($"No employee found with id: {id}.", ex);
                 return NotFound($"Employee with ID:{id} not found.");
             }
         }
 
         [Authorize]
         [HttpPut("{id}")]
-        public async Task<ActionResult<EmployeeViewDto>> UpdateEmployee(EmployeeUpdateDto employeeUpdateDto)
+        public async Task<IActionResult> UpdateEmployee(EmployeeUpdateDto employeeUpdateDto)
         {
             try
             {
-                var updatedEmployeeDto = await _employeeService.UpdateEmployee(employeeUpdateDto);
-                return updatedEmployeeDto;
+                if (ModelState.IsValid)
+                {
+                    var updatedEmployeeDto = await _employeeService.UpdateEmployee(employeeUpdateDto);
+                    return StatusCode(200, updatedEmployeeDto);
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException ex)
             {
+                _logger.LogError($"No employee found with id: {employeeUpdateDto.ID}.", ex);
                 return NotFound($"Employee with ID:{employeeUpdateDto.ID} not found.");
             }
         }
