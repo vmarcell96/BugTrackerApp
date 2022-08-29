@@ -1,6 +1,8 @@
-import { BrowserRouter, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import Navigation from "./components/Navigation";
 import { Container } from "react-bootstrap";
+import FlashMessages from "./components/FlashMessages";
+import './index.css';
 
 function App() {
   return (
@@ -11,6 +13,7 @@ function App() {
         </Container>
       </header>
       <Container className='content-container'>
+       <FlashMessages />
         <Outlet />
       </Container>
     </div>
