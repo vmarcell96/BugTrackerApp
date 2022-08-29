@@ -16,7 +16,7 @@ function UpdateUser() {
 
   const [updateFirstName, setUpdateFirstName] = useState(user.firstName);
   const [updateLastName, setUpdateLastName] = useState(user.lastName);
-  const [updateUsername, setUpdateUsername] = useState(user.username);
+  const [updateUsername, setUpdateUsername] = useState(user.userName);
   const [updatePassword, setUpdatePassword] = useState(user.password);
 
   const [isPendingUpdate, setIsPendingUpdate] = useState(false);
