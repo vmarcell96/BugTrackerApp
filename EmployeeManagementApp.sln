@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeManagementApp.Core"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeManagementApp.Data", "EmployeeManagementApp.Data\EmployeeManagementApp.Data.csproj", "{B865160A-677C-42A2-AC77-EA0551C83208}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeManagerApp.Test", "EmployeeManagerApp.Test\EmployeeManagerApp.Test.csproj", "{55678CFC-4A97-4A7C-9457-281F6D01DD8D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeManagementApp.Test", "EmployeeManagerApp.Test\EmployeeManagementApp.Test.csproj", "{55678CFC-4A97-4A7C-9457-281F6D01DD8D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
