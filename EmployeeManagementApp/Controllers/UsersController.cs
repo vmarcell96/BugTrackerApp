@@ -14,76 +14,105 @@ namespace EmployeeManagementApp.Controllers
     {
         private readonly IUserService _userService;
         private readonly IPasswordHasher _passwordHasher;
+        private readonly ILogger<UsersController> _logger;
 
-        public UsersController(IUserService userService, IPasswordHasher passwordHasher)
+        public UsersController(IUserService userService, IPasswordHasher passwordHasher, ILogger<UsersController> logger)
         {
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
             _passwordHasher = passwordHasher;
+            _logger = logger;
         }
 
         [Authorize]
         [HttpGet]
-        public async Task<ActionResult<List<UserViewDto>>> ListUsers()
+        public async Task<IActionResult> ListUsers()
         {
-            return await _userService.GetAllUsers();
+            try
+            {
+                var users = await _userService.GetAllUsers();
+                return StatusCode(200, users);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
         [Authorize]
         [HttpGet("{id}", Name = "Getuser")]
-        public async Task<ActionResult<UserViewDto>> GetUserById(int id)
+        public async Task<IActionResult> GetUserById(int id)
         {
             try
             {
-                return await _userService.GetUserById(id);
+                var employee = await _userService.GetUserById(id);
+                return StatusCode(200, employee);
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
-                return NotFound($"user with ID:{id} not found.");
+                _logger.LogError($"No user found with id: {id}.", ex);
+                return NotFound($"User with ID:{id} not found.");
             }
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<ActionResult<UserViewDto>> AddUser(UserCreateDto newuserDto)
+        public async Task<IActionResult> AddUser(UserCreateDto newuserDto)
         {
             try
             {
-                newuserDto.Password = _passwordHasher.HashPassword(newuserDto.Password);
-                var userViewDto = await _userService.AddNewUser(newuserDto);
-                return Ok(userViewDto);
+                if (ModelState.IsValid)
+                {
+                    newuserDto.Password = _passwordHasher.HashPassword(newuserDto.Password);
+                    var userViewDto = await _userService.AddNewUser(newuserDto);
+                    return StatusCode(201, userViewDto);
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException ex)
             {
-                return BadRequest("Something went wrong adding new user.");
+                _logger.LogError("Something went wrong when adding new user.");
+                return BadRequest(ex.Message);
             }
         }
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteUser(int id)
+        public async Task<IActionResult> DeleteUser(int id)
         {
             try
             {
                 await _userService.DeleteUserById(id);
-                return NoContent();
+                return StatusCode(200, true);
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
+                _logger.LogError($"No user found with id: {id}.", ex);
                 return NotFound($"User with ID:{id} not found.");
             }
         }
 
         [Authorize]
         [HttpPut("{id}")]
-        public async Task<ActionResult<UserViewDto>> UpdateUser(UserUpdateDto userUpdateDto)
+        public async Task<IActionResult> UpdateUser(UserUpdateDto userUpdateDto)
         {
             try
             {
-                var updateduserDto = await _userService.UpdateUser(userUpdateDto);
-                return updateduserDto;
+                if (ModelState.IsValid)
+                {
+                    var updateduserDto = await _userService.UpdateUser(userUpdateDto);
+                    return StatusCode(200, updateduserDto);
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException ex)
             {
+                _logger.LogError($"No user found with id: {userUpdateDto.ID}.", ex);
                 return NotFound($"User with ID:{userUpdateDto.ID} not found.");
             }
         }
