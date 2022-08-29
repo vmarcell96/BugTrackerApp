@@ -4,8 +4,8 @@ import { useState } from "react";
 import LoadingSpin from "react-loading-spin";
 import { Button, Card } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
-import axios from '../apis/axiosInstance';
-import useAxiosFunction from '../hooks/useAxiosFunction';
+import axios from '../../apis/axiosInstance';
+import useAxiosFunction from '../../hooks/useAxiosFunction';
 
 
 function AddEmployee() {
@@ -19,11 +19,6 @@ function AddEmployee() {
     const handleSubmit = (e) => {
         e.preventDefault();
         setIsPendingAdd(true);
-        console.log({
-            "FirstName": `${postFirstName}`,
-            "LastName": `${postLastName}`,
-            "HiringDate": `${postDate}`
-        });
         axiosFetch({
             axiosInstance: axios,
             method: 'POST',
@@ -71,7 +66,7 @@ function AddEmployee() {
                     onChange={(e) => setPostDate(e.target.value)}
                 />
             </Form.Group>
-            {!isPendingAdd && <Button variant="primary" type="submit">Add partner</Button>}
+            {!isPendingAdd && <Button variant="primary" type="submit">Add employee</Button>}
             {isPendingAdd && <button><LoadingSpin /></button>}
         </Form>
         </Card>

@@ -40,6 +40,7 @@ namespace EmployeeManagementApp.Data.Repositories
             var employeeToUpdate = await Get(entity.ID);
             employeeToUpdate.FirstName = entity.FirstName;
             employeeToUpdate.LastName = entity.LastName;
+            employeeToUpdate.HiringDate = entity.HiringDate;
             await _context.SaveChangesAsync();
             return employeeToUpdate;
         }

@@ -1,6 +1,7 @@
 ﻿using EmployeeManagementApp.Core.Model.Employees;
 using EmployeeManagementApp.Core.Model.Users;
 using EmployeeManagementApp.Services;
+using EmployeeManagementApp.Services.PasswordHashers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,10 +13,12 @@ namespace EmployeeManagementApp.Controllers
     public class UsersController : Controller
     {
         private readonly IUserService _userService;
+        private readonly IPasswordHasher _passwordHasher;
 
-        public UsersController(IUserService userService)
+        public UsersController(IUserService userService, IPasswordHasher passwordHasher)
         {
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
+            _passwordHasher = passwordHasher;
         }
 
         [Authorize]
@@ -45,6 +48,7 @@ namespace EmployeeManagementApp.Controllers
         {
             try
             {
+                newuserDto.Password = _passwordHasher.HashPassword(newuserDto.Password);
                 var userViewDto = await _userService.AddNewUser(newuserDto);
                 return Ok(userViewDto);
             }

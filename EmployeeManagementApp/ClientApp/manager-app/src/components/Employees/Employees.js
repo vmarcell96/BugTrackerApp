@@ -1,5 +1,5 @@
-import axios from '../apis/axiosInstance';
-import useAxiosFunction from '../hooks/useAxiosFunction';
+import axios from '../../apis/axiosInstance';
+import useAxiosFunction from '../../hooks/useAxiosFunction';
 import { useState, useEffect } from 'react';
 import React from 'react'
 import { Button, Table, Card } from 'react-bootstrap';
@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPlus, faEdit } from "@fortawesome/free-solid-svg-icons";
 import LoadingSpin from "react-loading-spin";
 import { useNavigate } from "react-router-dom";
-import useAuth from '../hooks/useAuth';
+import useAuth from '../../hooks/useAuth';
 
 const Employees = () => {
   const { auth } = useAuth();
@@ -22,7 +22,7 @@ const Employees = () => {
       axiosFetch({
           axiosInstance: axios,
           method: 'GET',
-          url: '/api/employees'
+          url: '/api/employees',
       });
   }
 
