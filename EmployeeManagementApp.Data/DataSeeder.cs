@@ -22,7 +22,7 @@ namespace EmployeeManagementApp.Data
                 new()
                 {
                     FirstName = "John",
-                    LastName = "Admin",
+                    LastName = "Smith",
                     UserName = "Admin",
                     HashedPassword = BCrypt.Net.BCrypt.HashPassword("12345678"),
                     Role = "Admin"
@@ -30,7 +30,7 @@ namespace EmployeeManagementApp.Data
                 new()
                 {
                     FirstName = "Anna",
-                    LastName = "User",
+                    LastName = "Faro",
                     UserName = "User",
                     HashedPassword = BCrypt.Net.BCrypt.HashPassword("12345678"),
                     Role = "User",
