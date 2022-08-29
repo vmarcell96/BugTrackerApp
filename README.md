@@ -23,7 +23,7 @@ This is a simple application for managing persisted employees with a React UI.
 - Login/Logout
 - Basic unit tests for EmployeesController with Moq,AutoFixture
 
-## /Planning/
+#### /Planning/
 #### Third sprint
 
 - Implementing refresh tokens
@@ -50,11 +50,11 @@ This is a simple application for managing persisted employees with a React UI.
 
 ### Login info
 
-# Admin role user:
+### Admin role user:
 Username: Admin
 Password: 12345678
 
-# User role user:
+### User role user:
 Username: User
 Password: 12345678
 
