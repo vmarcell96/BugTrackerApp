@@ -9,31 +9,54 @@ This is a simple application for managing persisted employees with a React UI.
 
 #### First sprint
 
-- Implementing EmployeeController class on back-end
+- Implementing EmployeesController class on back-end
 - Using repository-service-controller pattern
 - Implementing basic github actions
 
 #### Second sprint
 
 - Creating front-end react app with CRUD operations
-- Implementing JWT authentication
+- Implementing UsersController class on back-end
+- Implementing JWT authentication with access tokens
 - Implementing protected routes on front-end
 - Implementing role-based authorization
 - Login/Logout
+- Basic unit tests for EmployeesController with Moq,AutoFixture
 
+## /Planning/
+#### Third sprint
+
+- Implementing refresh tokens
+- Bug fixes
+- Further testing on controllers
+- Testing services
+- Improve application design (CSS)
 
 
 ## Stack
 - ASP.NET Core
 - Entity framework
 - React
+- Moq
+- AutoFixture
 
 ## Features
-
+- Login/Logout
+- CRUD operations on users and employees, when logged in with Admin role user
+- Protected react routes
+- Protected API routes
+- JWT access token validation
+- Persisted users,employees
 
 ### Login info
 
-## Production build
+# Admin role user:
+Username: Admin
+Password: 12345678
+
+# User role user:
+Username: User
+Password: 12345678
 
 ## Run Locally
 ##### Prerequisites
@@ -79,8 +102,9 @@ Client should be available at `localhost:3000`
 ## Roadmap
 
 - Reliability improvements (error handling, UI consistency)
-- Role based authentication (admin, user)
-- Login / Logout
-- Implement front-end
 - Improve application design (CSS)
+- Implementing refresh tokens
+- Bug fixes
+- Further testing on controllers
+- Testing services
 
