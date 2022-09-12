@@ -60,5 +60,25 @@ namespace EmployeeManagementApp.Core.Extensions
                 HashedPassword = user.HashedPassword,
             };
         }
+
+        public static UserAuthenticationDto ToUserAuthenticationDto(this UserLoginDto userLoginDto)
+        {
+            return new UserAuthenticationDto
+            {
+                ID = userLoginDto.ID,
+                UserName = userLoginDto.UserName,
+                Role = userLoginDto.Role,
+            };
+        }
+
+        public static UserAuthenticationDto ToUserAuthenticationDto(this UserViewDto userViewDto)
+        {
+            return new UserAuthenticationDto
+            {
+                ID = userViewDto.ID,
+                UserName = userViewDto.UserName,
+                Role = userViewDto.Role,
+            };
+        }
     }
 }

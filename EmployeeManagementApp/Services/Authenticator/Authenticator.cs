@@ -1,6 +1,7 @@
 ﻿using EmployeeManagementApp.Core.Model.AuthenticationModels;
 using EmployeeManagementApp.Core.Model.AuthenticationModels.Responses;
 using EmployeeManagementApp.Core.Model.Users;
+using EmployeeManagementApp.Data.Entity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -18,6 +19,7 @@ namespace EmployeeManagementApp.Services.Authenticator
             _configuration = configuration.Value;
         }
 
+        //Generates an access or a refreshtoken, claims are nullable because refresh tokens don't need claims
         public string GenerateToken(string secretKey, string issuer, string audience, double expirationMinutes,
             IEnumerable<Claim> claims = null)
         {
@@ -38,7 +40,8 @@ namespace EmployeeManagementApp.Services.Authenticator
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        public string GenerateAccessToken(UserLoginDto user)
+        //Generates an accessToken for the authenticated user response object
+        public string GenerateAccessToken(UserAuthenticationDto user)
         {
             List<Claim> claims = new List<Claim>()
             {
@@ -55,14 +58,55 @@ namespace EmployeeManagementApp.Services.Authenticator
                 claims);
         }
 
-        public async Task<AuthenticatedUserResponse> Authenticate(UserLoginDto user)
+        //Generates a refreshToken for the authenticated user response object
+        public string GenerateRefreshToken()
+        {
+            return GenerateToken(
+                _configuration.RefreshTokenSecret,
+                _configuration.Issuer,
+                _configuration.Audience,
+                _configuration.RefreshTokenExpirationMinutes
+                );
+        }
+
+        //this method is called in AuthenticationController, generates an authenticated user response object
+        public AuthenticatedUserResponse Authenticate(UserAuthenticationDto user)
         {
             string accessToken = GenerateAccessToken(user);
+            string refreshToken = GenerateRefreshToken();
 
             return new AuthenticatedUserResponse()
             {
-                AccessToken = accessToken
+                AccessToken = accessToken,
+                RefreshToken = refreshToken
             };
+        }
+
+        //Validate refresh token if it is expired
+        public bool ValidateRefreshToken(string refreshToken)
+        {
+            TokenValidationParameters validationParameters = new TokenValidationParameters()
+            {
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.RefreshTokenSecret)),
+                ValidIssuer = _configuration.Issuer,
+                ValidAudience = _configuration.Audience,
+                ValidateIssuerSigningKey = true,
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ClockSkew = TimeSpan.Zero
+            };
+
+            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+
+            try
+            {
+                tokenHandler.ValidateToken(refreshToken, validationParameters, out SecurityToken validatedToken);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

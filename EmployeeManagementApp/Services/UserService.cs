@@ -48,7 +48,7 @@ namespace EmployeeManagementApp.Services
         {
             var user = await _userRepository.GetByUserName(userName);
 
-            return user.ToUserLoginDto();
+            return user?.ToUserLoginDto();
         }
     }
 }

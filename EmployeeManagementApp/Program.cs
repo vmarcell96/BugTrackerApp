@@ -43,10 +43,12 @@ builder.Services.AddDbContext<EmployeeManagementAppContext>(options =>
 // Add data repository services
 builder.Services.AddTransient<IRepository<Employee>, EmployeeRepository>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<IRefreshTokenRepository, RefreshTokenRepository>();
 
 // Add data logic services
 builder.Services.AddTransient<IEmployeeService, EmployeeService>();
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IRefreshTokenService, RefreshTokenService>();
 
 
 
@@ -61,8 +63,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     o.TokenValidationParameters = new TokenValidationParameters()
     {
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Authentication:AccessTokenSecret"])),
-        ValidIssuer = builder.Configuration["Authentication:Audience"],
-        ValidAudience = builder.Configuration["Authentication:Issuer"],
+        ValidIssuer = builder.Configuration["Authentication:Issuer"],
+        ValidAudience = builder.Configuration["Authentication:Audience"],
         ValidateIssuerSigningKey = true,
         ValidateIssuer = true,
         ValidateAudience = true,
