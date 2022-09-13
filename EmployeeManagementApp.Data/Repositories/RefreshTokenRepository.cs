@@ -34,6 +34,12 @@ namespace EmployeeManagementApp.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task DeleteAll(int id)
+        {
+            _context.RefreshTokens.RemoveRange(_context.RefreshTokens.Where(t => t.UserId == id));
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<RefreshToken> GetById(int id)
         {
             RefreshToken refreshToken = await _context.RefreshTokens.FirstOrDefaultAsync(r => r.ID == id);

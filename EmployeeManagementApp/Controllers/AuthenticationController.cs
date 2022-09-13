@@ -1,4 +1,5 @@
-﻿using EmployeeManagementApp.Core.Extensions;
+﻿using System.Security.Claims;
+using EmployeeManagementApp.Core.Extensions;
 using EmployeeManagementApp.Core.Model.AuthenticationModels;
 using EmployeeManagementApp.Core.Model.AuthenticationModels.Requests;
 using EmployeeManagementApp.Core.Model.AuthenticationModels.Responses;
@@ -114,5 +115,20 @@ namespace EmployeeManagementApp.Controllers
 
             return Ok(response);
         }
+
+        //[Authorize]
+        //[HttpDelete("logout")]
+        //public async Task<IActionResult> Logout()
+        //{
+        //    string id = HttpContext.User.FindFirstValue("id");
+        //    if (!int.TryParse(id, out int userId))
+        //    {
+        //        return Unauthorized();
+        //    }
+
+        //    await _refreshTokenService.DeleteAll(userId);
+
+        //    return NoContent();
+        //}
     }
 }

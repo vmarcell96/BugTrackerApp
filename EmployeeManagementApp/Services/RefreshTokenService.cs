@@ -29,5 +29,10 @@ namespace EmployeeManagementApp.Services
             RefreshToken token = await _refreshTokenRepository.GetByToken(refreshToken);
             return token;
         }
+
+        public async Task DeleteAll(int id)
+        {
+            await _refreshTokenRepository.DeleteAll(id);
+        }
     }
 }
