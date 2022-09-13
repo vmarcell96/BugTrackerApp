@@ -19,6 +19,11 @@ namespace EmployeeManagementApp.Services
             return refreshToken;
         }
 
+        public async Task Delete(int id)
+        {
+            await _refreshTokenRepository.Delete(id);
+        }
+
         public async Task<RefreshToken> GetByRefreshToken(string refreshToken)
         {
             RefreshToken token = await _refreshTokenRepository.GetByToken(refreshToken);
