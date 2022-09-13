@@ -69,6 +69,7 @@ namespace EmployeeManagementApp.Controllers
             return Ok(response);
         }
 
+        //If your access token is expired you can get a valid one with the help of your refresh token
         [HttpPost("refresh")]
         public async Task<IActionResult> Refresh(RefreshRequest refreshRequest)
         {
@@ -116,19 +117,20 @@ namespace EmployeeManagementApp.Controllers
             return Ok(response);
         }
 
-        //[Authorize]
-        //[HttpDelete("logout")]
-        //public async Task<IActionResult> Logout()
-        //{
-        //    string id = HttpContext.User.FindFirstValue("id");
-        //    if (!int.TryParse(id, out int userId))
-        //    {
-        //        return Unauthorized();
-        //    }
+        //This way if a refresh token gets stolen you can invalidate all with logging out
+        [Authorize]
+        [HttpDelete("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            string id = HttpContext.User.FindFirstValue("id");
+            if (!int.TryParse(id, out int userId))
+            {
+                return Unauthorized();
+            }
 
-        //    await _refreshTokenService.DeleteAll(userId);
+            await _refreshTokenService.DeleteAll(userId);
 
-        //    return NoContent();
-        //}
+            return NoContent();
+        }
     }
 }
