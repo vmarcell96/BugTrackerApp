@@ -69,7 +69,7 @@ const Employees = () => {
 								</tr>
 							</thead>
 							<tbody>
-								{employees.map((employee) =>
+								{employees !== true && employees.map((employee) =>
 									<tr key={employee.id}>
 										<td>#</td>
 										<td>{employee.firstName}</td>
