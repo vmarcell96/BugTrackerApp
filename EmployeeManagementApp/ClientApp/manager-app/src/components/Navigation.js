@@ -1,12 +1,15 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
 import { Navbar, Nav } from 'react-bootstrap'
 import { LinkContainer } from "react-router-bootstrap";
 import useAuth from '../hooks/useAuth';
 import '../index.css';
+import useLogoutFunction from '../hooks/useLogoutFunction';
+
 
 const Navigation = () => {
-    const { auth, logout } = useAuth();
+    const { auth } = useAuth();
+    const logout = useLogoutFunction();
+    
   return (
     <Navbar bg="dark" expand="lg">
         <Navbar.Toggle aria-controls="basic-navbar-nav"/>
