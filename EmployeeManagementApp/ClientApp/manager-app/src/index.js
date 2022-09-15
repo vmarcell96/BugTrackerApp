@@ -14,6 +14,7 @@ import FlashMessageProvider from './context/FlashMessageProvider';
 import UpdateEmployee from './components/Employees/UpdateEmployee';
 import AddUser from './components/Users/AddUser';
 import UpdateUser from './components/Users/UpdateUser';
+import './index.css'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
