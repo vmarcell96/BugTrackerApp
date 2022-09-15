@@ -5,9 +5,13 @@ import { LinkContainer } from "react-router-bootstrap";
 import useAuth from '../hooks/useAuth';
 import '../index.css';
 import Logo from '../bug2.png';
+import useLogoutFunction from '../hooks/useLogoutFunction'
+
 
 const Navigation = () => {
-    const { auth, logout } = useAuth();
+    const { auth } = useAuth();
+    const logout = useLogoutFunction();
+
   return (
     <Navbar bg="light" expand="lg">
         <Container>

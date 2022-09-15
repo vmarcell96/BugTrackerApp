@@ -83,7 +83,7 @@ const Users = () => {
                 </tr>
               </thead>
               <tbody>
-                {users.map((user) => (
+                {users !== true && users?.map((user) => (
                   <tr key={user.id}>
                     <td>#</td>
                     <td>{user.userName}</td>

@@ -1,4 +1,5 @@
-﻿using EmployeeManagementApp.Core.Extensions;
+﻿using System.Security.Claims;
+using EmployeeManagementApp.Core.Extensions;
 using EmployeeManagementApp.Core.Model.AuthenticationModels;
 using EmployeeManagementApp.Core.Model.AuthenticationModels.Requests;
 using EmployeeManagementApp.Core.Model.AuthenticationModels.Responses;
@@ -68,6 +69,7 @@ namespace EmployeeManagementApp.Controllers
             return Ok(response);
         }
 
+        //If your access token is expired you can get a valid one with the help of your refresh token
         [HttpPost("refresh")]
         public async Task<IActionResult> Refresh(RefreshRequest refreshRequest)
         {
@@ -95,6 +97,8 @@ namespace EmployeeManagementApp.Controllers
 
             UserViewDto user = await _userService.GetUserById(refreshToken.UserId);
 
+            await _refreshTokenService.Delete(refreshToken.ID);
+
             if (user == null)
             {
                 return NotFound(new ErrorResponse("User not found."));
@@ -111,6 +115,22 @@ namespace EmployeeManagementApp.Controllers
             await _refreshTokenService.AddNewRefreshToken(newRefreshToken);
 
             return Ok(response);
+        }
+
+        //This way if a refresh token gets stolen you can invalidate all with logging out
+        [Authorize]
+        [HttpDelete("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            string id = HttpContext.User.FindFirstValue("id");
+            if (!int.TryParse(id, out int userId))
+            {
+                return Unauthorized();
+            }
+
+            await _refreshTokenService.DeleteAll(userId);
+
+            return NoContent();
         }
     }
 }

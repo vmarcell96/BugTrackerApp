@@ -10,6 +10,9 @@ namespace EmployeeManagementApp.Data.Repositories
     public interface IRefreshTokenRepository
     {
         Task Add(RefreshToken refreshToken);
+        Task Delete(int id);
         Task<RefreshToken> GetByToken(string refreshToken);
+        Task<RefreshToken> GetById(int id);
+        Task DeleteAll(int id);
     }
 }

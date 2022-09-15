@@ -23,6 +23,29 @@ namespace EmployeeManagementApp.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task Delete(int id)
+        {
+            RefreshToken tokenToDelete = await GetById(id);
+            if (tokenToDelete == null)
+            {
+                return;
+            }
+            _context.RefreshTokens.Remove(tokenToDelete);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteAll(int id)
+        {
+            _context.RefreshTokens.RemoveRange(_context.RefreshTokens.Where(t => t.UserId == id));
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<RefreshToken> GetById(int id)
+        {
+            RefreshToken refreshToken = await _context.RefreshTokens.FirstOrDefaultAsync(r => r.ID == id);
+            return refreshToken;
+        }
+
         public async Task<RefreshToken> GetByToken(string refreshToken)
         {
             RefreshToken token = await _context.RefreshTokens.FirstOrDefaultAsync(t => t.Token == refreshToken);
