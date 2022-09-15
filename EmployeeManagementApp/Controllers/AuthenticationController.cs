@@ -97,7 +97,7 @@ namespace EmployeeManagementApp.Controllers
 
             UserViewDto user = await _userService.GetUserById(refreshToken.UserId);
 
-            await _refreshTokenService.Delete(refreshToken.UserId);
+            await _refreshTokenService.Delete(refreshToken.ID);
 
             if (user == null)
             {
