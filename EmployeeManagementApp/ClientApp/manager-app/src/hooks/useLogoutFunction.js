@@ -7,7 +7,7 @@ const useLogoutFunction = () => {
     const navigate = useNavigate();
     const [employees, error, loading, axiosFetch] = useAxiosFunction();
     const { setAuth } = useAuth();
-    
+
     const logout = () => {
         axiosFetch({
             axiosInstance: axios,
