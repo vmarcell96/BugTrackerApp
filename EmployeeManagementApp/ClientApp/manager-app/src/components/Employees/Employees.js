@@ -8,92 +8,98 @@ import { faTrash, faPlus, faEdit } from "@fortawesome/free-solid-svg-icons";
 import LoadingSpin from "react-loading-spin";
 import { useNavigate } from "react-router-dom";
 import useAuth from '../../hooks/useAuth';
+import useDateFormat from '../../hooks/useDateFormat';
 
 const Employees = () => {
-  const { auth } = useAuth();
-  let navigate = useNavigate();
-  const [employees, error, loading, axiosFetch] = useAxiosFunction();
+	const { auth } = useAuth();
+	const dateFormat = useDateFormat();
+	let navigate = useNavigate();
+	const [employees, error, loading, axiosFetch] = useAxiosFunction();
 
 
-  //cosmetic
-  const [isPendingDelete, setIsPendingDelete] = useState(false);
+	//cosmetic
+	const [isPendingDelete, setIsPendingDelete] = useState(false);
 
-  const getData = () => {
-      axiosFetch({
-          axiosInstance: axios,
-          method: 'GET',
-          url: '/api/employees',
-      });
-  }
+	const getData = () => {
+		axiosFetch({
+			axiosInstance: axios,
+			method: 'GET',
+			url: '/api/employees',
+		});
+	}
 
-  useEffect(() => {
-      getData();
-      // eslint-disable-next-line
-  },[])
+	useEffect(() => {
+		getData();
+		// eslint-disable-next-line
+	}, [])
 
-  const handleDelete = (id) => {
-    setIsPendingDelete(true);
-    axiosFetch({
-        axiosInstance: axios,
-        method: 'DELETE',
-        url: `/api/employees/${id}`,
-    })
-    setTimeout(() => { getData() }, 500);
-    setTimeout(() => { setIsPendingDelete(false) }, 500);
-  }
+	const handleDelete = (id) => {
+		setIsPendingDelete(true);
+		axiosFetch({
+			axiosInstance: axios,
+			method: 'DELETE',
+			url: `/api/employees/${id}`,
+		})
+		setTimeout(() => { getData() }, 1000);
+		setTimeout(() => { setIsPendingDelete(false) }, 1000);
+	}
 
-  const navToUpdate = (id, employee) => {
-    navigate(`/employees/${id}`, {state: employee})
-  }
+	const navToUpdate = (id, employee) => {
+		navigate(`/employees/${id}`, { state: employee })
+	}
 
-  return (
-    <Card body>
-			<div style={{ maxWidth: '100%' }}>
-				{loading && <h1><LoadingSpin /></h1>}
+	return (
+		<Card>
+			<div className="table-responsive" style={{ maxWidth: '100%' }}>
+				{loading &&
+					<div className="d-flex justify-content-center">
+						<div className="spinner-border" role="status">
+							<span className="sr-only">Loading...</span>
+						</div>
+					</div>}
 				{error && <p style={{ color: "red" }}>{error}</p>}
 				{!loading && !error && employees &&
 					<>
-						<Table striped="columns">
+						<Table borderless>
 							<thead>
 								<tr>
-									<th>
-											{ auth?.role === "Admin" && <>
-												<Button onClick={() => { navigate("/employees/add") }}>
-													<FontAwesomeIcon icon={faPlus} />
-												</Button>
-											</>}
-									</th>
 									<th>First Name</th>
 									<th>Last Name</th>
 									<th>Hiring Date</th>
+									<th>
+										{auth?.role === "Admin" && <>
+											<Button className='button plus' onClick={() => { navigate("/employees/add") }}>
+												<FontAwesomeIcon icon={faPlus} />
+											</Button>
+										</>}
+									</th>
 								</tr>
 							</thead>
-							<tbody>
+							<tbody className="table-group-divider">
 								{employees !== true && employees.map((employee) =>
 									<tr key={employee.id}>
-										<td>#</td>
 										<td>{employee.firstName}</td>
 										<td>{employee.lastName}</td>
-										<td>{employee.hiringDate}</td>
+										<td>{dateFormat(employee.hiringDate)}</td>
 
 
 										<td>
-											{ auth?.role === "Admin" &&
+											{auth?.role === "Admin" &&
 												(!isPendingDelete ?
-												<>
-													<Button onClick={() => { navToUpdate(employee.id, employee) }}>
-														<FontAwesomeIcon icon={faEdit} />
-													</Button>
-													<Button onClick={() => { handleDelete(employee.id) }}>
-														<FontAwesomeIcon icon={faTrash} />
-													</Button>
-												</>
-												:
-												<><LoadingSpin
-													width="6px"
-													primaryColor="yellow"
-													size="30px"
-												/></>)}
+													<>
+														<Button className='button' onClick={() => { navToUpdate(employee.id, employee) }}>
+															<FontAwesomeIcon icon={faEdit} />
+														</Button>
+														<Button className='button' onClick={() => { handleDelete(employee.id) }}>
+															<FontAwesomeIcon icon={faTrash} />
+														</Button>
+													</>
+													:
+													<><div className="d-flex justify-content-center">
+														<div className="spinner-border" role="status">
+															<span className="sr-only">Loading...</span>
+														</div>
+													</div></>)}
 										</td>
 									</tr>
 								)}
@@ -103,7 +109,7 @@ const Employees = () => {
 				}
 			</div>
 		</Card>
-  )
+	)
 }
 
 export default Employees
