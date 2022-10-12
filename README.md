@@ -32,8 +32,9 @@ This is a simple application for managing persisted employees with a React UI.
 #### Forth Sprint - not closed
 
 - Implement Footer
-- Create landinf page
+- Create landing page
 - Improve css
+- Create profile page
 
 ## Stack
 - ASP.NET Core
