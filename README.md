@@ -23,15 +23,17 @@ This is a simple application for managing persisted employees with a React UI.
 - Login/Logout
 - Basic unit tests for EmployeesController with Moq,AutoFixture
 
-#### /Planning/
 #### Third sprint
 
 - Implementing refresh tokens
 - Bug fixes
-- Further testing on controllers
-- Testing services
-- Improve application design (CSS)
+- Front-end refactor
 
+#### Forth Sprint - not closed
+
+- Implement Footer
+- Create landinf page
+- Improve css
 
 ## Stack
 - ASP.NET Core
@@ -45,7 +47,7 @@ This is a simple application for managing persisted employees with a React UI.
 - CRUD operations on users and employees, when logged in with Admin role user
 - Protected react routes
 - Protected API routes
-- JWT access token validation
+- JWT access, refresh token validation
 - Persisted users,employees
 
 ### Login info
@@ -103,7 +105,6 @@ Client should be available at `localhost:3000`
 
 - Reliability improvements (error handling, UI consistency)
 - Improve application design (CSS)
-- Implementing refresh tokens
 - Bug fixes
 - Further testing on controllers
 - Testing services
