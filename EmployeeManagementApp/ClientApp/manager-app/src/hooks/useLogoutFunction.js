@@ -6,7 +6,7 @@ import { useNavigate } from "react-router";
 const useLogoutFunction = () => {
     const navigate = useNavigate();
     const [employees, error, loading, axiosFetch] = useAxiosFunction();
-    const { setAuth } = useAuth();
+    const { setAuth, auth } = useAuth();
 
     const logout = () => {
         axiosFetch({
