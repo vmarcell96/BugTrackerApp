@@ -62,6 +62,9 @@ Password: 12345678
 Username: User
 Password: 12345678
 
+## Production build
+[Deployed to Azure.](https://bugtrackerfrontend.azurewebsites.net/)
+
 ## Run Locally
 ##### Prerequisites
 
