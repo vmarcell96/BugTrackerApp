@@ -15,7 +15,6 @@ const Navigation = () => {
 
     return (
         <Navbar expand="md" className="mb-3 sticky-top" id="navbar">
-            <Container>
                 <LinkContainer to="/">
                     <Navbar.Brand className="d-inline p-2 mr-auto nav-item" id="nav-brand">
                         <FontAwesomeIcon icon={faBug} />Tracker
@@ -50,7 +49,6 @@ const Navigation = () => {
                             </LinkContainer>}
                     </Nav>
                 </Navbar.Collapse>
-            </Container>
         </Navbar>
     )
 }

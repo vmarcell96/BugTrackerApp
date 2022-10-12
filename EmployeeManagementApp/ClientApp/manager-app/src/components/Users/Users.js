@@ -2,7 +2,7 @@ import axios from "../../apis/axiosInstance";
 import useAxiosFunction from "../../hooks/useAxiosFunction";
 import { useState, useEffect } from "react";
 import React from "react";
-import { Button, Table, Card } from "react-bootstrap";
+import { Button, Table, Card, Container } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPlus, faEdit } from "@fortawesome/free-solid-svg-icons";
 import LoadingSpin from "react-loading-spin";
@@ -50,6 +50,7 @@ const Users = () => {
   };
 
   return (
+    <Container>
     <Card>
       <div className="table-responsive" style={{ maxWidth: "100%" }}>
         {loading && (
@@ -128,6 +129,7 @@ const Users = () => {
         )}
       </div>
     </Card>
+    </Container>
   );
 };
 

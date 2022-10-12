@@ -6,7 +6,8 @@ code {
 }
 
 body {
-  background-color: #21222A;
+  color: white;
+  background: #3f4246;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   margin: 0;
@@ -16,7 +17,7 @@ body {
 .button {
   background-color: #61DAFb;
   color: #2e3137;
-  border: 1px solid #61DAFb;
+  border: 0px;
   margin: 0 0 5px 5px;
 }
 
@@ -35,27 +36,26 @@ body {
 }
 
 .button:hover {
-  background-color: #21222A;
-  border: 1px solid #21222A;
+  background-color: #212529;
+  border: 0px;
 }
 
 #navbar {
-  box-shadow: 10px 10px 8px black;
-  border-radius: 0px 0px 10px 10px;
-  background-color: #2e3137;
-  
+  box-shadow: 0 0 5px 5px #15151a;
+  /* border-radius: 0px 0px 10px 10px; */
+  background-color: #212529;
 }
 
 .card {
-  box-shadow: 10px 10px 8px black;
-  background-color: #2e3137;
-  border-radius: 10px;
+  box-shadow: 5px 5px 5px #15151a;
+  background-color: #212529;
+  border-radius: 10px 10px 10px 10px; 
   padding: 5px;
 }
 
 .table {
   border-radius: 10px;
-  background-color: #2e3137;
+  background-color: #212529;
   color: white;
   margin: 0px;
 }
@@ -71,6 +71,7 @@ body {
   font-family: 'Silkscreen', cursive;
   font-size: 25px;
   color: #61DAFb;
+  margin-left: 6%;
 }
 
 #brand-container {
@@ -88,7 +89,7 @@ body {
 }
 
 .nav-item:hover {
-  color: #21222A;
+  color: #61DAFb;
 }
 
 .nav-item.nav-link.active {
@@ -108,3 +109,56 @@ body {
   margin:20px;
 }
 
+/* footer */
+
+.footer {
+  
+  color: #61DAFb;
+  display:flex;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+  box-shadow: 0 0 2px 2px #15151a;
+  justify-content:center;
+  align-items:center;
+  background: black;
+  opacity: 0.4;
+}
+
+
+
+#footer-logo {
+  
+  font-family: 'Silkscreen', cursive;
+}
+
+
+
+/* homepage */
+
+.info-card {
+  height: 300px;
+  padding: 20px;
+  margin-bottom: 25px;
+}
+
+/* login */
+
+#login-card {
+  color:black;
+}
+
+.login-icon {
+  font-size: 30px;
+  color: white;
+}
+
+.login-icon:hover {
+  color: #61DAFb;
+}
+
+.login-icon-button {
+  background-color: #212529;
+  border: #212529;
+}
