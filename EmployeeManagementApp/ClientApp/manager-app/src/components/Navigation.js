@@ -1,51 +1,58 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { Navbar, Nav, Container } from 'react-bootstrap'
+import { Navbar, Nav, Container, Button } from 'react-bootstrap'
 import { LinkContainer } from "react-router-bootstrap";
 import useAuth from '../hooks/useAuth';
 import '../index.css';
-import Logo from '../bug2.png';
 import useLogoutFunction from '../hooks/useLogoutFunction'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBug } from "@fortawesome/free-solid-svg-icons";
 
 
 const Navigation = () => {
     const { auth } = useAuth();
     const logout = useLogoutFunction();
 
-  return (
-    <Navbar bg="light" expand="lg">
-        <Container>
-            <LinkContainer to="/">
-                <Navbar.Brand className="d-inline p-2 bg-light text-black align-self-center">
-                    <img 
-                        src={Logo}
-                        width="30"
-                        height="30"
-                        className="d-inline-block bg-light align-top"
-                    />
-                     EmployeeManager
-                </Navbar.Brand>
-            </LinkContainer>
-            <Navbar.Toggle aria-controls="basic-navbar-nav"/>
-            <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="me-auto">
-                        {!auth && <LinkContainer to="/login">
-                            <Nav.Link className="d-inline p-2 bg-light text-black align-self-center">
+    return (
+        <Navbar expand="md" className="mb-3 sticky-top" id="navbar">
+            <Container>
+                <LinkContainer to="/">
+                    <Navbar.Brand className="d-inline p-2 mr-auto nav-item" id="nav-brand">
+                        <FontAwesomeIcon icon={faBug} />Tracker
+                    </Navbar.Brand>
+                </LinkContainer>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="me-auto">
+                        {!auth && 
+                        <LinkContainer to="/login">
+                            <Nav.Link className="d-inline p-2 align-self-center nav-item">
                                 Login
-                            </Nav.Link></LinkContainer>}
-                        {auth &&<LinkContainer to="/employees"><Nav.Link className="d-inline p-2 bg-light text-black align-self-center" >
-                            Employees
-                        </Nav.Link></LinkContainer>}
+                            </Nav.Link>
+                        </LinkContainer>}
+                        {auth && 
+                        <LinkContainer to="/employees">
+                            <Nav.Link className="d-inline p-2 align-self-center nav-item" >
+                                Employees
+                            </Nav.Link>
+                        </LinkContainer>}
                         {auth && auth.role === "Admin" &&
-                        <LinkContainer to="/users"><Nav.Link className="d-inline p-2 bg-light text-black align-self-center"> 
-                            Users
-                        </Nav.Link></LinkContainer>}
-                        {auth && <Nav.Link className="d-inline p-2 bg-light text-black" onClick={logout}>Logout</Nav.Link>}
+                            <LinkContainer to="/users">
+                                <Nav.Link className="d-inline p-2 align-self-center nav-item">
+                                    Users
+                                </Nav.Link>
+                            </LinkContainer>}
+                        {auth && 
+                            <LinkContainer to="/">
+                                <Nav.Link className="d-inline p-2 nav-item align-self-center" id="logout" onClick={logout}>
+                                    Logout
+                                </Nav.Link>
+                            </LinkContainer>}
                     </Nav>
-            </Navbar.Collapse>
-        </Container>
-    </Navbar>
-  )
+                </Navbar.Collapse>
+            </Container>
+        </Navbar>
+    )
 }
 
 export default Navigation

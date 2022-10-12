@@ -50,23 +50,29 @@ const Users = () => {
   };
 
   return (
-    <Card body>
-      <div style={{ maxWidth: "100%" }}>
+    <Card>
+      <div className="table-responsive" style={{ maxWidth: "100%" }}>
         {loading && (
-          <h1>
-            <LoadingSpin />
-          </h1>
+          <div className="d-flex justify-content-center">
+            <div className="spinner-border" role="status">
+              <span className="sr-only">Loading...</span>
+            </div>
+          </div>
         )}
         {error && <p style={{ color: "red" }}>{error}</p>}
         {!loading && !error && users && (
           <>
-            <Table striped="columns">
+            <Table borderless>
               <thead>
                 <tr>
+                  <th>Username</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Role</th>
                   <th>
                     {auth?.role === "Admin" && (
                       <>
-                        <Button
+                        <Button className="button plus"
                           onClick={() => {
                             navigate("/users/add");
                           }}
@@ -76,16 +82,11 @@ const Users = () => {
                       </>
                     )}
                   </th>
-                  <th>Username</th>
-                  <th>First Name</th>
-                  <th>Last Name</th>
-                  <th>Role</th>
                 </tr>
               </thead>
               <tbody>
                 {users !== true && users?.map((user) => (
                   <tr key={user.id}>
-                    <td>#</td>
                     <td>{user.userName}</td>
                     <td>{user.firstName}</td>
                     <td>{user.lastName}</td>
@@ -94,14 +95,14 @@ const Users = () => {
                       {auth?.role === "Admin" &&
                         (!isPendingDelete ? (
                           <>
-                            <Button
+                            <Button className='button'
                               onClick={() => {
                                 navToUpdate(user.id, user);
                               }}
                             >
                               <FontAwesomeIcon icon={faEdit} />
                             </Button>
-                            <Button
+                            <Button className='button'
                               onClick={() => {
                                 handleDelete(user.id);
                               }}
@@ -111,11 +112,11 @@ const Users = () => {
                           </>
                         ) : (
                           <>
-                            <LoadingSpin
-                              width="6px"
-                              primaryColor="yellow"
-                              size="30px"
-                            />
+                            <div className="d-flex justify-content-center">
+                              <div className="spinner-border" role="status">
+                                <span className="sr-only">Loading...</span>
+                              </div>
+                            </div>
                           </>
                         ))}
                     </td>
