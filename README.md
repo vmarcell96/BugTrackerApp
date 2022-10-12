@@ -35,6 +35,7 @@ This is a simple application for managing persisted employees with a React UI.
 - Create landing page
 - Improve css
 - Create profile page
+- Deployment to Azure
 
 ## Stack
 - ASP.NET Core
