@@ -4,20 +4,9 @@ import '../home.css'
 
 const Home = () => {
   return (
-    <Container>
-      <Row>
-        <Col>
-          <Card className="mb-4 mt-2 p-3">
+    <Container className="pt-5">
             <h1>Welcome to BugTracker!</h1>
-          </Card>
-        </Col>
-      </Row>
-      <Row className="">
-        <Col>
-          <Card className="info-card">
-            <Card.Title style={{ color: "#61DAFb"}}>Features:</Card.Title>
-            <Card.Body>
-              <Card.Text>
+            <h4 style={{ color: "#61DAFb"}}>Features:</h4>
                 <ul>
                   <li>Login/Logout</li>
                   <li>Persisted users,employees</li>
@@ -27,15 +16,7 @@ const Home = () => {
                   <li>JWT access, refresh token validation</li>
                   <li>Login/Logout</li>
                 </ul>
-                </Card.Text>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col>
-        <Card className="info-card">
-            <Card.Title style={{ color: "#61DAFb"}}>Login information:</Card.Title>
-            <Card.Body>
-              <Card.Text>
+                <h4 style={{ color: "#61DAFb"}}>Login information:</h4>
                 <h6>"Admin" role user:</h6>
                 <ul>
                   <li>Username: Admin</li>
@@ -46,17 +27,8 @@ const Home = () => {
                   <li>Username: User</li>
                   <li>Password: 12345678</li>
                 </ul>
-                </Card.Text>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-      <Row className="">
-        <Col>
-          <Card className="info-card">
-            <Card.Title style={{ color: "#61DAFb"}}>Current 4th sprint features:</Card.Title>
-            <Card.Body>
-              <Card.Text>
+
+            <h4 style={{ color: "#61DAFb"}}>TODO features(4th sprint):</h4>
                 <ul>
                   <li style={{ color: "brown"}}>Conversion from employee manager application to a bugtracker</li>
                   <li style={{ color: "#61DAFb"}}>Implementing Footer</li>
@@ -65,14 +37,6 @@ const Home = () => {
                   <li>Improve css</li>
                   <li>Create profile page for logged in user</li>
                 </ul>
-                </Card.Text>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col>
-        
-        </Col>
-      </Row>
 
     </Container>
   )

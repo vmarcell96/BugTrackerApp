@@ -7,19 +7,16 @@ code {
 
 body {
   color: white;
-  background: #3f4246;
+  background: #262f37;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   margin: 0;
   font-family: 'Roboto', sans-serif;
 }
 
-.button {
-  background-color: #61DAFb;
-  color: #2e3137;
-  border: 0px;
-  margin: 0 0 5px 5px;
-}
+
+
+/* nav */
 
 .nav-button {
   background-color: #21222A;
@@ -31,47 +28,18 @@ body {
   border-radius: 20px;
 }
 
-.button.plus {
-  width: 85px;
-}
-
-.button:hover {
-  background-color: #212529;
-  border: 0px;
-}
-
 #navbar {
   box-shadow: 0 0 5px 5px #15151a;
   /* border-radius: 0px 0px 10px 10px; */
   background-color: #212529;
-}
-
-.card {
-  box-shadow: 5px 5px 5px #15151a;
-  background-color: #212529;
-  border-radius: 10px 10px 10px 10px; 
-  padding: 5px;
-}
-
-.table {
-  border-radius: 10px;
-  background-color: #212529;
-  color: white;
-  margin: 0px;
-}
-
-.table td, .table th {
-  text-align: center;
-  vertical-align: middle;
-  flex-wrap: nowrap;
-  
+  padding-right: 10%;
+  padding-left: 10%;
 }
 
 #nav-brand {
   font-family: 'Silkscreen', cursive;
   font-size: 25px;
   color: #61DAFb;
-  margin-left: 6%;
 }
 
 #brand-container {
@@ -92,15 +60,56 @@ body {
   color: #61DAFb;
 }
 
-.nav-item.nav-link.active {
-  color: #61DAFb;
-}
 
 
 .navbar-toggler {
   background-color: #61DAFb;
   color: #61DAFb;
 }
+
+#nav-container {
+  width: 93%;
+}
+
+
+.button.plus {
+  width: 85px;
+}
+
+.button:hover {
+  background-color: #212529;
+  border: 0px;
+}
+
+.button {
+  background-color: #61DAFb;
+  color: #2e3137;
+  border: 0px;
+  margin: 0 0 5px 5px;
+}
+
+
+.card {
+  box-shadow: 5px 5px 5px #15151a;
+  background-color: #212529;
+  border-radius: 16px; 
+  padding: 5px;
+}
+
+.table {
+  border-radius: 16px;
+  background-color: #212529;
+  color: white;
+  margin: 0px;
+}
+
+.table td, .table th {
+  text-align: center;
+  vertical-align: middle;
+  flex-wrap: nowrap;
+  
+}
+
 
 .spinner-border {
   color:#61DAFb;
@@ -126,14 +135,14 @@ body {
   opacity: 0.4;
 }
 
-
-
 #footer-logo {
   
   font-family: 'Silkscreen', cursive;
 }
 
-
+#footer-content {
+  margin-top: 12px;
+}
 
 /* homepage */
 

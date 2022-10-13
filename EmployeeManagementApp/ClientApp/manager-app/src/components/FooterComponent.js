@@ -7,7 +7,7 @@ const FooterComponent = () => {
   return (
     <footer className="footer">
 
-      <p><span id="footer-logo"><FontAwesomeIcon icon={faBug} />Tracker</span> © Copyright 2022 BugTracker</p>
+      <p id="footer-content"><span id="footer-logo"><FontAwesomeIcon icon={faBug} />Tracker</span> © Copyright 2022 BugTracker</p>
 
     </footer>
   )
