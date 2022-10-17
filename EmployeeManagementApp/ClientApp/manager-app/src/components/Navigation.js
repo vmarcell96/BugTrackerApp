@@ -36,6 +36,12 @@ const Navigation = () => {
                                 Users
                             </Nav.Link>
                         </LinkContainer>}
+                        {auth &&
+                        <LinkContainer to={`/profile/${auth.id}`}>
+                            <Nav.Link className="mt-1 nav-item align-self-center">
+                                Profile
+                            </Nav.Link>
+                        </LinkContainer>}
 
                 </Nav>
                 <Nav className='ml-auto'>
