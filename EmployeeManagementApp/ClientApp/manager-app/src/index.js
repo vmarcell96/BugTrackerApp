@@ -14,6 +14,7 @@ import FlashMessageProvider from './context/FlashMessageProvider';
 import UpdateEmployee from './components/Employees/UpdateEmployee';
 import AddUser from './components/Users/AddUser';
 import UpdateUser from './components/Users/UpdateUser';
+import Profile from './components/Profile';
 import './index.css'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -31,6 +32,7 @@ root.render(
             <Route path='/users' element={<RequireAuth allowedRoles={["Admin"]}><Users /></RequireAuth>}/>
             <Route path='/users/add' element={<RequireAuth allowedRoles={["Admin"]}><AddUser /></RequireAuth>}/>
             <Route path='/users/:id' element={<RequireAuth allowedRoles={["Admin"]}><UpdateUser /></RequireAuth>}/>
+            <Route path='/profile/:id' element={<Profile />}/>
           </Route>
         </Routes>
       </AuthProvider>
