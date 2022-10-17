@@ -17,7 +17,8 @@ function AuthProvider({ children }) {
                 const decodedAccessToken = jwtDecode(response.data.accessToken);
                 const authData = {
                     ...response.data,
-                    role: decodedAccessToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
+                    role: decodedAccessToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"],
+                    id: decodedAccessToken["ID"]
                 };
                 setAuth(authData);
                 localStorage.setItem("auth", JSON.stringify(authData));
