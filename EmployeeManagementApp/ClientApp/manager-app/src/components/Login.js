@@ -5,7 +5,7 @@ import '../login.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGithubSquare, faTwitterSquare, faInstagramSquare, faFacebookSquare } from '@fortawesome/free-brands-svg-icons'
 
-function Login() {
+const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const { login } = useAuth();
@@ -21,10 +21,10 @@ function Login() {
             <Row className='d-flex justify-content-center align-items-center h-100'>
                 <Col col='12'>
 
-                    <Card className='bg-dark text-white my-5 mx-auto' style={{ borderRadius: '1rem', maxWidth: '400px' }}>
+                    <Card className='my-5 mx-auto' style={{ borderRadius: '1rem', maxWidth: '400px' }}>
                         <Card.Body className='p-5 d-flex flex-column align-items-center mx-auto w-100'>
                             <h2 className="fw-bold mb-2 text-uppercase">Login</h2>
-                            <p className="text-white-50 mb-5">Please enter your login and password!</p>
+                            <p className="mb-5">Please enter your login and password!</p>
                             <Form className="form-floating" onSubmit={handleSubmit}>
                                 <Form.Group className="mb-4 w-100">
                                     <div className="form-floating" style={{ color: "black" }}>
