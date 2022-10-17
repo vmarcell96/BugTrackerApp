@@ -14,43 +14,51 @@ const Navigation = () => {
     const logout = useLogoutFunction();
 
     return (
-        <Navbar expand="md" className="mb-3 sticky-top" id="navbar">
-            <Container>
-                <LinkContainer to="/">
-                    <Navbar.Brand className="d-inline p-2 mr-auto nav-item" id="nav-brand">
-                        <FontAwesomeIcon icon={faBug} />Tracker
-                    </Navbar.Brand>
-                </LinkContainer>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="me-auto">
-                        {!auth && 
-                        <LinkContainer to="/login">
-                            <Nav.Link className="d-inline p-2 align-self-center nav-item">
-                                Login
-                            </Nav.Link>
-                        </LinkContainer>}
-                        {auth && 
+        <Navbar expand="md" className="mb-3 sticky" id="navbar">
+            <LinkContainer to="/">
+                <Navbar.Brand className="nav-item" id="nav-brand">
+                    <FontAwesomeIcon icon={faBug} />Tracker
+                </Navbar.Brand>
+            </LinkContainer>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+                <Nav className="me-auto">
+
+                    {auth &&
                         <LinkContainer to="/employees">
-                            <Nav.Link className="d-inline p-2 align-self-center nav-item" >
+                            <Nav.Link className="mt-1 nav-item align-self-center" >
                                 Employees
                             </Nav.Link>
                         </LinkContainer>}
-                        {auth && auth.role === "Admin" &&
-                            <LinkContainer to="/users">
-                                <Nav.Link className="d-inline p-2 align-self-center nav-item">
-                                    Users
-                                </Nav.Link>
-                            </LinkContainer>}
-                        {auth && 
-                            <LinkContainer to="/">
-                                <Nav.Link className="d-inline p-2 nav-item align-self-center" id="logout" onClick={logout}>
-                                    Logout
-                                </Nav.Link>
-                            </LinkContainer>}
-                    </Nav>
-                </Navbar.Collapse>
-            </Container>
+                    {auth && auth.role === "Admin" &&
+                        <LinkContainer to="/users">
+                            <Nav.Link className="mt-1 nav-item align-self-center">
+                                Users
+                            </Nav.Link>
+                        </LinkContainer>}
+                        {auth &&
+                        <LinkContainer to={`/profile/${auth.id}`}>
+                            <Nav.Link className="mt-1 nav-item align-self-center">
+                                Profile
+                            </Nav.Link>
+                        </LinkContainer>}
+
+                </Nav>
+                <Nav className='ml-auto'>
+                    {!auth &&
+                        <LinkContainer to="/login">
+                            <Nav.Link className="mt-1 nav-item align-self-center">
+                                Login
+                            </Nav.Link>
+                        </LinkContainer>}
+                    {auth &&
+                        <LinkContainer to="/">
+                            <Nav.Link className="mt-1 nav-item align-self-center" onClick={logout}>
+                                Logout
+                            </Nav.Link>
+                        </LinkContainer>}
+                </Nav>
+            </Navbar.Collapse>
         </Navbar>
     )
 }

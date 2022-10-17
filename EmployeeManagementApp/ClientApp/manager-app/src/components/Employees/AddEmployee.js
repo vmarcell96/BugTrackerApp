@@ -1,75 +1,86 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import LoadingSpin from "react-loading-spin";
-import { Button, Card } from 'react-bootstrap';
+import { Button, Card, Container, Modal } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import axios from '../../apis/axiosInstance';
 import useAxiosFunction from '../../hooks/useAxiosFunction';
+import useDateFormat from '../../hooks/useDateFormat';
 
 
-function AddEmployee() {
-    const [isPendingAdd, setIsPendingAdd] = useState(false);
+function AddEmployee(props) {
+
+    const dateFormat = useDateFormat();
     const [postFirstName, setPostFirstName] = useState('');
     const [postLastName, setPostLastName] = useState('');
-    const [postDate, setPostDate] = useState(new Date());
+    const [postDate, setPostDate] = useState(dateFormat(Date.now()));
+    const [data, setData, error, loading, axiosFetch] = useAxiosFunction();
     let navigate = useNavigate();
-    const [employees, error, loading, axiosFetch] = useAxiosFunction();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        setIsPendingAdd(true);
-        axiosFetch({
+        await axiosFetch({
             axiosInstance: axios,
             method: 'POST',
             url: '/api/employees',
             requestConfig: {
                 "FirstName": `${postFirstName}`,
                 "LastName": `${postLastName}`,
-                "HiringDate": `${postDate}`
+                "HiringDate": `${dateFormat(postDate)}`
             }
-        })
-        setTimeout(() => { setIsPendingAdd(false) }, 1000);
-        setTimeout(() => { navigate(-1) }, 1000);
+        });
+        navigate(-1);
     };
 
 
     return (
-        <Card body>
-        <Form onSubmit={(e)=>{handleSubmit(e)}} className="form">
-        <Form.Group className="mb-3" controlId="formBasicText">
-                <Form.Label>First Name:</Form.Label>
-                <Form.Control
-                    type="text" 
-                    placeholder="Enter first name" 
-                    required 
-                    value={postFirstName} 
-                    onChange={(e) => setPostFirstName(e.target.value)} 
-                />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicText">
-                <Form.Label>Last Name:</Form.Label>
-                <Form.Control 
-                    type="text" 
-                    placeholder="Enter last name" 
-                    required 
-                    value={postLastName} 
-                    onChange={(e) => setPostLastName(e.target.value)} 
-                />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicText">
-                <Form.Control
-                    type="date"
-                    name="duedate"
-                    placeholder="Hiring Date"
-                    value={postDate}
-                    onChange={(e) => setPostDate(e.target.value)}
-                />
-            </Form.Group>
-            {!isPendingAdd && <Button variant="primary" type="submit">Add employee</Button>}
-            {isPendingAdd && <button><LoadingSpin /></button>}
-        </Form>
-        </Card>
+
+        <Container>
+            <Card className="w-100">
+                <Card.Title>Add new employee</Card.Title>
+                {!loading && !error && <Card.Body>
+                    <Form onSubmit={(e) => { handleSubmit(e) }} className="form">
+                        <Form.Group className="mb-3" controlId="formBasicText">
+                            <Form.Label>First Name:</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="Enter first name"
+                                required
+                                value={postFirstName}
+                                onChange={(e) => setPostFirstName(e.target.value)}
+                            />
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="formBasicText">
+                            <Form.Label>Last Name:</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="Enter last name"
+                                required
+                                value={postLastName}
+                                onChange={(e) => setPostLastName(e.target.value)}
+                            />
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="formBasicText">
+                            <Form.Label>Hiring Date:</Form.Label>
+                            <Form.Control
+                                type="date"
+                                value={postDate}
+                                onChange={(e) => setPostDate(e.target.value)}
+                            />
+                        </Form.Group>
+                        <Button className="button" type="submit">Add employee</Button>
+
+
+                    </Form>
+                </Card.Body>}
+                {loading && !error &&
+                    <div className="d-flex justify-content-center">
+                        <div className="spinner-border" role="status">
+                            <span className="sr-only">Loading...</span>
+                        </div>
+                    </div>}
+            </Card>
+        </Container>
     )
 }
 

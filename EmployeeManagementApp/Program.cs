@@ -23,7 +23,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
         policy =>
         {
-            policy.WithOrigins("http://localhost:3000", "http://localhost:3000/")
+            policy.WithOrigins("http://localhost:3000", "https://bugtrackerfrontend.azurewebsites.net")
                 .AllowAnyHeader()
                 .AllowAnyMethod();
         });
@@ -78,6 +78,8 @@ var app = builder.Build();
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 var initialiser = services.GetRequiredService<DataSeeder>();
+var db = services.GetRequiredService<EmployeeManagementAppContext>();
+db.Database.Migrate();
 initialiser.Initialize();
 
 // Configure the HTTP request pipeline.

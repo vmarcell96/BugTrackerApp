@@ -14,7 +14,8 @@ const useRefreshToken = () => {
                 const authData = {
                     accessToken: response.data.accessToken,
                     refreshToken: response.data.refreshToken,
-                    role: decodedAccessToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
+                    role: decodedAccessToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"],
+                    id: decodedAccessToken["ID"]
                 };
                 setAuth(authData);
                 localStorage.setItem("auth", JSON.stringify(authData));

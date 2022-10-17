@@ -43,14 +43,14 @@ const useAxiosFunction = () => {
             return axiosInstance(prevRequest);
           } 
           else if (error.response.status === 401) {
-            flash("Your session has expired");
+            flash("Your session has expired.");
           }
           else if (error.response.status === 403) {
-            flash("You are not allowed to use this feature");
+            flash("You are not allowed to use this feature.");
             navigate("/");
           } 
           else {
-            flash("Something went horribly wrong.");
+            flash("Something went wrong.");
             navigate("/");
           }
           return Promise.reject(error);
@@ -67,7 +67,7 @@ const useAxiosFunction = () => {
         signal: ctrl.signal,
       });
 
-      console.log(res);
+      // console.log(res);
       setResponse(res.data);
 
       axiosInstance.interceptors.request.eject(requestIntercept);
@@ -89,7 +89,7 @@ const useAxiosFunction = () => {
     return () => controller && controller.abort();
   }, [controller]);
 
-  return [response, error, loading, axiosFetch];
+  return [response, setResponse, error, loading, axiosFetch];
 };
 
 export default useAxiosFunction;
