@@ -1,15 +1,20 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useParams, useLocation } from "react-router-dom";
+//Packages
+import { useEffect } from 'react';
+import { useParams } from "react-router-dom";
+import { Button, Card } from 'react-bootstrap';
+//Hooks
 import useAxiosFunction from '../hooks/useAxiosFunction';
-import axios from "../apis/axiosInstance";
-import { Button, Table, Card, Container } from 'react-bootstrap';
 import useAuth from '../hooks/useAuth';
+//Misc
+import axios from "../apis/axiosInstance";
+//Css
+import './profile.css'
 
 const Profile = () => {
     const { id } = useParams();
     const [data, setData, error, loading, axiosFetch] = useAxiosFunction();
     const { auth } = useAuth();
-    
+
 
     const getUserData = () => {
         axiosFetch({
@@ -24,7 +29,6 @@ const Profile = () => {
     }, [id])
 
     return (
-        <Container>
             <Card>
                 <Card.Title className='page-title'><h2>Profile</h2></Card.Title>
                 <Card.Body>
@@ -37,7 +41,6 @@ const Profile = () => {
                     {auth.id === id && <Button>Edit</Button>}
                 </Card.Body>
             </Card>
-        </Container>   
     )
 }
 

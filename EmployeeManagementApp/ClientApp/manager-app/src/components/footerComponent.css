@@ -1,0 +1,21 @@
+/* footer */
+
+
+#footer-logo {
+
+    font-family: 'Silkscreen', cursive;
+}
+
+#footer-content {
+    margin-top: 12px;
+}
+
+.footer-container {
+    min-height: 0px !important;
+    color: grey;
+}
+
+.footer-icon {
+    color: grey;
+    font-size: 30px;
+}

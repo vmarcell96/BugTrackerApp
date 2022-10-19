@@ -1,0 +1,23 @@
+/* login */
+
+#login-card {
+  color: black;
+}
+
+.login-icon {
+  font-size: 40px;
+  color: rgba(58, 65, 111, 0.95);
+}
+
+.login-icon:hover {
+  color: black;
+}
+
+.login-icon-button {
+  background-color: white;
+}
+
+.button.login-icon-button:hover {
+  background-color: white;
+  border: 0px;
+}

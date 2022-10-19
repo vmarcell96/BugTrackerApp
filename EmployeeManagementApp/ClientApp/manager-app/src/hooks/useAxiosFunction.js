@@ -1,6 +1,8 @@
+//Packages
 import { useState, useEffect } from "react";
 import useAuth from "./useAuth";
 import { useNavigate } from "react-router";
+//Hooks
 import useFlashMessages from "./useFlashMessages";
 import useRefreshToken from "./useRefreshToken";
 
@@ -25,7 +27,7 @@ const useAxiosFunction = () => {
       const requestIntercept = axiosInstance.interceptors.request.use(
         (config) => {
           if (!config.headers["Authorization"] && auth?.accessToken) {
-              config.headers["Authorization"] = `Bearer ${auth?.accessToken}`;
+            config.headers["Authorization"] = `Bearer ${auth?.accessToken}`;
           }
           return config;
         },
@@ -41,14 +43,14 @@ const useAxiosFunction = () => {
             const newAccessToken = await refresh();
             prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
             return axiosInstance(prevRequest);
-          } 
+          }
           else if (error.response.status === 401) {
             flash("Your session has expired.");
           }
           else if (error.response.status === 403) {
             flash("You are not allowed to use this feature.");
             navigate("/");
-          } 
+          }
           else {
             flash("Something went wrong.");
             navigate("/");

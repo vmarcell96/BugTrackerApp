@@ -1,12 +1,14 @@
+//Packages
 import React from 'react'
-import { NavLink } from 'react-router-dom'
-import { Navbar, Nav, Container, Button } from 'react-bootstrap'
+import { Navbar, Nav } from 'react-bootstrap'
 import { LinkContainer } from "react-router-bootstrap";
-import useAuth from '../hooks/useAuth';
-import '../index.css';
-import useLogoutFunction from '../hooks/useLogoutFunction'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBug } from "@fortawesome/free-solid-svg-icons";
+//Hooks
+import useLogoutFunction from '../hooks/useLogoutFunction'
+import useAuth from '../hooks/useAuth';
+//Css
+import './navigation.css';
 
 
 const Navigation = () => {
@@ -36,7 +38,7 @@ const Navigation = () => {
                                 Users
                             </Nav.Link>
                         </LinkContainer>}
-                        {auth &&
+                    {auth &&
                         <LinkContainer to={`/profile/${auth.id}`}>
                             <Nav.Link className="mt-1 nav-item align-self-center">
                                 Profile

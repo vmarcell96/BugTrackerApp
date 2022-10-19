@@ -1,10 +1,15 @@
+//Packages
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Button, Card, Dropdown, Container } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
+//Misc
 import axios from "../../apis/axiosInstance";
+//Hooks
 import useAxiosFunction from "../../hooks/useAxiosFunction";
+//Css
+import './addUser.css'
 
 function AddUser() {
   const [postFirstName, setPostFirstName] = useState("");

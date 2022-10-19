@@ -1,0 +1,55 @@
+/* nav */
+
+.nav-button {
+    border: 0;
+    color: rgba(0, 0, 0, 0.87);
+    width: auto;
+    max-height: 40px;
+    margin: 0px;
+    border-radius: 20px;
+}
+
+#navbar {
+    box-shadow: rgb(0 0 0 / 5%) 0rem 1.25rem 1.6875rem 0rem;
+    border: 0px solid rgba(0, 0, 0, 0.125);
+    /* border-radius: 0px 0px 10px 10px; */
+    background-color: white;
+    padding-right: 10%;
+    padding-left: 10%;
+}
+
+#nav-brand {
+    font-family: 'Silkscreen', cursive;
+    font-size: 25px;
+    color: rgba(58, 65, 111, 0.95);
+}
+
+#brand-container {
+    display: flex;
+    align-items: center;
+}
+
+#logo {
+    align-items: center;
+}
+
+.nav-item {
+    color: rgba(58, 65, 111, 0.95);
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.nav-item:hover {
+    font-weight: 700;
+}
+
+
+
+.navbar-toggler {
+    background-color: rgba(58, 65, 111, 0.95);
+    color: rgba(58, 65, 111, 0.95);
+}
+
+#nav-container {
+    width: 93%;
+}

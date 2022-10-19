@@ -1,8 +1,9 @@
-import { createContext } from "react";
+//Packages
+import { createContext, useState } from "react";
 import jwtDecode from "jwt-decode";
-import { useState } from "react";
-import axios from "../apis/axiosInstance";
 import { useNavigate } from "react-router";
+//Misc
+import axios from "../apis/axiosInstance";
 
 export const AuthContext = createContext({});
 
@@ -34,8 +35,8 @@ function AuthProvider({ children }) {
         }
     }
 
-    
-    
+
+
     const isTokenExpired = () => {
         if (!auth) {
             return true
