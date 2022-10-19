@@ -1,4 +1,6 @@
+//Packages
 import { useContext } from "react";
+//Hooks
 import { FlashMessageContext } from "../context/FlashMessageProvider";
 
 function useFlashMessages() {

@@ -1,8 +1,11 @@
+//Packages
 import React from 'react'
-import { Navbar, Nav, Container, Card } from 'react-bootstrap'
+import { Container } from 'react-bootstrap'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBug } from "@fortawesome/free-solid-svg-icons";
-import { faGithubSquare, faTwitterSquare, faInstagramSquare, faFacebookSquare } from '@fortawesome/free-brands-svg-icons'
+import { faGithubSquare, faTwitterSquare, faInstagramSquare, faFacebookSquare } from '@fortawesome/free-brands-svg-icons';
+//Css
+import './footerComponent.css';
 
 const FooterComponent = () => {
   return (

@@ -1,7 +1,10 @@
-import useAuth from "./useAuth";
-import axios from "../apis/axiosInstance";
-import useAxiosFunction from "./useAxiosFunction";
+//Packages
 import { useNavigate } from "react-router";
+//Hooks
+import useAuth from "./useAuth";
+import useAxiosFunction from "./useAxiosFunction";
+//Misc
+import axios from "../apis/axiosInstance";
 
 const useLogoutFunction = () => {
     const navigate = useNavigate();
@@ -18,8 +21,8 @@ const useLogoutFunction = () => {
         localStorage.removeItem("auth");
         navigate("/");
     }
-    
-  return logout;
+
+    return logout;
 }
 
 export default useLogoutFunction

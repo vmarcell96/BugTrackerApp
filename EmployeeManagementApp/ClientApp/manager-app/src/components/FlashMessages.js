@@ -1,6 +1,8 @@
-import useFlashMessages from "../hooks/useFlashMessages";
-import { Alert } from "react-bootstrap";
+//Packages
 import { useEffect, useState } from "react";
+import { Alert } from "react-bootstrap";
+//Hooks
+import useFlashMessages from "../hooks/useFlashMessages";
 
 function FlashMessages() {
     const [show, setShow] = useState(true);
@@ -21,11 +23,11 @@ function FlashMessages() {
 
     return (
         <>
-        {show && (currentMessages.length > 0) && 
-            <Alert variant="danger" dismissible onClose={handleClose}>
-                {currentMessages.map((message, index) => (<div key={index}>{message}</div>))}
-            </Alert>
-        }
+            {show && (currentMessages.length > 0) &&
+                <Alert variant="danger" dismissible onClose={handleClose}>
+                    {currentMessages.map((message, index) => (<div key={index}>{message}</div>))}
+                </Alert>
+            }
         </>
     );
 }

@@ -1,6 +1,9 @@
-import axios from "../apis/axiosInstance";
-import useAuth from "./useAuth";
+//Packages
 import jwtDecode from "jwt-decode";
+//Hooks
+import useAuth from "./useAuth";
+//Misc
+import axios from "../apis/axiosInstance";
 
 const useRefreshToken = () => {
     const { auth, setAuth } = useAuth();
@@ -8,7 +11,7 @@ const useRefreshToken = () => {
     const refresh = async () => {
 
         try {
-            const response = await axios.post('/api/auth/refresh', {'refreshToken': `${auth?.refreshToken}`});
+            const response = await axios.post('/api/auth/refresh', { 'refreshToken': `${auth?.refreshToken}` });
             if (response.data && response.status === 200) {
                 const decodedAccessToken = jwtDecode(response.data.accessToken);
                 const authData = {
@@ -28,9 +31,9 @@ const useRefreshToken = () => {
                 throw new Error(error.toJSON())
             }
         }
-        
+
     }
-  return refresh;
+    return refresh;
 }
 
 export default useRefreshToken

@@ -1,11 +1,16 @@
+//Packages
 import React from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { Button, Card, Container } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
+//Misc
 import axios from "../../apis/axiosInstance";
+//Hooks
 import useAxiosFunction from "../../hooks/useAxiosFunction";
 import useDateFormat from "../../hooks/useDateFormat";
+//Css
+import './updateEmployee.css'
 
 function UpdateEmployee() {
   let navigate = useNavigate();

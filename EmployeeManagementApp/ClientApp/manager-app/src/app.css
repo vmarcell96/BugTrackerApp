@@ -1,0 +1,76 @@
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+body {
+  color: rgba(0, 0, 0, 0.87);
+  background: #f5f6f7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+.button.plus {
+  width: 85px;
+}
+
+.button:hover {
+  background-color: #212529;
+  border: 0px;
+}
+
+.button {
+  background-color: rgba(58, 65, 111, 0.95);
+  color: white;
+  border: 0px;
+  margin: 0 0 5px 5px;
+}
+
+.card {
+  box-shadow: rgb(0 0 0 / 5%) 0rem 1.25rem 1.6875rem 0rem;
+  border: 0px solid rgba(0, 0, 0, 0.125);
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 5px;
+
+}
+
+.table {
+  border-radius: 16px;
+  background-color: #ffffff;
+  color: rgba(0, 0, 0, 0.87);
+  margin: 0px;
+}
+
+.table td,
+.table th {
+  text-align: center;
+  vertical-align: middle;
+  flex-wrap: nowrap;
+
+}
+
+.spinner-border {
+  color: rgba(58, 65, 111, 0.95);
+  width: 60px;
+  height: 60px;
+  margin: 20px;
+}
+
+.container {
+  min-height: 800px;
+}
+
+.page-title {
+  text-align: center;
+  border-bottom: 0px solid rgba(0, 0, 0, 0.125);
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 25px 20px -20px;
+}
+
+@media only screen and (max-width: 500px) {
+  .container {
+    min-height: 400px;
+  }
+}
