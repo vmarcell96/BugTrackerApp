@@ -16,7 +16,7 @@ import RequireAuth from './components/RequireAuth';
 import UpdateEmployee from './components/Employees/UpdateEmployee';
 import AddUser from './components/Users/AddUser';
 import UpdateUser from './components/Users/UpdateUser';
-import Profile from './components/Profile';
+import Profile from './components/Profile//Profile';
 //Css
 // import './index.css'
 
