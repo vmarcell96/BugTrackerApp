@@ -1,12 +1,16 @@
 //Packages
 import { useEffect } from 'react';
 import { useParams } from "react-router-dom";
-import { Button, Card } from 'react-bootstrap';
+import { Button, Card, Container, Row, Col } from 'react-bootstrap';
+//Components
+import InfoPart from './InfoPart'
+import About from './About'
+import ProfileFooter from './ProfileFooter'
 //Hooks
-import useAxiosFunction from '../hooks/useAxiosFunction';
-import useAuth from '../hooks/useAuth';
+import useAxiosFunction from '../../hooks/useAxiosFunction';
+import useAuth from '../../hooks/useAuth';
 //Misc
-import axios from "../apis/axiosInstance";
+import axios from "../../apis/axiosInstance";
 //Css
 import './profile.css'
 
@@ -29,18 +33,20 @@ const Profile = () => {
     }, [id])
 
     return (
-            <Card>
-                <Card.Title className='page-title'><h2>Profile</h2></Card.Title>
-                <Card.Body>
-                    {data && <ul>
-                        <li>{data.firstName}</li>
-                        <li>{data.lastName}</li>
-                        <li>{data.userName}</li>
-                        <li>{data.role}</li>
-                    </ul>}
-                    {auth.id === id && <Button>Edit</Button>}
-                </Card.Body>
-            </Card>
+        <>
+            <Container>
+                <Row>
+                    <Col>
+                <InfoPart />
+                <About />
+                <ProfileFooter />
+                </Col>
+                <Col>
+                    <div>asd</div>
+                </Col>
+                </Row>
+            </Container>
+        </>
     )
 }
 
