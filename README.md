@@ -29,13 +29,18 @@ This is a simple application for managing persisted employees with a React UI.
 - Bug fixes
 - Front-end refactor
 
-#### Forth Sprint - not closed
+#### Forth Sprint
 
 - Implement Footer
 - Create landing page
 - Improve css
 - Create profile page
 - Deployment to Azure
+- Project creation
+- Bug creation
+
+#### Fifth Sprint - Plnning
+
 
 ## Stack
 - ASP.NET Core
