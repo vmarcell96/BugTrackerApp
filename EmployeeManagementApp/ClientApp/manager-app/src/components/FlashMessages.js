@@ -12,6 +12,7 @@ function FlashMessages() {
     useEffect(() => {
         if (messages.length > 0) {
             setShow(true);
+            setTimeout(()=>{setShow(false);},4000);
             setCurrentMessages(messages);
             clearMessages();
         }

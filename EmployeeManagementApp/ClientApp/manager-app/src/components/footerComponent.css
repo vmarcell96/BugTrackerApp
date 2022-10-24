@@ -2,17 +2,21 @@
 
 
 #footer-logo {
-
+    display: inline-block;
+white-space: nowrap;
     font-family: 'Silkscreen', cursive;
 }
 
-#footer-content {
-    margin-top: 12px;
+#copyright {
+    display: inline-block;
+white-space: nowrap;
 }
+
 
 .footer-container {
     min-height: 0px !important;
     color: grey;
+
 }
 
 .footer-icon {

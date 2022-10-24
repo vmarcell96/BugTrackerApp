@@ -17,27 +17,34 @@ import UpdateEmployee from './components/Employees/UpdateEmployee';
 import AddUser from './components/Users/AddUser';
 import UpdateUser from './components/Users/UpdateUser';
 import Profile from './components/Profile//Profile';
-//Css
-// import './index.css'
+import AddProject from './components/Projects/AddProject';
+import ProjectView from './components/Projects/ProjectView';
+import BugView from './components/Bugs/BugView';
+import AddBug from './components/Bugs/AddBug';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
     <FlashMessageProvider>
       <AuthProvider>
-        <Routes>
-          <Route path="/" element={<App />}>
-            <Route index element={<Home />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/employees' element={<RequireAuth allowedRoles={["Admin", "User"]}><Employees /></RequireAuth>} />
-            <Route path='/employees/add' element={<RequireAuth allowedRoles={["Admin"]}><AddEmployee /></RequireAuth>} />
-            <Route path='/employees/:id' element={<RequireAuth allowedRoles={["Admin"]}><UpdateEmployee /></RequireAuth>} />
-            <Route path='/users' element={<RequireAuth allowedRoles={["Admin"]}><Users /></RequireAuth>} />
-            <Route path='/users/add' element={<RequireAuth allowedRoles={["Admin"]}><AddUser /></RequireAuth>} />
-            <Route path='/users/:id' element={<RequireAuth allowedRoles={["Admin"]}><UpdateUser /></RequireAuth>} />
-            <Route path='/profile/:id' element={<Profile />} />
-          </Route>
-        </Routes>
+          <Routes>
+            <Route path="/" element={<App />}>
+              <Route index element={<Home />} />
+              <Route path='/login' element={<Login />} />
+              <Route path='/employees' element={<RequireAuth allowedRoles={["Admin", "User"]}><Employees /></RequireAuth>} />
+              <Route path='/employees/add' element={<RequireAuth allowedRoles={["Admin"]}><AddEmployee /></RequireAuth>} />
+              <Route path='/employees/:id' element={<RequireAuth allowedRoles={["Admin"]}><UpdateEmployee /></RequireAuth>} />
+              <Route path='/users' element={<RequireAuth allowedRoles={["Admin"]}><Users /></RequireAuth>} />
+              <Route path='/users/add' element={<RequireAuth allowedRoles={["Admin"]}><AddUser /></RequireAuth>} />
+              <Route path='/users/:id' element={<RequireAuth allowedRoles={["Admin"]}><UpdateUser /></RequireAuth>} />
+              <Route path='/profile/:id' element={<Profile />} />
+              <Route path='/projects/add' element={<AddProject />} />
+              <Route path='/projects/:id' element={<ProjectView />} />
+              <Route path='/bugs/:id' element={<BugView />} />
+              <Route path='/bugs/add' element={<AddBug />} />
+            </Route>
+          </Routes>
       </AuthProvider>
     </FlashMessageProvider>
   </BrowserRouter>

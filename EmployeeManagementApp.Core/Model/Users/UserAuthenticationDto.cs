@@ -10,7 +10,7 @@ namespace EmployeeManagementApp.Core.Model.Users
     public class UserAuthenticationDto
     {
         [Required]
-        public int ID { get; set; }
+        public int Id { get; set; }
         [Required]
         public string UserName { get; set; }
         [Required]

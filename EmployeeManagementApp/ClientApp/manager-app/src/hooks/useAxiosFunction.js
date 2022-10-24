@@ -12,7 +12,7 @@ const useAxiosFunction = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [controller, setController] = useState();
-  const { auth } = useAuth();
+  const { auth, setAuth } = useAuth();
   const navigate = useNavigate();
   const { flash } = useFlashMessages();
   const refresh = useRefreshToken();
@@ -44,16 +44,26 @@ const useAxiosFunction = () => {
             prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
             return axiosInstance(prevRequest);
           }
+          else if (error.response.status === 400) {
+            flash("Server failed to load resources.");
+          }
           else if (error.response.status === 401) {
             flash("Your session has expired.");
+            navigate("/");
+            setAuth(null);
           }
           else if (error.response.status === 403) {
             flash("You are not allowed to use this feature.");
             navigate("/");
           }
+          else if (error.response.status === 404) {
+            flash("Not found.");
+          }
+          else if (error.response.status === 500) {
+            flash("Server error.");
+          }
           else {
             flash("Something went wrong.");
-            navigate("/");
           }
           return Promise.reject(error);
         }

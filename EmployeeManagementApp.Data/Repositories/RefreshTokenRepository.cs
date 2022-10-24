@@ -42,7 +42,7 @@ namespace EmployeeManagementApp.Data.Repositories
 
         public async Task<RefreshToken> GetById(int id)
         {
-            RefreshToken refreshToken = await _context.RefreshTokens.FirstOrDefaultAsync(r => r.ID == id);
+            RefreshToken refreshToken = await _context.RefreshTokens.FirstOrDefaultAsync(r => r.Id == id);
             return refreshToken;
         }
 

@@ -8,7 +8,7 @@ namespace EmployeeManagementApp.Data.Entity
 {
     public class RefreshToken
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string Token { get; set; }
         public int UserId { get; set; }
 

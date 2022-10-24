@@ -1,11 +1,12 @@
 //Packages
 import { Outlet } from "react-router-dom";
-import { Container } from "react-bootstrap";
+
 //Components
 import FlashMessages from "./components/FlashMessages";
 import FooterComponent from "./components/FooterComponent";
 import Navigation from "./components/Navigation";
 //Css
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css'
 
 function App() {
@@ -13,9 +14,7 @@ function App() {
     <div className="row-10">
       <Navigation />
       <FlashMessages />
-      <Container>
         <Outlet />
-      </Container>
       <FooterComponent />
     </div>
   );

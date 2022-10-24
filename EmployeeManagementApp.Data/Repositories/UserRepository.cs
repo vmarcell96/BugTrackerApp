@@ -26,18 +26,24 @@ namespace EmployeeManagementApp.Data.Repositories
 
         public async Task<User> Get(int id)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(user => user.ID == id);
+            var user = await _context.Users
+                .Include(u => u.ContributedProjects)
+                    .ThenInclude(p => p.TeamMembers)
+                .SingleOrDefaultAsync(user => user.Id == id);
             return user;
         }
 
         public async Task<List<User>> GetAll()
         {
-            return await _context.Users.AsNoTracking().ToListAsync();
+            return await _context.Users
+                .Include(u => u.ContributedProjects)
+                    .ThenInclude(p => p.TeamMembers)
+                .AsNoTracking().ToListAsync();
         }
 
         public async Task<User> Update(User entity)
         {
-            var userToUpdate = await Get(entity.ID);
+            var userToUpdate = await Get(entity.Id);
             userToUpdate.HashedPassword = entity.HashedPassword;
             userToUpdate.FirstName = entity.FirstName;
             userToUpdate.LastName = entity.LastName;

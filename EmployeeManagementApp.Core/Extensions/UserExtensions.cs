@@ -13,18 +13,20 @@ namespace EmployeeManagementApp.Core.Extensions
                 UserName = userCreateData.UserName,
                 FirstName = userCreateData.FirstName,
                 LastName = userCreateData.LastName,
-                HashedPassword = userCreateData.Password,
+                HashedPassword = BCrypt.Net.BCrypt.HashPassword(userCreateData.Password),
                 Role = userCreateData.Role,
+                ContributedProjects = new List<Project>()
             };
         }
         public static User ToUserEntity(this UserUpdateDto userUpdateData)
         {
             return new User
             {
-                ID = userUpdateData.ID,
+                Id = userUpdateData.Id,
                 FirstName = userUpdateData.FirstName,
                 LastName = userUpdateData.LastName,
-                HashedPassword = userUpdateData.Password,
+                HashedPassword = BCrypt.Net.BCrypt.HashPassword(userUpdateData.Password),
+                ContributedProjects = new List<Project>()
             };
         }
 
@@ -32,7 +34,7 @@ namespace EmployeeManagementApp.Core.Extensions
         {
             return new UserViewDto
             {
-                ID = user.ID,
+                Id = user.Id,
                 UserName = user.UserName,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
@@ -54,7 +56,7 @@ namespace EmployeeManagementApp.Core.Extensions
         {
             return new UserLoginDto
             {
-                ID = user.ID,
+                Id = user.Id,
                 Role = user.Role,
                 UserName = user.UserName,
                 HashedPassword = user.HashedPassword,
@@ -65,7 +67,7 @@ namespace EmployeeManagementApp.Core.Extensions
         {
             return new UserAuthenticationDto
             {
-                ID = userLoginDto.ID,
+                Id = userLoginDto.Id,
                 UserName = userLoginDto.UserName,
                 Role = userLoginDto.Role,
             };
@@ -75,9 +77,21 @@ namespace EmployeeManagementApp.Core.Extensions
         {
             return new UserAuthenticationDto
             {
-                ID = userViewDto.ID,
+                Id = userViewDto.Id,
                 UserName = userViewDto.UserName,
                 Role = userViewDto.Role,
+            };
+        }
+
+        public static UserTeamMember ToUserTeamMember(this User user)
+        {
+            return new UserTeamMember
+            {
+                UserId = user.Id,
+                Role = user.Role,
+                UserName = user.UserName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
             };
         }
     }

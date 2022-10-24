@@ -10,7 +10,7 @@ namespace EmployeeManagementApp.Core.Model.Users
     public class UserUpdateDto
     {
         [Required]
-        public int ID { get; set; }
+        public int Id { get; set; }
         [Required]
         public string FirstName { get; set; }
         [Required]
@@ -19,5 +19,6 @@ namespace EmployeeManagementApp.Core.Model.Users
         public string Username { get; set; }
         [Required]
         public string Password { get; set; }
+        public List<int> ContributedProjects { get; set; }
     }
 }

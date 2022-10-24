@@ -8,7 +8,7 @@ namespace EmployeeManagementApp.Core.Model.Employees
 {
     public class EmployeeViewDto
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime HiringDate { get; set; }

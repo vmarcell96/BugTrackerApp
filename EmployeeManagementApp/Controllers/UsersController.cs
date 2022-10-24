@@ -1,7 +1,5 @@
-﻿using EmployeeManagementApp.Core.Model.Employees;
-using EmployeeManagementApp.Core.Model.Users;
+﻿using EmployeeManagementApp.Core.Model.Users;
 using EmployeeManagementApp.Services;
-using EmployeeManagementApp.Services.PasswordHashers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,13 +11,11 @@ namespace EmployeeManagementApp.Controllers
     public class UsersController : Controller
     {
         private readonly IUserService _userService;
-        private readonly IPasswordHasher _passwordHasher;
         private readonly ILogger<UsersController> _logger;
 
-        public UsersController(IUserService userService, IPasswordHasher passwordHasher, ILogger<UsersController> logger)
+        public UsersController(IUserService userService, ILogger<UsersController> logger)
         {
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
-            _passwordHasher = passwordHasher;
             _logger = logger;
         }
 
@@ -38,32 +34,35 @@ namespace EmployeeManagementApp.Controllers
             }
         }
 
-        [Authorize]
-        [HttpGet("{id}", Name = "Getuser")]
+        //[Authorize]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetUserById(int id)
         {
             try
             {
                 var employee = await _userService.GetUserById(id);
+                if (employee == null)
+                {
+                    return NotFound($"User with id:{id} not found");
+                }
                 return StatusCode(200, employee);
             }
-            catch (InvalidOperationException ex)
+            catch (Exception ex)
             {
-                _logger.LogError($"No user found with id: {id}.", ex);
-                return NotFound($"User with ID:{id} not found.");
+                _logger.LogError($"No user found with Id: {id}.", ex);
+                return BadRequest();
             }
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> AddUser(UserCreateDto newuserDto)
+        public async Task<IActionResult> AddUser(UserCreateDto newUserDto)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    newuserDto.Password = _passwordHasher.HashPassword(newuserDto.Password);
-                    var userViewDto = await _userService.AddNewUser(newuserDto);
+                    var userViewDto = await _userService.AddNewUser(newUserDto);
                     return StatusCode(201, userViewDto);
                 }
                 else
@@ -79,7 +78,7 @@ namespace EmployeeManagementApp.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
             try
@@ -89,13 +88,13 @@ namespace EmployeeManagementApp.Controllers
             }
             catch (InvalidOperationException ex)
             {
-                _logger.LogError($"No user found with id: {id}.", ex);
-                return NotFound($"User with ID:{id} not found.");
+                _logger.LogError($"No user found with Id: {id}.", ex);
+                return NotFound($"User with Id:{id} not found.");
             }
         }
 
         [Authorize]
-        [HttpPut("{id}")]
+        [HttpPut]
         public async Task<IActionResult> UpdateUser(UserUpdateDto userUpdateDto)
         {
             try
@@ -112,8 +111,8 @@ namespace EmployeeManagementApp.Controllers
             }
             catch (DbUpdateException ex)
             {
-                _logger.LogError($"No user found with id: {userUpdateDto.ID}.", ex);
-                return NotFound($"User with ID:{userUpdateDto.ID} not found.");
+                _logger.LogError($"No user found with Id: {userUpdateDto.Id}.", ex);
+                return NotFound($"User with Id:{userUpdateDto.Id} not found.");
             }
         }
     }

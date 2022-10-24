@@ -61,7 +61,7 @@ namespace EmployeeManagementApp.Controllers
             RefreshTokenCreateDto newRefreshToken = new RefreshTokenCreateDto()
             {
                 Token = response.RefreshToken,
-                UserId = user.ID,
+                UserId = user.Id,
             };
 
             await _refreshTokenService.AddNewRefreshToken(newRefreshToken);
@@ -97,7 +97,7 @@ namespace EmployeeManagementApp.Controllers
 
             UserViewDto user = await _userService.GetUserById(refreshToken.UserId);
 
-            await _refreshTokenService.Delete(refreshToken.ID);
+            await _refreshTokenService.Delete(refreshToken.Id);
 
             if (user == null)
             {
@@ -109,7 +109,7 @@ namespace EmployeeManagementApp.Controllers
             RefreshTokenCreateDto newRefreshToken = new RefreshTokenCreateDto()
             {
                 Token = response.RefreshToken,
-                UserId = user.ID,
+                UserId = user.Id,
             };
 
             await _refreshTokenService.AddNewRefreshToken(newRefreshToken);
@@ -122,7 +122,7 @@ namespace EmployeeManagementApp.Controllers
         [HttpDelete("logout")]
         public async Task<IActionResult> Logout()
         {
-            string id = HttpContext.User.FindFirstValue("id");
+            string id = HttpContext.User.FindFirstValue("Id");
             if (!int.TryParse(id, out int userId))
             {
                 return Unauthorized();

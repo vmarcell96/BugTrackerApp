@@ -45,7 +45,7 @@ namespace EmployeeManagementApp.Services.Authenticator
         {
             List<Claim> claims = new List<Claim>()
             {
-                new Claim("ID", user.ID.ToString()),
+                new Claim("Id", user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.Role, user.Role),
             };

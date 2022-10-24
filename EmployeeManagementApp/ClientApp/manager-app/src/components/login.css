@@ -5,19 +5,20 @@
 }
 
 .login-icon {
-  font-size: 40px;
-  color: rgba(58, 65, 111, 0.95);
-}
-
-.login-icon:hover {
-  color: black;
+  font-size: 40px;;
+  margin: 0px;
 }
 
 .login-icon-button {
-  background-color: white;
+  background-color: #3a416ff2;
+  color: white;
+  width: 40px;
+  height: 40px;
+  padding: 0px;
 }
 
-.button.login-icon-button:hover {
+.btn.login-icon-button:hover  {
   background-color: white;
-  border: 0px;
+  color: black;
 }
+
