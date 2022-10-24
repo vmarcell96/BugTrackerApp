@@ -35,7 +35,7 @@ namespace EmployeeManagementApp.Controllers
         }
 
         [Authorize]
-        [HttpGet("{id}", Name = "GetEmployee")]
+        [HttpGet("{Id}", Name = "GetEmployee")]
         public async Task<IActionResult> GetEmployeeById(int id)
         {
             try
@@ -45,8 +45,8 @@ namespace EmployeeManagementApp.Controllers
             }
             catch (InvalidOperationException ex)
             {
-                _logger.LogError($"No employee found with id: {id}.", ex);
-                return NotFound($"Employee with ID:{id} not found.");
+                _logger.LogError($"No employee found with Id: {id}.", ex);
+                return NotFound($"Employee with Id:{id} not found.");
             }
         }
 
@@ -74,7 +74,7 @@ namespace EmployeeManagementApp.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpDelete("{id}")]
+        [HttpDelete("{Id}")]
         public async Task<IActionResult> DeleteEmployee(int id)
         {
             try
@@ -84,13 +84,13 @@ namespace EmployeeManagementApp.Controllers
             }
             catch (InvalidOperationException ex)
             {
-                _logger.LogError($"No employee found with id: {id}.", ex);
-                return NotFound($"Employee with ID:{id} not found.");
+                _logger.LogError($"No employee found with Id: {id}.", ex);
+                return NotFound($"Employee with Id:{id} not found.");
             }
         }
 
         [Authorize]
-        [HttpPut("{id}")]
+        [HttpPut("{Id}")]
         public async Task<IActionResult> UpdateEmployee(EmployeeUpdateDto employeeUpdateDto)
         {
             try
@@ -107,8 +107,8 @@ namespace EmployeeManagementApp.Controllers
             }
             catch (DbUpdateException ex)
             {
-                _logger.LogError($"No employee found with id: {employeeUpdateDto.ID}.", ex);
-                return NotFound($"Employee with ID:{employeeUpdateDto.ID} not found.");
+                _logger.LogError($"No employee found with Id: {employeeUpdateDto.Id}.", ex);
+                return NotFound($"Employee with Id:{employeeUpdateDto.Id} not found.");
             }
         }
     }

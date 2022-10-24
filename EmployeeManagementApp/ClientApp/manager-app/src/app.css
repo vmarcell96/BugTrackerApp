@@ -4,7 +4,7 @@ code {
 }
 
 body {
-  color: rgba(0, 0, 0, 0.87);
+  color: black;
   background: #f5f6f7;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -12,36 +12,31 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-.button.plus {
+.btn.plus {
   width: 85px;
 }
 
-.button:hover {
-  background-color: #212529;
-  border: 0px;
-}
-
-.button {
+.btn {
   background-color: rgba(58, 65, 111, 0.95);
   color: white;
   border: 0px;
   margin: 0 0 5px 5px;
 }
 
+.btn:hover {
+  background-color: #212529;
+}
+
 .card {
   box-shadow: rgb(0 0 0 / 5%) 0rem 1.25rem 1.6875rem 0rem;
   border: 0px solid rgba(0, 0, 0, 0.125);
   background-color: #ffffff;
-  border-radius: 16px;
-  padding: 5px;
-
 }
 
 .table {
   border-radius: 16px;
   background-color: #ffffff;
-  color: rgba(0, 0, 0, 0.87);
-  margin: 0px;
+  color: black;
 }
 
 .table td,
@@ -60,14 +55,24 @@ body {
 }
 
 .container {
-  min-height: 800px;
+  min-height: 600px;
 }
 
 .page-title {
   text-align: center;
-  border-bottom: 0px solid rgba(0, 0, 0, 0.125);
-  box-shadow: rgba(0, 0, 0, 0.4) 0px 25px 20px -20px;
+  margin-top: 15px;
 }
+
+
+.form-card {
+  width: 400px;
+}
+
+.btn.button:hover {
+  background-color: black;
+  color: white;
+}
+
 
 @media only screen and (max-width: 500px) {
   .container {

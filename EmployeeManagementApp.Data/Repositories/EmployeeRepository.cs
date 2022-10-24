@@ -26,7 +26,7 @@ namespace EmployeeManagementApp.Data.Repositories
 
         public async Task<Employee> Get(int id)
         {
-            var emp = await _context.Employees.SingleOrDefaultAsync(emp => emp.ID == id);
+            var emp = await _context.Employees.SingleOrDefaultAsync(emp => emp.Id == id);
             return emp;
         }
 
@@ -37,7 +37,7 @@ namespace EmployeeManagementApp.Data.Repositories
 
         public async Task<Employee> Update(Employee entity)
         {
-            var employeeToUpdate = await Get(entity.ID);
+            var employeeToUpdate = await Get(entity.Id);
             employeeToUpdate.FirstName = entity.FirstName;
             employeeToUpdate.LastName = entity.LastName;
             employeeToUpdate.HiringDate = entity.HiringDate;

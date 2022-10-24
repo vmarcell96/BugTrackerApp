@@ -4,7 +4,7 @@
 
 namespace EmployeeManagementApp.Data.Migrations
 {
-    public partial class migration : Migration
+    public partial class BugAssigneeChange : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

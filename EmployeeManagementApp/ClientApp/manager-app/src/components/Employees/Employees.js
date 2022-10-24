@@ -2,7 +2,8 @@
 import useAxiosFunction from '../../hooks/useAxiosFunction';
 import { useEffect } from 'react';
 import React from 'react'
-import { Button, Table, Card, Container } from 'react-bootstrap';
+import { Button, Table, Card, Row, Col } from 'react-bootstrap';
+import Container from "react-bootstrap/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPlus, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
@@ -20,8 +21,8 @@ const Employees = () => {
   let navigate = useNavigate();
   const [data, setData, error, loading, axiosFetch] = useAxiosFunction();
 
-  const getData = async () => {
-    await axiosFetch({
+  const getData = () => {
+    axiosFetch({
       axiosInstance: axios,
       method: 'GET',
       url: '/api/employees',
@@ -33,9 +34,9 @@ const Employees = () => {
     // eslint-disable-next-line
   }, [])
 
-  const handleDelete = async (id) => {
+  const handleDelete = (id) => {
     const filteredData = data.filter(e => e.id !== id);
-    await axiosFetch({
+    axiosFetch({
       axiosInstance: axios,
       method: 'DELETE',
       url: `/api/employees/${id}`,
@@ -50,6 +51,8 @@ const Employees = () => {
   return (
     <>
       <Container>
+        <Row>
+          <Col className="p-2">
         <Card>
           <Card.Title className='page-title'><h2>Employees</h2></Card.Title>
           <Card.Body>
@@ -63,7 +66,7 @@ const Employees = () => {
               {!loading && error && <p style={{ color: "red" }}>{error}</p>}
               {!loading && !error && data &&
                 <>
-                  <Table borderless>
+                  <Table >
                     <thead>
                       <tr>
                         <th>First Name</th>
@@ -78,7 +81,7 @@ const Employees = () => {
                         </th>
                       </tr>
                     </thead>
-                    <tbody className="table-group-divider">
+                    <tbody>
                       {data && data.map((employee) =>
                         <tr key={employee.id}>
                           <td>{employee.firstName}</td>
@@ -107,6 +110,8 @@ const Employees = () => {
             </div>
           </Card.Body>
         </Card>
+        </Col>
+        </Row>
       </Container>
     </>
   )

@@ -10,7 +10,7 @@ namespace EmployeeManagementApp.Core.Extensions
         {
             return new EmployeeViewDto()
             {
-                ID = employee.ID,
+                Id = employee.Id,
                 FirstName = employee.FirstName,
                 LastName = employee.LastName,
                 HiringDate = employee.HiringDate,
@@ -51,7 +51,7 @@ namespace EmployeeManagementApp.Core.Extensions
         {
             return new Employee()
             {
-                ID = employee.ID,
+                Id = employee.Id,
                 FirstName = employee.FirstName,
                 LastName = employee.LastName,
                 HiringDate = employee.HiringDate,

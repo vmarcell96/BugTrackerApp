@@ -1,30 +1,21 @@
-.profile {
-  margin: 0;
-  font-weight: 200;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  align-items: center;
-}
 
 
 .pic {
-  width: 317px;
-  border-radius: 15px 15px 0px 0px;
+  width: 100%;
+  height: auto;
+  max-width:300px;
+  border-radius: 10px 10px 0px 0px;
   margin-bottom: 0px;
 }
 
 .infopart {
-  margin-top: 50px;
+  margin-top: 20px;
   background-color: white;
-  width: 317px;
   text-align: center;
 }
 
 #name {
-  margin-top: 0px;
+  margin-top: 5px;
   margin-bottom: 0px;
   font-weight: 500;
 }
@@ -33,7 +24,7 @@
   margin-top: 0px;
   margin-bottom: 10px;
   color: #F3BF99;
-  font-weight: 200;
+  font-weight: 300;
 }
 
 
@@ -43,8 +34,8 @@
   flex-wrap: nowrap;
   justify-content: center;
   align-items: center;
-  margin: 0px 40px;
-  gap: 10px;
+  margin: 0px 20px;
+  gap: 20px;
   
 }
 
@@ -56,22 +47,8 @@
   align-items: center;
   width: 120px;
   height: 40px;
-  border-radius: 10px;
   gap: 5px;
-  
 }
-
-#linkedin-button {
-  background-color: #5093E2;
-  color:white
-}
-
-
-#icon {
-  vertical-align:middle;
-}
-
-
 
 #email {
   margin-top: 0px;
@@ -79,9 +56,10 @@
 }
 
 .about {
+
   background-color: white;
-  width: 317px;
   margin-bottom: 0px;
+  padding-top: 10px;
 }
 
 .about h3 {
@@ -97,18 +75,11 @@
   padding-right: 40px;
 }
 
-#interests {
-  padding-bottom: 40px;
-  margin-bottom: 0px;
-}
 
 .profile-footer {
   background-color: rgba(58, 65, 111, 0.95);
-  width: 317px;
-  height: 64px;
   border-radius: 0px 0px 15px 15px;
   margin-top: 0px;
-  margin-bottom: 50px;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -125,3 +96,11 @@
   font-size: 35px;
   color: white;
 }
+
+
+.profile-card {
+  width:400px
+}
+
+
+

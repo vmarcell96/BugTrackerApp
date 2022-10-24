@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace EmployeeManagementApp.Data.Entity
 {
     public class User
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         [Required]
         public string UserName { get; set; }
         [Required]
@@ -20,5 +21,7 @@ namespace EmployeeManagementApp.Data.Entity
         public string LastName { get; set; }
         [Required]
         public string Role { get; set; }
+
+        public List<Project> ContributedProjects { get; set; }
     }
 }

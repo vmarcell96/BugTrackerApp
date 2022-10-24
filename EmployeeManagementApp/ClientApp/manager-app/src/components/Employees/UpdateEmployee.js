@@ -2,8 +2,9 @@
 import React from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useState } from "react";
-import { Button, Card, Container } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
+import Container from "react-bootstrap/Container";
 //Misc
 import axios from "../../apis/axiosInstance";
 //Hooks

@@ -2,7 +2,7 @@
 
 .nav-button {
     border: 0;
-    color: rgba(0, 0, 0, 0.87);
+    color: black;
     width: auto;
     max-height: 40px;
     margin: 0px;
@@ -24,32 +24,6 @@
     color: rgba(58, 65, 111, 0.95);
 }
 
-#brand-container {
-    display: flex;
-    align-items: center;
-}
-
-#logo {
-    align-items: center;
-}
-
-.nav-item {
-    color: rgba(58, 65, 111, 0.95);
-    font-size: 18px;
-    font-weight: 500;
-}
-
 .nav-item:hover {
     font-weight: 700;
-}
-
-
-
-.navbar-toggler {
-    background-color: rgba(58, 65, 111, 0.95);
-    color: rgba(58, 65, 111, 0.95);
-}
-
-#nav-container {
-    width: 93%;
 }

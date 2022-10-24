@@ -23,7 +23,7 @@ const Navigation = () => {
                 </Navbar.Brand>
             </LinkContainer>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
+            <Navbar.Collapse id="basic-navbar-nav" className=''>
                 <Nav className="me-auto">
 
                     {auth &&
@@ -42,6 +42,12 @@ const Navigation = () => {
                         <LinkContainer to={`/profile/${auth.id}`}>
                             <Nav.Link className="mt-1 nav-item align-self-center">
                                 Profile
+                            </Nav.Link>
+                        </LinkContainer>}
+                    {auth &&
+                        <LinkContainer to={`/projects/add`}>
+                            <Nav.Link className="mt-1 nav-item align-self-center">
+                                Create Project
                             </Nav.Link>
                         </LinkContainer>}
 

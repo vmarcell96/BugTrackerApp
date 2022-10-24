@@ -19,11 +19,10 @@ function AuthProvider({ children }) {
                 const authData = {
                     ...response.data,
                     role: decodedAccessToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"],
-                    id: decodedAccessToken["ID"]
+                    id: decodedAccessToken["Id"]
                 };
                 setAuth(authData);
                 localStorage.setItem("auth", JSON.stringify(authData));
-                console.log(JSON.stringify(authData));
                 navigate("/");
             }
         } catch (error) {
