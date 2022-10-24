@@ -16,8 +16,10 @@ const Home = () => {
             <h4 style={{ color: "rgba(58, 65, 111, 0.95)" }}>Features:</h4>
             <ul>
               <li>Login/Logout</li>
-              <li>Persisted users,employees</li>
-              <li>CRUD operations on users and employees</li>
+              <li>Persisted users,projects,bugs,team members</li>
+              <li>You can create your own project</li>
+              <li>You can add bugs to your projects</li>
+              <li>User profile page(you can access your projects on the profile page)</li>
               <li>Protected react routes</li>
               <li>Protected API routes</li>
               <li>JWT access, refresh token validation</li>
@@ -35,14 +37,13 @@ const Home = () => {
               <li>Password: 12345678</li>
             </ul>
 
-            <h4 style={{ color: "rgba(58, 65, 111, 0.95)" }}>TODO features(4th sprint):</h4>
+            <h4 style={{ color: "rgba(58, 65, 111, 0.95)" }}>TODO features:</h4>
             <ul>
               <li style={{ color: "red" }}>Conversion from employee manager application to a bugtracker</li>
-              <li style={{ color: "rgba(58, 65, 111, 0.95)" }}>Implementing Footer</li>
-              <li style={{ color: "rgba(58, 65, 111, 0.95)" }}>Deploy application to Azure to</li>
-              <li>Create landing page</li>
-              <li>Improve css</li>
-              <li>Create profile page for logged in user</li>
+              <li>Assign developers to bugs</li>
+              <li>Add developers to existing project</li>
+              <li>Edit project,bug</li>
+              <li>Send notifications to users</li>
             </ul>
             </Card.Body>
           </Card>
