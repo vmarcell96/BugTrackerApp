@@ -74,7 +74,7 @@ Username: User
 Password: 12345678
 
 ## Production build
-[Deployed to Azure.](https://bugtrackerfrontend.azurewebsites.net/)
+[Deployed to Azure.](https://wondserful-water-041ca0803.2.azurestaticapps.net/)
 
 ## Run Locally
 ##### Prerequisites
