@@ -74,8 +74,8 @@ Username: User
 Password: 12345678
 
 ## Production build
-(Login takes some time because of Azure's server speed)
-[Deployed to Azure.](https://wonderful-water-041ca0803.2.azurestaticapps.net)
+
+[Deployed to Azure.](https://wonderful-water-041ca0803.2.azurestaticapps.net)(Login takes some time because of Azure's server speed)
 
 ## Run Locally
 ##### Prerequisites
