@@ -39,8 +39,14 @@ This is a simple application for managing persisted employees with a React UI.
 - Project creation
 - Bug creation
 
-#### Fifth Sprint - Plnning
+#### Fifth Sprint - Current
 
+- Improve Bug view page
+- Implement CI/CD pipeline
+- Run tests in github action flow on backend
+- Run tests in github action flow on frontend
+- Rename everything from employeemanager to Bugtracker
+- Improve error handling on backend
 
 ## Stack
 - ASP.NET Core
@@ -113,6 +119,7 @@ Client should be available at `localhost:3000`
 
 ## Roadmap
 
+- Deploy as a container
 - Reliability improvements (error handling, UI consistency)
 - Improve application design (CSS)
 - Bug fixes
