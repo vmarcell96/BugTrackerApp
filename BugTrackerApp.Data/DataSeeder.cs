@@ -15,20 +15,6 @@ namespace BugTrackerApp.Data
         {
             _context.Database.EnsureCreated();
 
-            if (!_context.Employees.Any())
-            {
-                var employees = new Employee[]
-                {
-                    new Employee{ FirstName = "John", LastName = "Smith", HiringDate = DateTime.Parse("2004-01-13") },
-                    new Employee{ FirstName = "Sue", LastName = "Black", HiringDate = DateTime.Parse("2015-04-11") },
-                    new Employee{ FirstName = "Nick", LastName = "Cruz", HiringDate = DateTime.Parse("2020-07-30") },
-                    new Employee{ FirstName = "Anne", LastName = "Morgan", HiringDate = DateTime.Parse("2009-08-01") },
-                };
-
-                _context.Employees.AddRange(employees);
-                _context.SaveChanges();
-            }
-
             if (!_context.Users.Any())
             {
                 

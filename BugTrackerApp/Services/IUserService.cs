@@ -1,5 +1,4 @@
-﻿using BugTrackerApp.Core.Model.Employees;
-using BugTrackerApp.Core.Model.Users;
+﻿using BugTrackerApp.Core.Model.Users;
 
 namespace BugTrackerApp.Services
 {

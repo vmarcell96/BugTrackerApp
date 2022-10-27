@@ -1,5 +1,4 @@
-﻿using BugTrackerApp.Core.Model.Employees;
-using BugTrackerApp.Core.Model.RefreshTokens;
+﻿using BugTrackerApp.Core.Model.RefreshTokens;
 using BugTrackerApp.Data.Entity;
 
 namespace BugTrackerApp.Services
