@@ -1,8 +1,8 @@
-# EmployeeManagementApp
+# BugTrackerApp
 
 # Description
 
-This is a simple application for managing persisted employees with a React UI.
+This is an implementation of an issue tracker application. First it started as a simple employee manager application but later I expanded it's functionality converting it to be a bug tracker. So far only bug tracking is supported, but later i want to implement general issue tracking. 
 
 
 ## Sprints
@@ -92,7 +92,7 @@ Clone the project and navigate to the project folder
 
 Starting the backend:
 
-- Open BpRobotics.sln in Microsoft Visual studio
+- Open BugTrackerApp.sln in Microsoft Visual studio
 - Run IIS Express server
 
 
@@ -100,7 +100,7 @@ Starting frontend:
 Go back to the root directory of the repository and navigate to:
 
 ```bash
-  cd .\EmployeeManagementApp\EmployeeManagementApp\ClientApp\manager-app
+  cd .\EmployeeManagementApp\BugTrackerApp\ClientApp\manager-app
 ```
 
 Install packages
