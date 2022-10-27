@@ -1,6 +1,6 @@
 using AutoFixture;
 using BugTrackerApp.Controllers;
-using BugTrackerApp.Core.Model.Employees;
+using BugTrackerApp.Core.Model.Users;
 using BugTrackerApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -10,35 +10,35 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EmployeeManagerApp.Test
+namespace BugTrackerApp.Test
 {
     [TestClass]
-    public class EmployeesControllerTests
+    public class UsersControllerTests
     {
-        private Mock<IEmployeeService> _employeeServiceMock;
-        private Mock<ILogger<EmployeesController>> _logger;
+        private Mock<IUserService> _UserServiceMock;
+        private Mock<ILogger<UsersController>> _logger;
         private Fixture _fixture;
-        private EmployeesController _controller;
+        private UsersController _controller;
 
-        public EmployeesControllerTests()
+        public UsersControllerTests()
         {
             _fixture = new Fixture();
-            _employeeServiceMock = new Mock<IEmployeeService>();
-            _logger = new Mock<ILogger<EmployeesController>>();
+            _UserServiceMock = new Mock<IUserService>();
+            _logger = new Mock<ILogger<UsersController>>();
         }
 
         [TestMethod]
-        public async Task ListEmployees_ReturnsOk()
+        public async Task ListUsers_ReturnsOk()
         {
             // Arrange
-            var employeeViews = _fixture.CreateMany<EmployeeViewDto>(5).ToList();
+            var UserViews = _fixture.CreateMany<UserViewDto>(5).ToList();
 
-            _employeeServiceMock.Setup(x => x.GetAllEmployees()).Returns(Task.Run(() => employeeViews));
+            _UserServiceMock.Setup(x => x.GetAllUsers()).Returns(Task.Run(() => UserViews));
 
-            _controller = new EmployeesController(_employeeServiceMock.Object, _logger.Object);
+            _controller = new UsersController(_UserServiceMock.Object, _logger.Object);
 
             // Act
-            var result = await _controller.ListEmployees();
+            var result = await _controller.ListUsers();
 
             var obj = result as ObjectResult;
 
@@ -47,15 +47,15 @@ namespace EmployeeManagerApp.Test
         }
 
         [TestMethod]
-        public async Task ListEmployees_ThrowsException()
+        public async Task ListUsers_ThrowsException()
         {
             // Arrange
-            _employeeServiceMock.Setup(x => x.GetAllEmployees()).Throws(new Exception());
+            _UserServiceMock.Setup(x => x.GetAllUsers()).Throws(new Exception());
 
-            _controller = new EmployeesController(_employeeServiceMock.Object, _logger.Object);
+            _controller = new UsersController(_UserServiceMock.Object, _logger.Object);
 
             // Act
-            var result = await _controller.ListEmployees();
+            var result = await _controller.ListUsers();
 
             var obj = result as ObjectResult;
 
@@ -64,19 +64,19 @@ namespace EmployeeManagerApp.Test
         }
 
         [TestMethod]
-        public async Task AddEmployee_ReturnsOk()
+        public async Task AddUser_ReturnsOk()
         {
             // Arrange
-            var employeeCreateDto = _fixture.Create<EmployeeCreateDto>();
+            var UserCreateDto = _fixture.Create<UserCreateDto>();
 
-            var employeeViewDto = _fixture.Create<EmployeeViewDto>();
+            var UserViewDto = _fixture.Create<UserViewDto>();
 
-            _employeeServiceMock.Setup(x => x.AddNewEmployee(employeeCreateDto)).Returns(Task.Run(() => employeeViewDto));
+            _UserServiceMock.Setup(x => x.AddNewUser(UserCreateDto)).Returns(Task.Run(() => UserViewDto));
 
-            _controller = new EmployeesController(_employeeServiceMock.Object, _logger.Object);
+            _controller = new UsersController(_UserServiceMock.Object, _logger.Object);
 
             // Act
-            var result = await _controller.AddEmployee(employeeCreateDto);
+            var result = await _controller.AddUser(UserCreateDto);
 
             var obj = result as ObjectResult;
 
@@ -85,19 +85,19 @@ namespace EmployeeManagerApp.Test
         }
 
         [TestMethod]
-        public async Task UpdateEmployee_ReturnsOk()
+        public async Task UpdateUser_ReturnsOk()
         {
             // Arrange
-            var employeeUpdateDto = _fixture.Create<EmployeeUpdateDto>();
+            var UserUpdateDto = _fixture.Create<UserUpdateDto>();
 
-            var employeeViewDto = _fixture.Create<EmployeeViewDto>();
+            var UserViewDto = _fixture.Create<UserViewDto>();
 
-            _employeeServiceMock.Setup(x => x.UpdateEmployee(employeeUpdateDto)).Returns(Task.Run(() => employeeViewDto));
+            _UserServiceMock.Setup(x => x.UpdateUser(UserUpdateDto)).Returns(Task.Run(() => UserViewDto));
 
-            _controller = new EmployeesController(_employeeServiceMock.Object, _logger.Object);
+            _controller = new UsersController(_UserServiceMock.Object, _logger.Object);
 
             // Act
-            var result = await _controller.UpdateEmployee(employeeUpdateDto);
+            var result = await _controller.UpdateUser(UserUpdateDto);
 
             var obj = result as ObjectResult;
 
@@ -106,17 +106,17 @@ namespace EmployeeManagerApp.Test
         }
 
         [TestMethod]
-        public async Task DeleteEmployee_ReturnsOk()
+        public async Task DeleteUser_ReturnsOk()
         {
             // Arrange
             var id = _fixture.Create<int>();
 
-            _employeeServiceMock.Setup(x => x.DeleteEmployeeById(id)).Returns(Task.CompletedTask);
+            _UserServiceMock.Setup(x => x.DeleteUserById(id)).Returns(Task.CompletedTask);
 
-            _controller = new EmployeesController(_employeeServiceMock.Object, _logger.Object);
+            _controller = new UsersController(_UserServiceMock.Object, _logger.Object);
 
             // Act
-            var result = await _controller.DeleteEmployee(id);
+            var result = await _controller.DeleteUser(id);
 
             var obj = result as ObjectResult;
 
@@ -125,18 +125,18 @@ namespace EmployeeManagerApp.Test
         }
 
         [TestMethod]
-        public async Task GetEmployeeById_ReturnsOk()
+        public async Task GetUserById_ReturnsOk()
         {
             // Arrange
-            var employeeView = _fixture.Create<EmployeeViewDto>();
+            var UserView = _fixture.Create<UserViewDto>();
             var id = _fixture.Create<int>();
 
-            _employeeServiceMock.Setup(x => x.GetEmployeeById(id)).Returns(Task.Run(() => employeeView));
+            _UserServiceMock.Setup(x => x.GetUserById(id)).Returns(Task.Run(() => UserView));
 
-            _controller = new EmployeesController(_employeeServiceMock.Object, _logger.Object);
+            _controller = new UsersController(_UserServiceMock.Object, _logger.Object);
 
             // Act
-            var result = await _controller.GetEmployeeById(id);
+            var result = await _controller.GetUserById(id);
 
             var obj = result as ObjectResult;
 

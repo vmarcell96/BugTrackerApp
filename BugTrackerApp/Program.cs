@@ -41,13 +41,11 @@ builder.Services.AddDbContext<BugTrackerAppContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add data repository services
-builder.Services.AddTransient<IRepository<Employee>, EmployeeRepository>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IProjectRepository, ProjectRepository>();
 builder.Services.AddTransient<IRefreshTokenRepository, RefreshTokenRepository>();
 
 // Add data logic services
-builder.Services.AddTransient<IEmployeeService, EmployeeService>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IProjectService, ProjectService>();
 builder.Services.AddTransient<IRefreshTokenService, RefreshTokenService>();

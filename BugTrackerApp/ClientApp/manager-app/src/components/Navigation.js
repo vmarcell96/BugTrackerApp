@@ -25,13 +25,7 @@ const Navigation = () => {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav" className=''>
                 <Nav className="me-auto">
-
-                    {auth &&
-                        <LinkContainer to="/employees">
-                            <Nav.Link className="mt-1 nav-item align-self-center" >
-                                Employees
-                            </Nav.Link>
-                        </LinkContainer>}
+                    
                     {auth && auth.role === "Admin" &&
                         <LinkContainer to="/users">
                             <Nav.Link className="mt-1 nav-item align-self-center">
