@@ -1,7 +1,6 @@
 using BugTrackerApp.Core.Model.AuthenticationModels;
 using BugTrackerApp.Data;
 using BugTrackerApp.Data.Entity;
-using BugTrackerApp.Data.Repositories;
 using BugTrackerApp.Services;
 using BugTrackerApp.Services.Authenticator;
 using BugTrackerApp.Services.PasswordHashers;
@@ -39,11 +38,6 @@ builder.Services.AddSwaggerGen();
 // Add datastore service
 builder.Services.AddDbContext<BugTrackerAppContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-// Add data repository services
-builder.Services.AddTransient<IUserRepository, UserRepository>();
-builder.Services.AddTransient<IProjectRepository, ProjectRepository>();
-builder.Services.AddTransient<IRefreshTokenRepository, RefreshTokenRepository>();
 
 // Add data logic services
 builder.Services.AddTransient<IUserService, UserService>();
