@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BugTrackerApp.Core.Model.Projects
 {
-    public class ProjectCreateDto
+    public class ProjectUpdateDto
     {
         [Required]
         public string Name { get; set; }
@@ -17,6 +17,6 @@ namespace BugTrackerApp.Core.Model.Projects
         [Required]
         public bool IsPublic { get; set; }
         [Required]
-        public int CreatorId { get; set; }
+        public int ProjectId { get; set; }
     }
 }

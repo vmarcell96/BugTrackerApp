@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BugTrackerApp.Core.Model.Users
 {
-    public class UserUpdateDto
+    public class UserUpdateAdminDto
     {
         [Required]
         public int Id { get; set; }
@@ -18,6 +18,6 @@ namespace BugTrackerApp.Core.Model.Users
         [Required]
         public string UserName { get; set; }
         [Required]
-        public string Password { get; set; }
+        public string Role { get; set; }
     }
 }

@@ -8,7 +8,7 @@ import useRefreshToken from "./useRefreshToken";
 
 const useAxiosFunction = () => {
 
-  const [response, setResponse] = useState([]);
+  const [response, setResponse] = useState();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [controller, setController] = useState();
@@ -45,7 +45,7 @@ const useAxiosFunction = () => {
             return axiosInstance(prevRequest);
           }
           else if (error.response.status === 400) {
-            flash("Server failed to load resources.");
+            flash(error.response.data);
           }
           else if (error.response.status === 401) {
             flash("Your session has expired.");
@@ -58,9 +58,6 @@ const useAxiosFunction = () => {
           }
           else if (error.response.status === 404) {
             flash("Not found.");
-          }
-          else if (error.response.status === 500) {
-            flash("Server error.");
           }
           else {
             flash("Something went wrong.");
@@ -79,11 +76,12 @@ const useAxiosFunction = () => {
         signal: ctrl.signal,
       });
 
-      // console.log(res);
       setResponse(res.data);
-
+      
       axiosInstance.interceptors.request.eject(requestIntercept);
       axiosInstance.interceptors.response.eject(responseIntercept);
+
+      return res.data;
 
     } catch (err) {
 
@@ -91,7 +89,6 @@ const useAxiosFunction = () => {
       setError(err.meassage);
 
     } finally {
-
       setLoading(false);
     }
   };
@@ -101,7 +98,7 @@ const useAxiosFunction = () => {
     return () => controller && controller.abort();
   }, [controller]);
 
-  return [response, setResponse, error, loading, axiosFetch];
+  return { response, setResponse, error, loading, axiosFetch };
 };
 
 export default useAxiosFunction;

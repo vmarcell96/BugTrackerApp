@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BugTrackerApp.Data.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,9 @@ namespace BugTrackerApp.Core.Model.Users
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Role { get; set; }
-        public List<int> ContributedProjects { get; set; }
+
+        public List<int> asd = new List<int>();
+
+        public IReadOnlyList<Project> ContributedProjects = new List<Project>();
     }
 }

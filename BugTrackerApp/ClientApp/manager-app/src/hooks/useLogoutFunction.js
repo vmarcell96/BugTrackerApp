@@ -8,7 +8,7 @@ import axios from "../apis/axiosInstance";
 
 const useLogoutFunction = () => {
     const navigate = useNavigate();
-    const [data, setData, error, loading, axiosFetch] = useAxiosFunction();
+    const {data, setData, error, loading, axiosFetch} = useAxiosFunction();
     const { setAuth, auth } = useAuth();
 
     const logout = () => {

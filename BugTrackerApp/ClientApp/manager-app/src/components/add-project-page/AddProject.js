@@ -2,7 +2,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { Button, Card, Dropdown, Container, Row, Col } from "react-bootstrap";
+import { Button, Card, Dropdown, Container, Row, Col, Modal } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 //Misc
 import axios from "../../apis/axiosInstance";
@@ -10,17 +10,25 @@ import axios from "../../apis/axiosInstance";
 import useAxiosFunction from "../../hooks/useAxiosFunction";
 import useAuth from "../../hooks/useAuth";
 //Css
-// import './addUser.css'
 
 function AddProject() {
-    const [projectName, setProjectName] = useState("");
-    const [desc, setDesc] = useState("");
     const [isPublic, setIsPublic] = useState(true);
-    let navigate = useNavigate();
-    const [data, setData, error, loading, axiosFetch] = useAxiosFunction();
+    const { response, error, loading, axiosFetch } = useAxiosFunction();
     const { auth } = useAuth();
+    let navigate = useNavigate();
 
-    
+    const [newProject, setNewProject] = useState({
+        name: "",
+        description: "",
+        creatorId: `${auth.id}`,
+        isPublic: isPublic,
+    });
+
+    const onChange = (e) => {
+        setNewProject({ ...newProject, [e.target.id]: e.target.value });
+    };
+
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -28,62 +36,61 @@ function AddProject() {
             axiosInstance: axios,
             method: "POST",
             url: `/api/projects/addproject`,
-            requestConfig: {
-                Name: `${projectName}`,
-                Description: `${desc}`,
-                IsPublic: true,
-                CreatorId: `${auth.id}`
-            },
+            requestConfig: newProject
         });
-        // Refactor
-        navigate(-1);
+        if (response) {
+            navigate(`/profile/${auth.id}`);
+        }
     };
 
     return (
         <Container>
             <Row>
                 <Col className="p-2 d-flex justify-content-center">
+                {!loading && !error &&
                     <Card className="form-card">
-                        <Card.Title className="page-title"><h3>Create Project</h3></Card.Title>
-                        {!loading && !error &&
+                        <Card.Header><Card.Title className="page-title"><h3>Create Project</h3></Card.Title></Card.Header>
+                        
                             <Card.Body>
-                                <Form onSubmit={(e) => { e.preventDefault(); handleSubmit(e) }} className="form">
-                                    <Form.Group className="mb-3" controlId="formBasicText">
+                                <Form onSubmit={handleSubmit} className="form">
+                                    <Form.Group className="mb-3">
                                         <Form.Label>Project Name:</Form.Label>
                                         <Form.Control
                                             type="text"
                                             placeholder="Enter project name"
+                                            id="name"
                                             required
-                                            value={projectName}
-                                            onChange={(e) => setProjectName(e.target.value)}
+                                            value={newProject.name}
+                                            onChange={onChange}
                                         />
                                     </Form.Group>
-                                    <Form.Group className="mb-3" controlId="formBasicText">
+                                    <Form.Group className="mb-3">
                                         <Form.Label>Project Description:</Form.Label>
                                         <Form.Control
                                             as="textarea"
                                             rows={4}
                                             placeholder="Enter project description"
+                                            id="description"
                                             required
-                                            value={desc}
-                                            onChange={(e) => setDesc(e.target.value)}
+                                            value={newProject.description}
+                                            onChange={onChange}
                                         />
                                     </Form.Group>
-                                    <Form.Group className="mb-3 form-check form-switch" controlId="formBasicText">
+                                    <Form.Group className="mb-3 form-check form-switch">
                                         <Form.Control
                                             type="checkbox"
                                             className="form-check-input"
+                                            id="isPublic"
                                             value={isPublic}
-                                            onChange={(e) => {setIsPublic(prev => !prev);}}
-                                            />
-                                            <Form.Label>Private</Form.Label>
+                                            onChange={() => { setIsPublic(prev => !prev); }}
+                                        />
+                                        <Form.Label>Private</Form.Label>
                                     </Form.Group>
                                     <div className="d-flex justify-content-center">
                                         <Button className="button" type="submit">
                                             Create
                                         </Button>
                                     </div>
-
 
                                     {loading && !error &&
                                         <div className="d-flex justify-content-center">
@@ -92,8 +99,8 @@ function AddProject() {
                                             </div>
                                         </div>}
                                 </Form>
-                            </Card.Body>}
-                    </Card>
+                                </Card.Body>
+                    </Card>}
                 </Col>
             </Row>
         </Container>
