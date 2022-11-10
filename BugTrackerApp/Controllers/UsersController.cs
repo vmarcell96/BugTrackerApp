@@ -1,8 +1,12 @@
-﻿using BugTrackerApp.Core.Model.Users;
+﻿using BugTrackerApp.Core.Model;
+using BugTrackerApp.Core.Model.Users;
 using BugTrackerApp.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using BugTrackerApp.Core.Model.AuthenticationModels.Responses;
+using BugTrackerApp.Core.Model.AuthenticationModels;
+using BugTrackerApp.Services.PasswordHashers;
+using BugTrackerApp.Data.Entity;
 
 namespace BugTrackerApp.Controllers
 {
@@ -12,108 +16,140 @@ namespace BugTrackerApp.Controllers
     {
         private readonly IUserService _userService;
         private readonly ILogger<UsersController> _logger;
+        private readonly IPasswordHasher _passwordHasher;
 
-        public UsersController(IUserService userService, ILogger<UsersController> logger)
+        public UsersController(IUserService userService, ILogger<UsersController> logger, IPasswordHasher passwordHasher)
         {
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
-            _logger = logger;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _passwordHasher = passwordHasher ?? throw new ArgumentNullException(nameof(passwordHasher));
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet]
-        public async Task<IActionResult> ListUsers()
+        public async Task<IActionResult> GetAllUsers()
         {
-            try
+            Result<List<UserViewDto>> users = await _userService.GetAllUsers();
+            if (users.Failure)
             {
-                var users = await _userService.GetAllUsers();
-                return StatusCode(200, users);
+                _logger.LogError(users.Error);
+                return BadRequest(users.Error);
             }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
+            return StatusCode(200, users.Value);
         }
+
 
         //[Authorize]
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetUserById(int id)
         {
-            try
+            Result<UserViewDto> user = await _userService.GetUserById(id);
+            if (user.Failure)
             {
-                var employee = await _userService.GetUserById(id);
-                if (employee == null)
-                {
-                    return NotFound($"User with id:{id} not found");
-                }
-                return StatusCode(200, employee);
+                _logger.LogError(user.Error);
+                return BadRequest(user.Error);
             }
-            catch (Exception ex)
-            {
-                _logger.LogError($"No user found with Id: {id}.", ex);
-                return BadRequest();
-            }
+            return StatusCode(200, user.Value);
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddUser(UserCreateDto newUserDto)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    var userViewDto = await _userService.AddNewUser(newUserDto);
-                    return StatusCode(201, userViewDto);
-                }
-                else
-                {
-                    return BadRequest();
-                }
+                IEnumerable<string> errorMessages = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
+                _logger.LogError(String.Join(' ', errorMessages));
+                return BadRequest(new ErrorResponse(errorMessages));
             }
-            catch (DbUpdateException ex)
+            Result<UserViewDto> user = await _userService.AddNewUser(newUserDto);
+
+            if (user.Failure)
             {
-                _logger.LogError("Something went wrong when adding new user.");
-                return BadRequest(ex.Message);
+                _logger.LogError(user.Error);
+                return BadRequest(user.Error);
             }
+            return StatusCode(201, user.Value);
         }
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            try
+            Result user = await _userService.DeleteUserById(id);
+            if (user.Failure)
             {
-                await _userService.DeleteUserById(id);
-                return StatusCode(200, true);
+                _logger.LogError(user.Error);
+                return BadRequest(user.Error);
             }
-            catch (InvalidOperationException ex)
-            {
-                _logger.LogError($"No user found with Id: {id}.", ex);
-                return NotFound($"User with Id:{id} not found.");
-            }
+            return StatusCode(200);
         }
 
-        [Authorize]
+        //[Authorize]
+        [Route("Update")]
         [HttpPut]
         public async Task<IActionResult> UpdateUser(UserUpdateDto userUpdateDto)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    var updateduserDto = await _userService.UpdateUser(userUpdateDto);
-                    return StatusCode(200, updateduserDto);
-                }
-                else
-                {
-                    return BadRequest();
-                }
+                IEnumerable<string> errorMessages = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
+                _logger.LogError(String.Join(' ', errorMessages));
+                return BadRequest(new ErrorResponse(errorMessages));
             }
-            catch (DbUpdateException ex)
+
+            Result<UserLoginDto> user = await _userService.GetLoginDtoByUserId(userUpdateDto.Id);
+            if (user.Failure)
             {
-                _logger.LogError($"No user found with Id: {userUpdateDto.Id}.", ex);
-                return NotFound($"User with Id:{userUpdateDto.Id} not found.");
+                _logger.LogError(user.Error);
+                return BadRequest(user.Error);
             }
+
+            bool isCorrectPassword = _passwordHasher.VerifyPassword(userUpdateDto.Password, user.Value.HashedPassword);
+
+            if (!isCorrectPassword)
+            {
+                _logger.LogError($"Cannot update user(id={userUpdateDto.Id}), Incorrect password.");
+                return Unauthorized($"Cannot update user(id={userUpdateDto.Id}), Incorrect password.");
+            }
+            Result<UserViewDto> updatedUser = await _userService.UpdateUser(userUpdateDto);
+
+            if (updatedUser.Failure)
+            {
+                _logger.LogError(updatedUser.Error);
+                return BadRequest(updatedUser.Error);
+            }
+            return StatusCode(200, updatedUser.Value);
+        }
+
+
+        //Admin roled users can change a user's role too on contrary with user roled users who can only change username,firstname,lastname
+        //[Authorize(Roles = "Admin")]
+        [Route("AdminUpdate")]
+        [HttpPut]
+        public async Task<IActionResult> UpdateUserWithAdminUser(UserUpdateAdminDto userUpdateAdminDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                IEnumerable<string> errorMessages = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
+                _logger.LogError(String.Join(' ', errorMessages));
+                return BadRequest(new ErrorResponse(errorMessages));
+            }
+
+            Result<UserLoginDto> user = await _userService.GetLoginDtoByUserId(userUpdateAdminDto.Id);
+            if (user.Failure)
+            {
+                _logger.LogError(user.Error);
+                return BadRequest(user.Error);
+            }
+
+            Result<UserViewDto> updatedUser = await _userService.UpdateUserWithAdmin(userUpdateAdminDto);
+
+            if (updatedUser.Failure)
+            {
+                _logger.LogError(updatedUser.Error);
+                return BadRequest(updatedUser.Error);
+            }
+            return StatusCode(200, updatedUser.Value);
         }
     }
 }

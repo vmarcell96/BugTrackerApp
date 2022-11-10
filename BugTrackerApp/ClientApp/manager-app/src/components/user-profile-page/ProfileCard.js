@@ -4,7 +4,7 @@ import { faGithubSquare, faTwitterSquare, faInstagramSquare, faFacebookSquare } 
 import pic from "./def2.jpg"
 import { faLinkedin } from '@fortawesome/free-brands-svg-icons'
 import { faMailBulk } from '@fortawesome/free-solid-svg-icons'
-import { Button, Card, Container, Row, Col } from 'react-bootstrap';
+import { Button, Card } from 'react-bootstrap';
 
 const ProfileCard = (props) => {
 

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BugTrackerApp.Data.Migrations
 {
     [DbContext(typeof(BugTrackerAppContext))]
-    [Migration("20221024182224_BugAssigneeChange")]
-    partial class BugAssigneeChange
+    [Migration("20221102182325_UserViewDtoHasProjectField")]
+    partial class UserViewDtoHasProjectField
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -42,6 +42,9 @@ namespace BugTrackerApp.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsFixed")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("PostDate")
                         .HasColumnType("datetime2");
 
@@ -60,30 +63,6 @@ namespace BugTrackerApp.Data.Migrations
                     b.HasIndex("ProjectId");
 
                     b.ToTable("Bug");
-                });
-
-            modelBuilder.Entity("BugTrackerApp.Data.Entity.Employee", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("HiringDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("BugTrackerApp.Data.Entity.Project", b =>
@@ -189,10 +168,6 @@ namespace BugTrackerApp.Data.Migrations
 
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");

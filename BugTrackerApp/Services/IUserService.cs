@@ -1,19 +1,23 @@
-﻿using BugTrackerApp.Core.Model.Users;
+﻿using BugTrackerApp.Core.Model;
+using BugTrackerApp.Core.Model.Users;
 
 namespace BugTrackerApp.Services
 {
     public interface IUserService
     {
-        public Task<List<UserViewDto>> GetAllUsers();
+        Task<Result<List<UserViewDto>>> GetAllUsers();
 
-        public Task<UserViewDto> AddNewUser(UserCreateDto newUserDto);
+        Task<Result<UserViewDto>> AddNewUser(UserCreateDto newUserDto);
 
-        public Task<UserViewDto> GetUserById(int userId);
+        Task<Result<UserViewDto>> GetUserById(int userId);
 
-        public Task DeleteUserById(int userId);
+        Task<Result> DeleteUserById(int userId);
 
-        public Task<UserViewDto> UpdateUser(UserUpdateDto userUpdateDto);
+        Task<Result<UserViewDto>> UpdateUser(UserUpdateDto userUpdateDto);
 
-        public Task<UserLoginDto> GetLoginDtoByUserName(string username);
+        Task<Result<UserLoginDto>> GetLoginDtoByUserName(string username);
+
+        Task<Result<UserLoginDto>> GetLoginDtoByUserId(int userId);
+        Task<Result<UserViewDto>> UpdateUserWithAdmin(UserUpdateAdminDto userUpdateAdminDto);
     }
 }

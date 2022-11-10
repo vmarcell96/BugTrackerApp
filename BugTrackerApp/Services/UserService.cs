@@ -1,54 +1,272 @@
 ﻿using BugTrackerApp.Core.Extensions;
+using BugTrackerApp.Core.Model;
 using BugTrackerApp.Core.Model.Users;
+using BugTrackerApp.Data;
 using BugTrackerApp.Data.Entity;
-using BugTrackerApp.Data.Repositories;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using System.Data.Entity.Core;
+using System.Data.Entity.Validation;
 
 namespace BugTrackerApp.Services
 {
     public class UserService : IUserService
     {
-        private IUserRepository _userRepository;
+        private readonly BugTrackerAppContext _context;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(BugTrackerAppContext context)
         {
-            _userRepository = userRepository;
+            _context = context;
+        }
+        public async Task<Result<List<UserViewDto>>> GetAllUsers()
+        {
+            try
+            {
+                var users = await _context.Users
+                    .Include(u => u.ContributedProjects)
+                    .ThenInclude(p => p.TeamMembers)
+                    .AsNoTracking().ToListAsync();
+
+                return Result.Ok(users.ToUserViewDto());
+            }
+            catch (SqlException e)
+            {
+                return Result.Fail<List<UserViewDto>>(e.Message);
+            }
+            catch (Exception e)
+            {
+                return Result.Fail<List<UserViewDto>>(e.Message);
+            }
+
+        }
+        public async Task<Result<UserViewDto>> GetUserById(int userId)
+        {
+            try
+            {
+                var user = await _context.Users
+                    .Include(u => u.ContributedProjects)
+                    .ThenInclude(p => p.TeamMembers)
+                    .SingleOrDefaultAsync(user => user.Id == userId);
+                if (user == null)
+                {
+                    return Result.Fail<UserViewDto>($"User with id={userId} not found.");
+                }
+                return Result.Ok(user.ToUserViewDto());
+            }
+            catch (SqlException e)
+            {
+                return Result.Fail<UserViewDto>(e.Message);
+            }
+            catch (Exception e)
+            {
+                return Result.Fail<UserViewDto>(e.Message);
+            }
+
         }
 
-        public async Task<UserViewDto> AddNewUser(UserCreateDto newUserDto)
+        public async Task<Result<UserViewDto>> AddNewUser(UserCreateDto newUserDto)
         {
-            User entity = newUserDto.ToUserEntity();
-            await _userRepository.Add(entity);
-            return entity.ToUserViewDto();
+            try
+            {
+                User entity = newUserDto.ToUserEntity();
+                await _context.Users.AddAsync(entity);
+                await _context.SaveChangesAsync();
+                return Result.Ok(entity.ToUserViewDto());
+            }
+            catch (SqlException e)
+            {
+                return Result.Fail<UserViewDto>(e.Message);
+            }
+            catch (DbUpdateException e)
+            {
+                return Result.Fail<UserViewDto>(e.Message);
+            }
+            catch (EntityCommandExecutionException e)
+            {
+                return Result.Fail<UserViewDto>(e.Message);
+            }
+            catch (DbEntityValidationException e)
+            {
+                return Result.Fail<UserViewDto>(e.Message);
+            }
+            catch (Exception e)
+            {
+                return Result.Fail<UserViewDto>(e.Message);
+            }
+            
         }
 
-        public async Task DeleteUserById(int userId)
+        public async Task<Result> DeleteUserById(int userId)
         {
-            await _userRepository.Delete(userId);
+            try
+            {
+                var user = await _context.Users
+                    .Include(u => u.ContributedProjects)
+                    .ThenInclude(p => p.TeamMembers)
+                    .SingleOrDefaultAsync(user => user.Id == userId);
+                if (user == null)
+                {
+                    return Result.Fail<UserViewDto>($"User with id={userId} not found.");
+                }
+                _context.Users.Remove(user);
+                await _context.SaveChangesAsync();
+                return Result.Ok();
+            }
+            catch (SqlException e)
+            {
+                return Result.Fail(e.Message);
+            }
+            catch (DbUpdateException e)
+            {
+                return Result.Fail(e.Message);
+            }
+            catch (EntityCommandExecutionException e)
+            {
+                return Result.Fail(e.Message);
+            }
+            catch (DbEntityValidationException e)
+            {
+                return Result.Fail(e.Message);
+            }
+            catch (Exception e)
+            {
+                return Result.Fail(e.Message);
+            }
         }
 
-        public async Task<List<UserViewDto>> GetAllUsers()
+
+
+
+        public async Task<Result<UserLoginDto>> GetLoginDtoByUserName(string userName)
         {
-            var users = await _userRepository.GetAll();
-            return users.ToUserViewDto();
+            try
+            {
+                var user = await _context.Users
+                    .Include(u => u.ContributedProjects)
+                    .ThenInclude(p => p.TeamMembers)
+                    .SingleOrDefaultAsync(user => user.UserName == userName);
+                if (user == null)
+                {
+                    return Result.Fail<UserLoginDto>($"User with username={userName} not found.");
+                }
+
+                return Result.Ok(user.ToUserLoginDto());
+            }
+            catch (SqlException e)
+            {
+                return Result.Fail<UserLoginDto>(e.Message);
+            }
+            catch (Exception e)
+            {
+                return Result.Fail<UserLoginDto>(e.Message);
+            }
         }
 
-        public async Task<UserViewDto> GetUserById(int userId)
+        public async Task<Result<UserLoginDto>> GetLoginDtoByUserId(int userId)
         {
-            var entity = await _userRepository.Get(userId);
-            return entity.ToUserViewDto();
+            try
+            {
+                var user = await _context.Users
+                    .Include(u => u.ContributedProjects)
+                    .ThenInclude(p => p.TeamMembers)
+                    .SingleOrDefaultAsync(user => user.Id == userId);
+                if (user == null)
+                {
+                    return Result.Fail<UserLoginDto>($"User with id={userId} not found.");
+                }
+
+                return Result.Ok(user.ToUserLoginDto());
+            }
+            catch (SqlException e)
+            {
+                return Result.Fail<UserLoginDto>(e.Message);
+            }
+            catch (Exception e)
+            {
+                return Result.Fail<UserLoginDto>(e.Message);
+            }
         }
 
-        public async Task<UserViewDto> UpdateUser(UserUpdateDto userUpdateDto)
+        public async Task<Result<UserViewDto>> UpdateUserWithAdmin(UserUpdateAdminDto userUpdateAdminDto)
         {
-            var entity = await _userRepository.Update(userUpdateDto.ToUserEntity());
-            return entity.ToUserViewDto();
+            try
+            {
+                var user = await _context.Users
+                    .Include(u => u.ContributedProjects)
+                    .ThenInclude(p => p.TeamMembers)
+                    .SingleOrDefaultAsync(user => user.Id == userUpdateAdminDto.Id);
+                if (user == null)
+                {
+                    return Result.Fail<UserViewDto>($"User with id={userUpdateAdminDto.Id} not found.");
+                }
+                user.UserName = userUpdateAdminDto.UserName;
+                user.FirstName = userUpdateAdminDto.FirstName;
+                user.LastName = userUpdateAdminDto.LastName;
+                user.Role = userUpdateAdminDto.Role;
+                await _context.SaveChangesAsync();
+                return Result.Ok(user.ToUserViewDto());
+
+            }
+            catch (SqlException e)
+            {
+                return Result.Fail<UserViewDto>(e.Message);
+            }
+            catch (DbUpdateException e)
+            {
+                return Result.Fail<UserViewDto>(e.Message);
+            }
+            catch (EntityCommandExecutionException e)
+            {
+                return Result.Fail<UserViewDto>(e.Message);
+            }
+            catch (DbEntityValidationException e)
+            {
+                return Result.Fail<UserViewDto>(e.Message);
+            }
+            catch (Exception e)
+            {
+                return Result.Fail<UserViewDto>(e.Message);
+            }
         }
-
-        public async Task<UserLoginDto> GetLoginDtoByUserName(string userName)
+        public async Task<Result<UserViewDto>> UpdateUser(UserUpdateDto userUpdateDto)
         {
-            var user = await _userRepository.GetByUserName(userName);
+            try
+            {
+                var user = await _context.Users
+                    .Include(u => u.ContributedProjects)
+                    .ThenInclude(p => p.TeamMembers)
+                    .SingleOrDefaultAsync(user => user.Id == userUpdateDto.Id);
+                if (user == null)
+                {
+                    return Result.Fail<UserViewDto>($"User with id={userUpdateDto.Id} not found.");
+                }
+                user.UserName = userUpdateDto.UserName;
+                user.FirstName = userUpdateDto.FirstName;
+                user.LastName = userUpdateDto.LastName;
+                await _context.SaveChangesAsync();
+                return Result.Ok(user.ToUserViewDto());
 
-            return user?.ToUserLoginDto();
+            }
+            catch (SqlException e)
+            {
+                return Result.Fail<UserViewDto>(e.Message);
+            }
+            catch (DbUpdateException e)
+            {
+                return Result.Fail<UserViewDto>(e.Message);
+            }
+            catch (EntityCommandExecutionException e)
+            {
+                return Result.Fail<UserViewDto>(e.Message);
+            }
+            catch (DbEntityValidationException e)
+            {
+                return Result.Fail<UserViewDto>(e.Message);
+            }
+            catch (Exception e)
+            {
+                return Result.Fail<UserViewDto>(e.Message);
+            }
         }
     }
 }

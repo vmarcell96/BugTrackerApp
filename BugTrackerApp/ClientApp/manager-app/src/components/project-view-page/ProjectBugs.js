@@ -1,25 +1,43 @@
+import { useState } from "react";
+import { forwardRef } from "react";
+import { useEffect } from "react";
+import { useImperativeHandle } from "react";
+import { useMemo } from "react";
 import { Table, Card, Row, Col } from "react-bootstrap"
 import { Link } from "react-router-dom"
+import BugViewModal from "./BugViewModal";
+import { useRef } from "react";
 
-const ProjectBugs = (props) => {
-    const fixedBugs = props.bugs?.filter(bug => bug.isFixed == true && bug.assigneeId != 0);
-    const unFixedBugs = props.bugs?.filter(bug => bug.isFixed == false && bug.assigneeId != 0);
-    const unassignedBugs = props.bugs?.filter(bug => bug.assigneeId == 0);
+const ProjectBugs = forwardRef(({ project, setProject }, ref) => {
 
+    const [fixedBugs, setFixedBugs] = useState([]);
+    const [unFixedBugs, setUnFixedBugs] = useState([]);
+    const [unassignedBugs, setUnassignedBugs] = useState([]);
+    const viewBugRef = useRef(null);
+
+    useEffect(() => {
+        setFixedBugs(project.bugs?.filter(bug => bug.isFixed === true && bug.assigneeId !== 0));
+        setUnFixedBugs(project.bugs?.filter(bug => bug.isFixed === false && bug.assigneeId !== 0));
+        setUnassignedBugs(project.bugs?.filter(bug => bug.assigneeId === 0));
+    }, [project]);
+
+    const handleClick = (bug) => {
+        viewBugRef.current.initBug(bug);
+        viewBugRef.current.alterShow();
+    }
 
     return (
         <>
-            {props.bugs &&
+            {project &&
                 <>
                     <Row>
                         <Col className="p-2 d-flex justify-content-center">
                             <Card className="project-card">
-                                <Card.Title className="page-title">Bugs</Card.Title>
-                                <Card.Body>
+                                <Card.Header><Card.Title className="page-title">Bugs</Card.Title></Card.Header>
+                                <Card.Body className="p-2 d-flex justify-content-center">
                                     <Table>
                                         <thead>
                                             <tr>
-                                                <th>Id</th>
                                                 <th>Title</th>
                                                 <th>Priority</th>
                                                 <th>Assigned Dev</th>
@@ -28,21 +46,25 @@ const ProjectBugs = (props) => {
                                         <tbody>
                                             {unFixedBugs?.map(bug =>
                                                 <tr key={bug.id}>
-                                                    <td>{bug.id}</td>
-                                                    <td><Link to={`/bugs/${bug.id}`} state={bug}>{bug.title}</Link></td>
+                                                    <td className="link" onClick={() => { handleClick(bug) }}>{bug.title}</td>
                                                     <td>{bug.priority}</td>
-                                                    <td><Link to={`/profile/${(props.teamMembers.find(t => t.id == bug.assigneeId)).userId}`}>{(props.teamMembers.find(t => t.id == bug.assigneeId)).userName}</Link></td>
+                                                    <td><Link className="link" to={`/profile/${(project.teamMembers.find(t => t.id == bug.assigneeId)).userId}`}>{(project.teamMembers.find(t => t.id == bug.assigneeId)).userName}</Link></td>
                                                 </tr>
                                             )}
                                         </tbody>
                                     </Table>
                                 </Card.Body>
-                                <Card.Title className="page-title">Fixed Bugs</Card.Title>
+                            </Card>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col className="p-2 d-flex justify-content-center">
+                            <Card className="project-card">
+                                <Card.Header><Card.Title className="page-title">Fixed Bugs</Card.Title></Card.Header>
                                 <Card.Body>
                                     <Table>
                                         <thead>
                                             <tr>
-                                                <th>Id</th>
                                                 <th>Title</th>
                                                 <th>Priority</th>
                                                 <th>Assigned Dev</th>
@@ -51,10 +73,9 @@ const ProjectBugs = (props) => {
                                         <tbody>
                                             {fixedBugs?.map(bug =>
                                                 <tr key={bug.id}>
-                                                    <td>{bug.id}</td>
-                                                    <td><Link to={`/bugs/${bug.id}`}>{bug.title}</Link></td>
+                                                    <td className="link" onClick={() => { handleClick(bug) }}>{bug.title}</td>
                                                     <td>{bug.priority}</td>
-                                                    <td><Link to={`/profile/${(props.teamMembers.find(t => t.id == bug.assigneeId)).userId}`}>{(props.teamMembers.find(t => t.id == bug.assigneeId)).userName}</Link></td>
+                                                    <td><Link className="link" to={`/profile/${(project.teamMembers.find(t => t.id == bug.assigneeId)).userId}`}>{(project.teamMembers.find(t => t.id == bug.assigneeId)).userName}</Link></td>
                                                 </tr>
                                             )}
                                         </tbody>
@@ -67,21 +88,19 @@ const ProjectBugs = (props) => {
                         <Row>
                             <Col className="p-2 d-flex justify-content-center">
                                 <Card className="project-card">
-                                    <Card.Title className="page-title">Unassigned Bugs</Card.Title>
+                                    <Card.Header><Card.Title className="page-title">Unassigned Bugs</Card.Title></Card.Header>
                                     <Card.Body>
                                         <Table>
                                             <thead>
                                                 <tr>
-                                                    <th>Id</th>
                                                     <th>Title</th>
                                                     <th>Priority</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {unassignedBugs?.map(bug =>
-                                                    <tr key={bug.id}>
-                                                        <td>{bug.id}</td>
-                                                        <td><Link to={`/bugs/${bug.id}`}>{bug.title}</Link></td>
+                                                {unassignedBugs?.map((bug, id) =>
+                                                    <tr key={id}>
+                                                        <td className="link" onClick={() => { handleClick(bug) }}>{bug.title}</td>
                                                         <td>{bug.priority}</td>
                                                     </tr>
                                                 )}
@@ -91,9 +110,14 @@ const ProjectBugs = (props) => {
                                 </Card>
                             </Col>
                         </Row>}
+                    <BugViewModal
+                        project={project}
+                        setProject={setProject}
+                        ref={viewBugRef}
+                    />
                 </>}
         </>
     )
-}
+});
 
 export default ProjectBugs
