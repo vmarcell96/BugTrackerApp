@@ -50,6 +50,13 @@ This is an implementation of an issue tracker application. First it started as a
 - Edit bugs
 - Implemented modals on frontend
 
+#### Sixth Sprint
+
+- change bug state to fixed
+- featured projects
+- friends for users
+- assign developers to projects, bugs
+
 ## Stack
 - ASP.NET Core
 - Entity framework
