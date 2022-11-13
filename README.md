@@ -85,6 +85,7 @@ Password: 12345678
 
 ## Production build
 
+Temporarily not working.(Azure subscription problem)
 [Deployed to Azure.](https://wonderful-water-041ca0803.2.azurestaticapps.net)(Login takes some time because of Azure's server speed)
 
 ## Run Locally
