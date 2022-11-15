@@ -5,8 +5,8 @@ using BugTrackerApp.Data;
 using BugTrackerApp.Data.Entity;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using System.Data.Entity.Core;
-using System.Data.Entity.Validation;
+//using System.Data.Entity.Core;
+//using System.Data.Entity.Validation;
 
 namespace BugTrackerApp.Services
 {
@@ -36,7 +36,7 @@ namespace BugTrackerApp.Services
             }
             catch (Exception e)
             {
-                return Result.Fail<List<ProjectViewDto>>(e.InnerException.Message);
+                return Result.Fail<List<ProjectViewDto>>(e.Message);
             }
         }
         public async Task<Result<ProjectViewDto>> GetProjectById(int projectId)
@@ -95,14 +95,14 @@ namespace BugTrackerApp.Services
             {
                 return Result.Fail<ProjectViewDto>(e.Message);
             }
-            catch (EntityCommandExecutionException e)
-            {
-                return Result.Fail<ProjectViewDto>(e.Message);
-            }
-            catch (DbEntityValidationException e)
-            {
-                return Result.Fail<ProjectViewDto>(e.Message);
-            }
+            //catch (EntityCommandExecutionException e)
+            //{
+            //    return Result.Fail<ProjectViewDto>(e.Message);
+            //}
+            //catch (DbEntityValidationException e)
+            //{
+            //    return Result.Fail<ProjectViewDto>(e.Message);
+            //}
             catch (Exception e)
             {
                 return Result.Fail<ProjectViewDto>(e.Message);

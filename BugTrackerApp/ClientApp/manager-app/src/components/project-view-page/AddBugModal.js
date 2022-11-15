@@ -1,7 +1,8 @@
 //Packages
-import { useState, forwardRef, useImperativeHandle } from "react";
+import { useState, forwardRef, useImperativeHandle, useContext } from "react";
 import { Button, Modal } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
+import { ProjectContext } from './index';
 //Misc
 import axios from "../../apis/axiosInstance";
 //Hooks
@@ -10,8 +11,9 @@ import useAuth from "../../hooks/useAuth";
 //Css
 
 
-const AddBugModal = forwardRef(({ project, setProject }, ref) => {
+const AddBugModal = forwardRef(({ }, ref) => {
 
+    const { project, setProject } = useContext(ProjectContext);
     const { error, loading, axiosFetch } = useAxiosFunction();
     const { auth } = useAuth();
 

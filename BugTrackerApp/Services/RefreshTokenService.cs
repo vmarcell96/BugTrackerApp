@@ -6,8 +6,8 @@ using BugTrackerApp.Data;
 using BugTrackerApp.Data.Entity;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using System.Data.Entity.Core;
-using System.Data.Entity.Validation;
+//using System.Data.Entity.Core;
+//using System.Data.Entity.Validation;
 
 namespace BugTrackerApp.Services
 {
@@ -38,14 +38,14 @@ namespace BugTrackerApp.Services
             {
                 return Result.Fail(e.Message);
             }
-            catch (EntityCommandExecutionException e)
-            {
-                return Result.Fail(e.Message);
-            }
-            catch (DbEntityValidationException e)
-            {
-                return Result.Fail(e.Message);
-            }
+            //catch (EntityCommandExecutionException e)
+            //{
+            //    return Result.Fail(e.Message);
+            //}
+            //catch (DbEntityValidationException e)
+            //{
+            //    return Result.Fail(e.Message);
+            //}
             catch (Exception e)
             {
                 return Result.Fail(e.Message);
@@ -56,7 +56,7 @@ namespace BugTrackerApp.Services
         {
             try
             {
-                RefreshToken refreshToken = await _context.RefreshTokens.FirstOrDefaultAsync(r => r.Id == id);
+                RefreshToken? refreshToken = await _context.RefreshTokens.FirstOrDefaultAsync(r => r.Id == id);
                 if (refreshToken == null)
                 {
                     return Result.Fail("Refresh token with the provided id not found.");
@@ -74,14 +74,6 @@ namespace BugTrackerApp.Services
             {
                 return Result.Fail(e.Message);
             }
-            catch (EntityCommandExecutionException e)
-            {
-                return Result.Fail(e.Message);
-            }
-            catch (DbEntityValidationException e)
-            {
-                return Result.Fail(e.Message);
-            }
             catch (Exception e)
             {
                 return Result.Fail(e.Message);
@@ -92,7 +84,7 @@ namespace BugTrackerApp.Services
         {
             try
             {
-                RefreshToken token = await _context.RefreshTokens.FirstOrDefaultAsync(t => t.Token == refreshToken);
+                RefreshToken? token = await _context.RefreshTokens.FirstOrDefaultAsync(t => t.Token == refreshToken);
                 if (token == null)
                 {
                     return Result.Fail<RefreshToken>("Refresh token with the provided id not found.");
@@ -122,14 +114,6 @@ namespace BugTrackerApp.Services
                 return Result.Fail(e.Message);
             }
             catch (DbUpdateException e)
-            {
-                return Result.Fail(e.Message);
-            }
-            catch (EntityCommandExecutionException e)
-            {
-                return Result.Fail(e.Message);
-            }
-            catch (DbEntityValidationException e)
             {
                 return Result.Fail(e.Message);
             }

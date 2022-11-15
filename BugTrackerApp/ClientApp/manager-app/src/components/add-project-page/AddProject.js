@@ -30,17 +30,15 @@ function AddProject() {
 
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        axiosFetch({
+        await axiosFetch({
             axiosInstance: axios,
             method: "POST",
             url: `/api/projects/addproject`,
             requestConfig: newProject
         });
-        if (response) {
-            navigate(`/profile/${auth.id}`);
-        }
+        navigate(`/profile/${auth.id}`);
     };
 
     return (

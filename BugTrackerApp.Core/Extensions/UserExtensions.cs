@@ -1,4 +1,5 @@
-﻿using BugTrackerApp.Core.Model.Users;
+﻿using BugTrackerApp.Core.Model.Projects;
+using BugTrackerApp.Core.Model.Users;
 using BugTrackerApp.Data.Entity;
 
 
@@ -27,7 +28,8 @@ namespace BugTrackerApp.Core.Extensions
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Role = user.Role,
-                ContributedProjects = user.ContributedProjects
+                ContributedProjects = user.ContributedProjects.ToProjectViewDto(),
+                Friends = user.Friends.ToUserViewDto(),
             };
         }
 
