@@ -1,4 +1,5 @@
 ﻿using BugTrackerApp.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace BugTrackerApp.Data
 {
@@ -13,7 +14,7 @@ namespace BugTrackerApp.Data
 
         public void Initialize()
         {
-            _context.Database.EnsureCreated();
+            _context.Database.Migrate();
 
             if (!_context.Users.Any())
             {
@@ -28,7 +29,8 @@ namespace BugTrackerApp.Data
                     UserName = "Admin",
                     HashedPassword = BCrypt.Net.BCrypt.HashPassword("12345678"),
                     Role = "Admin",
-                    ContributedProjects = new List<Project>()
+                    Friends = {  },
+                    ContributedProjects = {  }
             },
                 new()
                 {
@@ -37,7 +39,8 @@ namespace BugTrackerApp.Data
                     UserName = "User",
                     HashedPassword = BCrypt.Net.BCrypt.HashPassword("12345678"),
                     Role = "User",
-                    ContributedProjects = new List<Project>( )
+                    Friends = {  },
+                    ContributedProjects = {  }
                 },
                 };
 

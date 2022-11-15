@@ -2,7 +2,7 @@
 
 # Description
 
-This is an implementation of an issue tracker application. First it started as a simple employee manager application but later I expanded it's functionality converting it to be a bug tracker. So far only bug tracking is supported, but later i want to implement general issue tracking. 
+This is an implementation of an issue tracker application. First it started as a simple employee manager application but later I expanded its functionality by converting it to a bug tracker application. So far only bug tracking is supported, but later i want to implement general tasks. The application is deployed to azure, you can find the login info down, or on the homepage of the application.
 
 
 ## Sprints
@@ -39,7 +39,7 @@ This is an implementation of an issue tracker application. First it started as a
 - Project creation
 - Bug creation
 
-#### Fifth Sprint - Current
+#### Fifth Sprint
 
 - Improve Bug view page
 - Implement CI/CD pipeline
@@ -47,21 +47,31 @@ This is an implementation of an issue tracker application. First it started as a
 - Run tests in github action flow on frontend
 - Rename everything from employeemanager to Bugtracker
 - Improve error handling on backend
+- Edit bugs
+- Implemented modals on frontend
+
+#### Sixth Sprint
+
+- change bug state to fixed
+- featured projects
+- friends for users
+- assign developers to projects, bugs
 
 ## Stack
 - ASP.NET Core
 - Entity framework
 - React
+- Axios
 - Moq
 - AutoFixture
 
 ## Features
 - Login/Logout
-- CRUD operations on users and employees, when logged in with Admin role user
+- CRUD operations on users, when logged in with Admin role user
 - Protected react routes
 - Protected API routes
 - JWT access, refresh token validation
-- Persisted users,employees
+- Persisted users,projects,bugs,team members
 
 ### Login info
 
@@ -75,6 +85,7 @@ Password: 12345678
 
 ## Production build
 
+Temporarily not working.(Azure subscription problem)
 [Deployed to Azure.](https://wonderful-water-041ca0803.2.azurestaticapps.net)(Login takes some time because of Azure's server speed)
 
 ## Run Locally

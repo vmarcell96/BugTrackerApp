@@ -1,11 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using System.ComponentModel.DataAnnotations;
 namespace BugTrackerApp.Data.Entity
 {
     public class User
@@ -22,6 +15,21 @@ namespace BugTrackerApp.Data.Entity
         [Required]
         public string Role { get; set; }
 
-        public List<Project> ContributedProjects { get; set; }
+        private readonly List<Project> _contributedProjects;
+        private List<User> _friends;
+        public List<Project> ContributedProjects => _contributedProjects;
+        public List<User> Friends => _friends;
+
+        public void AddContributedProject(Project project)
+        {
+            _contributedProjects.Add(project);
+        }
+        public void AddFriend(User user)
+        {
+            this._friends.Add(user);
+        }
+
+
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using BugTrackerApp.Core.Model.Users;
+﻿using BugTrackerApp.Core.Model.Projects;
+using BugTrackerApp.Core.Model.Users;
 using BugTrackerApp.Data.Entity;
 
 
@@ -15,18 +16,6 @@ namespace BugTrackerApp.Core.Extensions
                 LastName = userCreateData.LastName,
                 HashedPassword = BCrypt.Net.BCrypt.HashPassword(userCreateData.Password),
                 Role = userCreateData.Role,
-                ContributedProjects = new List<Project>()
-            };
-        }
-        public static User ToUserEntity(this UserUpdateDto userUpdateData)
-        {
-            return new User
-            {
-                Id = userUpdateData.Id,
-                FirstName = userUpdateData.FirstName,
-                LastName = userUpdateData.LastName,
-                HashedPassword = BCrypt.Net.BCrypt.HashPassword(userUpdateData.Password),
-                ContributedProjects = new List<Project>()
             };
         }
 
@@ -39,6 +28,8 @@ namespace BugTrackerApp.Core.Extensions
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Role = user.Role,
+                ContributedProjects = user.ContributedProjects.ToProjectViewDto(),
+                Friends = user.Friends.ToUserViewDto(),
             };
         }
 
@@ -88,7 +79,6 @@ namespace BugTrackerApp.Core.Extensions
             return new UserTeamMember
             {
                 UserId = user.Id,
-                Role = user.Role,
                 UserName = user.UserName,
                 FirstName = user.FirstName,
                 LastName = user.LastName,

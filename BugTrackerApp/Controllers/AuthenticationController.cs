@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using BugTrackerApp.Core.Extensions;
+using BugTrackerApp.Core.Model;
 using BugTrackerApp.Core.Model.AuthenticationModels;
 using BugTrackerApp.Core.Model.AuthenticationModels.Requests;
 using BugTrackerApp.Core.Model.AuthenticationModels.Responses;
@@ -22,13 +23,19 @@ namespace BugTrackerApp.Controllers
         private readonly IPasswordHasher _passwordHasher;
         private readonly Authenticator _authenticator;
         private readonly IRefreshTokenService _refreshTokenService;
+        private readonly ILogger<AuthenticationController> _logger;
 
-        public AuthenticationController(IUserService userService, IPasswordHasher passwordHasher, Authenticator authenticator, IRefreshTokenService refreshTokenService)
+        public AuthenticationController(IUserService userService, 
+                                        IPasswordHasher passwordHasher, 
+                                        Authenticator authenticator, 
+                                        IRefreshTokenService refreshTokenService,
+                                        ILogger<AuthenticationController> logger)
         {
             _userService = userService;
             _passwordHasher = passwordHasher;
             _authenticator = authenticator;
             _refreshTokenService = refreshTokenService;
+            _logger = logger;
         }
 
         [AllowAnonymous]
@@ -38,30 +45,30 @@ namespace BugTrackerApp.Controllers
             if (!ModelState.IsValid)
             {
                 IEnumerable<string> errorMessages = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
-
+                _logger.LogError(String.Join(' ', errorMessages));
                 return BadRequest(new ErrorResponse(errorMessages));
             }
 
-            UserLoginDto user = await _userService.GetLoginDtoByUserName(loginRequest.Username);
-
-            if (user == null)
+            Result<UserLoginDto> user = await _userService.GetLoginDtoByUserName(loginRequest.Username);
+            if (user.Error != String.Empty)
             {
-                return Unauthorized("User does not exist");
+                _logger.LogError(user.Error);
+                return BadRequest(user.Error);
             }
 
-            bool isCorrectPassword = _passwordHasher.VerifyPassword(loginRequest.Password, user.HashedPassword);
+            bool isCorrectPassword = _passwordHasher.VerifyPassword(loginRequest.Password, user.Value.HashedPassword);
 
             if (!isCorrectPassword)
             {
                 return Unauthorized("Incorrect password");
             }
 
-            AuthenticatedUserResponse response = _authenticator.Authenticate(user.ToUserAuthenticationDto());
+            AuthenticatedUserResponse response = _authenticator.Authenticate(user.Value.ToUserAuthenticationDto());
 
             RefreshTokenCreateDto newRefreshToken = new RefreshTokenCreateDto()
             {
                 Token = response.RefreshToken,
-                UserId = user.Id,
+                UserId = user.Value.Id,
             };
 
             await _refreshTokenService.AddNewRefreshToken(newRefreshToken);
@@ -77,7 +84,7 @@ namespace BugTrackerApp.Controllers
             if (!ModelState.IsValid)
             {
                 IEnumerable<string> errorMessages = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
-
+                _logger.LogError(String.Join(' ', errorMessages));
                 return BadRequest(new ErrorResponse(errorMessages));
             }
 
@@ -85,40 +92,55 @@ namespace BugTrackerApp.Controllers
 
             if (!isValidRefreshToken)
             {
+                _logger.LogError("Invalid refresh token!");
                 return BadRequest(new ErrorResponse("Invalid refresh token!"));
             }
 
-            RefreshToken refreshToken = await _refreshTokenService.GetByRefreshToken(refreshRequest.RefreshToken);
+            Result<RefreshToken> refreshTokenResult = await _refreshTokenService.GetByRefreshToken(refreshRequest.RefreshToken);
 
-            if (refreshToken == null)
+            if (refreshTokenResult.Error != String.Empty)
             {
-                return NotFound(new ErrorResponse("Invalid refresh token!"));
+                _logger.LogError(refreshTokenResult.Error);
+                return NotFound(refreshTokenResult.Error);
             }
 
-            UserViewDto user = await _userService.GetUserById(refreshToken.UserId);
+            Result<UserViewDto> userResult = await _userService.GetUserById(refreshTokenResult.Value.UserId);
 
-            await _refreshTokenService.Delete(refreshToken.Id);
-
-            if (user == null)
+            if (userResult.Error != String.Empty)
             {
-                return NotFound(new ErrorResponse("User not found."));
+                _logger.LogError(userResult.Error);
+                return BadRequest(userResult.Error);
             }
 
-            AuthenticatedUserResponse response = _authenticator.Authenticate(user.ToUserAuthenticationDto());
+            Result deleteResult = await _refreshTokenService.Delete(refreshTokenResult.Value.Id);
+
+            if (deleteResult.Error != String.Empty)
+            {
+                _logger.LogError(deleteResult.Error);
+                return BadRequest(deleteResult.Error);
+            }
+
+            AuthenticatedUserResponse response = _authenticator.Authenticate(userResult.Value.ToUserAuthenticationDto());
 
             RefreshTokenCreateDto newRefreshToken = new RefreshTokenCreateDto()
             {
                 Token = response.RefreshToken,
-                UserId = user.Id,
+                UserId = userResult.Value.Id,
             };
 
-            await _refreshTokenService.AddNewRefreshToken(newRefreshToken);
+            var addRefreshTokenResult = await _refreshTokenService.AddNewRefreshToken(newRefreshToken);
+
+            if (addRefreshTokenResult.Error != String.Empty)
+            {
+                _logger.LogError(addRefreshTokenResult.Error);
+                return BadRequest(addRefreshTokenResult.Error);
+            }
 
             return Ok(response);
         }
 
         //This way if a refresh token gets stolen you can invalidate all with logging out
-        [Authorize]
+        //[Authorize]
         [HttpDelete("logout")]
         public async Task<IActionResult> Logout()
         {
@@ -128,7 +150,13 @@ namespace BugTrackerApp.Controllers
                 return Unauthorized();
             }
 
-            await _refreshTokenService.DeleteAll(userId);
+            var deleteResult = await _refreshTokenService.DeleteAll(userId);
+
+            if (deleteResult.Error != String.Empty)
+            {
+                _logger.LogError(deleteResult.Error);
+                return BadRequest(deleteResult.Error);
+            }
 
             return NoContent();
         }

@@ -159,7 +159,7 @@ namespace BugTrackerApp.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserName")
+                    b.Property<string>("usen")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -191,7 +191,7 @@ namespace BugTrackerApp.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserName")
+                    b.Property<string>("usen")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

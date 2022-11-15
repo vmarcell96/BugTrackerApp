@@ -1,0 +1,108 @@
+
+
+.pic {
+  width: 100%;
+  height: auto;
+  max-width:300px;
+  border-radius: 10px 10px 0px 0px;
+  margin-bottom: 0px;
+}
+
+.infopart {
+  margin-top: 20px;
+  background-color: white;
+  text-align: center;
+}
+
+#name {
+  margin-top: 5px;
+  margin-bottom: 0px;
+  font-weight: 500;
+}
+
+#profession {
+  margin-top: 0px;
+  margin-bottom: 10px;
+  color: #F3BF99;
+  font-weight: 300;
+}
+
+
+#button-box {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  margin: 0px 20px;
+  gap: 20px;
+  
+}
+
+#button-box button {
+  display:flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  width: 120px;
+  height: 40px;
+  gap: 5px;
+}
+
+#email {
+  margin-top: 0px;
+  font-size: 13px;
+}
+
+.about {
+
+  background-color: white;
+  margin-bottom: 0px;
+  padding-top: 10px;
+}
+
+.about h3 {
+  padding-left: 40px;
+  padding-right: 40px;
+  margin-bottom: 0px;
+}
+
+.about p {
+  margin-top: 4px;
+  font-size: 13px;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+
+.profile-footer {
+  background-color: rgba(58, 65, 111, 0.95);
+  border-radius: 0px 0px 15px 15px;
+  margin-top: 0px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-footer .profile-footer-icon {
+  height: 30px;
+  margin: 20px 15px;
+}
+
+.profile-footer-icon {
+  font-size: 35px;
+  color: white;
+}
+
+
+.profile-card {
+  width:400px
+}
+
+
+
+
+

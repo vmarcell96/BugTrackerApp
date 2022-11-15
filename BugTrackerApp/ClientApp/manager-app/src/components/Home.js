@@ -10,8 +10,8 @@ const Home = () => {
     <Container>
       <Row>
         <Col className="">
-          <Card className="p-3">
-            <Card.Title className="page-title"><h1>Welcome to BugTracker!</h1></Card.Title>
+          <Card className="">
+            <Card.Header><Card.Title className="page-title"><h1>Welcome to BugTracker!</h1></Card.Title></Card.Header>
             <Card.Body>
             <h4 style={{ color: "rgba(58, 65, 111, 0.95)" }}>Features:</h4>
             <ul>
@@ -19,11 +19,11 @@ const Home = () => {
               <li>Persisted users,projects,bugs,team members</li>
               <li>You can create your own project</li>
               <li>You can add bugs to your projects</li>
+              <li>You can edit bugs</li>
               <li>User profile page(you can access your projects on the profile page)</li>
               <li>Protected react routes</li>
               <li>Protected API routes</li>
               <li>JWT access, refresh token validation</li>
-              <li>Login/Logout</li>
             </ul>
             <h4 style={{ color: "rgba(58, 65, 111, 0.95)" }}>Login information:</h4>
             <h6>"Admin" role user:</h6>
@@ -39,11 +39,10 @@ const Home = () => {
 
             <h4 style={{ color: "rgba(58, 65, 111, 0.95)" }}>TODO features:</h4>
             <ul>
-              <li style={{ color: "red" }}>Conversion from employee manager application to a bugtracker</li>
-              <li>Assign developers to bugs</li>
               <li>Add developers to existing project</li>
-              <li>Edit project,bug</li>
+              <li>Edit project</li>
               <li>Send notifications to users</li>
+              <li>Registration</li>
             </ul>
             </Card.Body>
           </Card>

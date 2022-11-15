@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BugTrackerApp.Core.Model.Projects;
+using BugTrackerApp.Data.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +15,9 @@ namespace BugTrackerApp.Core.Model.Users
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Role { get; set; }
-        public List<int> ContributedProjects { get; set; }
+
+        public List<ProjectViewDto> ContributedProjects;
+
+        public List<UserViewDto> Friends;
     }
 }

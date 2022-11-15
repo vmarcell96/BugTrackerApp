@@ -1,8 +1,9 @@
-﻿using BugTrackerApp.Core.Model.Projects;
+﻿using BugTrackerApp.Core.Extensions;
+using BugTrackerApp.Core.Model;
+using BugTrackerApp.Core.Model.AuthenticationModels.Responses;
+using BugTrackerApp.Core.Model.Projects;
 using BugTrackerApp.Data.Entity;
 using BugTrackerApp.Services;
-using BugTrackerApp.Services.PasswordHashers;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BugTrackerApp.Controllers
@@ -23,112 +24,126 @@ namespace BugTrackerApp.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllProjects()
         {
-            try
+            Result<List<ProjectViewDto>> projects = await _projectService.GetAllProjects();
+            if (projects.Failure)
             {
-                var projects = await _projectService.GetAllProjects();
-                return StatusCode(200, projects);
+                _logger.LogError(projects.Error);
+                return BadRequest(projects.Error);
             }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return StatusCode(200, projects.Value);
         }
 
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetProjectById(int id)
         {
-            try
+            Result<ProjectViewDto> project = await _projectService.GetProjectById(id);
+            if (project.Failure)
             {
-                var project = await _projectService.GetProjectById(id);
-                if (project == null)
-                {
-                    return NotFound($"Project not found with id:{id}");
-                }
-                return StatusCode(200, project);
+                _logger.LogError(project.Error);
+                return BadRequest(project.Error);
             }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return StatusCode(200, project.Value);
         }
 
         [Route("AddProject")]
         [HttpPost()]
         public async Task<IActionResult> AddProject(ProjectCreateDto createDto)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    var project = await _projectService.AddNewProject(createDto);
-                    if (project == null)
-                    {
-                        return NotFound($"User not found with id:{createDto.CreatorId}");
-                    }
+                IEnumerable<string> errorMessages = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
+                _logger.LogError(String.Join(' ', errorMessages));
+                return BadRequest(new ErrorResponse(errorMessages));
+            }
+            Result<ProjectViewDto> project = await _projectService.AddNewProject(createDto);
 
-                    return StatusCode(201, project);
-                }
-                else
-                {
-                    return BadRequest("Invalid ModelState");
-                }
-            }
-            catch (Exception ex)
+            if (project.Success)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(201, project.Value);
             }
+            _logger.LogError(project.Error);
+            return BadRequest(project.Error);
+
         }
 
         [Route("AddMember")]
         [HttpPost]
         public async Task<IActionResult> AddTeamMemberToProject(UserTeamMember newMember)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                var project = await _projectService.AddTeamMemberToProject(newMember);
-                return StatusCode(200, project);
+                IEnumerable<string> errorMessages = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
+                _logger.LogError(String.Join(' ', errorMessages));
+                return BadRequest(new ErrorResponse(errorMessages));
             }
-            catch (Exception ex)
+            Result<ProjectViewDto> project = await _projectService.AddTeamMemberToProject(newMember);
+
+            if (project.Failure)
             {
-                return BadRequest(ex.Message);
+                _logger.LogError(project.Error);
+                return BadRequest(project.Error);
             }
+            return StatusCode(201, project.Value);
         }
 
         [Route("AddBug")]
         [HttpPost]
         public async Task<IActionResult> AddBugToProject(Bug bug)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                var project = await _projectService.AddBugToProject(bug);
-                if (project == null)
-                {
-                    return NotFound($"Project not found with id:{bug.ProjectId}");
-                }
-                return StatusCode(200, project);
+                IEnumerable<string> errorMessages = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
+                _logger.LogError(String.Join(' ', errorMessages));
+                return BadRequest(new ErrorResponse(errorMessages));
             }
-            catch (Exception ex)
+            Result<ProjectViewDto> project = await _projectService.AddBugToProject(bug);
+
+            if (project.Failure)
             {
-                return BadRequest(ex.Message);
+                _logger.LogError(project.Error);
+                return BadRequest(project.Error);
             }
+            return StatusCode(201, project.Value);
         }
 
+        [Route("updateProject")]
         [HttpPut]
-        public async Task<IActionResult> UpdateProject(ProjectViewDto viewDto)
+        public async Task<IActionResult> UpdateProject(ProjectUpdateDto updateDto)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                var project = await _projectService.UpdateProject(viewDto);
-                if (project == null)
-                {
-                    return NotFound($"Project not found with id:{viewDto.Id}");
-                }
-                return StatusCode(200, project);
+                IEnumerable<string> errorMessages = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
+                _logger.LogError(String.Join(' ', errorMessages));
+                return BadRequest(new ErrorResponse(errorMessages));
             }
-            catch (Exception ex)
+            Result<ProjectViewDto> project = await _projectService.UpdateProject(updateDto);
+
+            if (project.Failure)
             {
-                return BadRequest(ex.Message);
+                _logger.LogError(project.Error);
+                return BadRequest(project.Error);
             }
+            return StatusCode(200, project.Value);
+        }
+
+        [Route("updateBug")]
+        [HttpPut]
+        public async Task<IActionResult> UpdateBug(Bug bug)
+        {
+            if (!ModelState.IsValid)
+            {
+                IEnumerable<string> errorMessages = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
+                _logger.LogError(String.Join(' ', errorMessages));
+                return BadRequest(new ErrorResponse(errorMessages));
+            }
+            Result<ProjectViewDto> project = await _projectService.UpdateBug(bug);
+
+            if (project.Failure)
+            {
+                _logger.LogError(project.Error);
+                return BadRequest(project.Error);
+            }
+            return StatusCode(200, project.Value);
         }
     }
 }

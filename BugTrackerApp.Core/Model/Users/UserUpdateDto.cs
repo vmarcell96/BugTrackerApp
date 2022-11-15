@@ -16,9 +16,8 @@ namespace BugTrackerApp.Core.Model.Users
         [Required]
         public string LastName { get; set; }
         [Required]
-        public string Username { get; set; }
+        public string UserName { get; set; }
         [Required]
         public string Password { get; set; }
-        public List<int> ContributedProjects { get; set; }
     }
 }

@@ -1,9 +1,4 @@
 ﻿using BugTrackerApp.Data.Entity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BugTrackerApp.Core.Model.Projects;
 
 namespace BugTrackerApp.Core.Extensions
@@ -17,8 +12,8 @@ namespace BugTrackerApp.Core.Extensions
                 Id = project.Id,
                 Name = project.Name,
                 Description = project.Description,
-                TeamMembers = project.TeamMembers,
-                Bugs = project.Bugs,
+                TeamMembers = (List<UserTeamMember>)project.TeamMembers,
+                Bugs = (List<Bug>)project.Bugs,
                 IsPublic = project.IsPublic,
                 CreatorId = project.CreatorId
             };
@@ -40,8 +35,6 @@ namespace BugTrackerApp.Core.Extensions
             {
                 Name = project.Name,
                 Description = project.Description,
-                TeamMembers = new List<UserTeamMember>(),
-                Bugs = new List<Bug>(),
                 IsPublic = project.IsPublic,
                 CreatorId = project.CreatorId
             };
@@ -49,16 +42,23 @@ namespace BugTrackerApp.Core.Extensions
 
         public static Project ToProjectEntity(this ProjectViewDto project)
         {
-            return new Project
+            Project projectEntity = new Project
             {
                 Id = project.Id,
                 Name = project.Name,
                 Description = project.Description,
-                TeamMembers = project.TeamMembers,
-                Bugs = project.Bugs,
                 IsPublic = project.IsPublic,
                 CreatorId = project.CreatorId
             };
+            foreach (var teamMemb in project.TeamMembers)
+            {
+                projectEntity.AddTeamMember(teamMemb);
+            }
+            foreach (var bug in project.Bugs)
+            {
+                projectEntity.AddBug(bug);
+            }
+            return projectEntity;
         }
     }
 }

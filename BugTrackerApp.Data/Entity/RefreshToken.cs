@@ -11,6 +11,5 @@ namespace BugTrackerApp.Data.Entity
         public int Id { get; set; }
         public string Token { get; set; }
         public int UserId { get; set; }
-
     }
 }
