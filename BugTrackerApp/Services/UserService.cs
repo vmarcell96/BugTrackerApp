@@ -5,8 +5,8 @@ using BugTrackerApp.Data;
 using BugTrackerApp.Data.Entity;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using System.Data.Entity.Core;
-using System.Data.Entity.Validation;
+//using System.Data.Entity.Core;
+//using System.Data.Entity.Validation;
 
 namespace BugTrackerApp.Services
 {
@@ -23,6 +23,7 @@ namespace BugTrackerApp.Services
             try
             {
                 var users = await _context.Users
+                    .Include(u => u.Friends)
                     .Include(u => u.ContributedProjects)
                     .ThenInclude(p => p.TeamMembers)
                     .AsNoTracking().ToListAsync();
@@ -44,9 +45,10 @@ namespace BugTrackerApp.Services
             try
             {
                 var user = await _context.Users
+                    .Include(u => u.Friends)
                     .Include(u => u.ContributedProjects)
                     .ThenInclude(p => p.TeamMembers)
-                    .SingleOrDefaultAsync(user => user.Id == userId);
+                    .SingleOrDefaultAsync(u => u.Id == userId);
                 if (user == null)
                 {
                     return Result.Fail<UserViewDto>($"User with id={userId} not found.");
@@ -81,14 +83,14 @@ namespace BugTrackerApp.Services
             {
                 return Result.Fail<UserViewDto>(e.Message);
             }
-            catch (EntityCommandExecutionException e)
-            {
-                return Result.Fail<UserViewDto>(e.Message);
-            }
-            catch (DbEntityValidationException e)
-            {
-                return Result.Fail<UserViewDto>(e.Message);
-            }
+            //catch (EntityCommandExecutionException e)
+            //{
+            //    return Result.Fail<UserViewDto>(e.Message);
+            //}
+            //catch (DbEntityValidationException e)
+            //{
+            //    return Result.Fail<UserViewDto>(e.Message);
+            //}
             catch (Exception e)
             {
                 return Result.Fail<UserViewDto>(e.Message);
@@ -101,9 +103,10 @@ namespace BugTrackerApp.Services
             try
             {
                 var user = await _context.Users
+                    .Include(u => u.Friends)
                     .Include(u => u.ContributedProjects)
                     .ThenInclude(p => p.TeamMembers)
-                    .SingleOrDefaultAsync(user => user.Id == userId);
+                    .SingleOrDefaultAsync(u => u.Id == userId);
                 if (user == null)
                 {
                     return Result.Fail<UserViewDto>($"User with id={userId} not found.");
@@ -117,14 +120,6 @@ namespace BugTrackerApp.Services
                 return Result.Fail(e.Message);
             }
             catch (DbUpdateException e)
-            {
-                return Result.Fail(e.Message);
-            }
-            catch (EntityCommandExecutionException e)
-            {
-                return Result.Fail(e.Message);
-            }
-            catch (DbEntityValidationException e)
             {
                 return Result.Fail(e.Message);
             }
@@ -142,9 +137,10 @@ namespace BugTrackerApp.Services
             try
             {
                 var user = await _context.Users
+                    .Include(u => u.Friends)
                     .Include(u => u.ContributedProjects)
                     .ThenInclude(p => p.TeamMembers)
-                    .SingleOrDefaultAsync(user => user.UserName == userName);
+                    .SingleOrDefaultAsync(u => u.UserName == userName);
                 if (user == null)
                 {
                     return Result.Fail<UserLoginDto>($"User with username={userName} not found.");
@@ -167,9 +163,10 @@ namespace BugTrackerApp.Services
             try
             {
                 var user = await _context.Users
+                    .Include(u => u.Friends)
                     .Include(u => u.ContributedProjects)
                     .ThenInclude(p => p.TeamMembers)
-                    .SingleOrDefaultAsync(user => user.Id == userId);
+                    .SingleOrDefaultAsync(u => u.Id == userId);
                 if (user == null)
                 {
                     return Result.Fail<UserLoginDto>($"User with id={userId} not found.");
@@ -192,9 +189,10 @@ namespace BugTrackerApp.Services
             try
             {
                 var user = await _context.Users
+                    .Include(u => u.Friends)
                     .Include(u => u.ContributedProjects)
                     .ThenInclude(p => p.TeamMembers)
-                    .SingleOrDefaultAsync(user => user.Id == userUpdateAdminDto.Id);
+                    .SingleOrDefaultAsync(u => u.Id == userUpdateAdminDto.Id);
                 if (user == null)
                 {
                     return Result.Fail<UserViewDto>($"User with id={userUpdateAdminDto.Id} not found.");
@@ -215,14 +213,6 @@ namespace BugTrackerApp.Services
             {
                 return Result.Fail<UserViewDto>(e.Message);
             }
-            catch (EntityCommandExecutionException e)
-            {
-                return Result.Fail<UserViewDto>(e.Message);
-            }
-            catch (DbEntityValidationException e)
-            {
-                return Result.Fail<UserViewDto>(e.Message);
-            }
             catch (Exception e)
             {
                 return Result.Fail<UserViewDto>(e.Message);
@@ -233,9 +223,10 @@ namespace BugTrackerApp.Services
             try
             {
                 var user = await _context.Users
+                    .Include(u => u.Friends)
                     .Include(u => u.ContributedProjects)
                     .ThenInclude(p => p.TeamMembers)
-                    .SingleOrDefaultAsync(user => user.Id == userUpdateDto.Id);
+                    .SingleOrDefaultAsync(u => u.Id == userUpdateDto.Id);
                 if (user == null)
                 {
                     return Result.Fail<UserViewDto>($"User with id={userUpdateDto.Id} not found.");
@@ -255,11 +246,80 @@ namespace BugTrackerApp.Services
             {
                 return Result.Fail<UserViewDto>(e.Message);
             }
-            catch (EntityCommandExecutionException e)
+            catch (Exception e)
             {
                 return Result.Fail<UserViewDto>(e.Message);
             }
-            catch (DbEntityValidationException e)
+        }
+
+        public async Task<Result<List<UserViewDto>>> GetFriends(int userId)
+        {
+            try
+            {
+                var user = await _context.Users
+                    .Include(u => u.Friends)
+                    .Include(u => u.ContributedProjects)
+                    .ThenInclude(p => p.TeamMembers)
+                    .SingleOrDefaultAsync(u => u.Id == userId);
+                //User not found with the provided Id
+                if (user == null)
+                {
+                    return Result.Fail<List<UserViewDto>>($"User with id={userId} not found.");
+                }
+                return Result.Ok(user.Friends.ToUserViewDto());
+            }
+            catch (SqlException e)
+            {
+                return Result.Fail<List<UserViewDto>>(e.Message);
+            }
+            catch (DbUpdateException e)
+            {
+                return Result.Fail<List<UserViewDto>>(e.Message);
+            }
+            catch (Exception e)
+            {
+                return Result.Fail<List<UserViewDto>>(e.Message);
+            }
+        }
+
+        public async Task<Result<UserViewDto>> AddFriend(int userId, int friendId)
+        {
+            try
+            {
+                var user = await _context.Users
+                    .Include(u => u.Friends)
+                    .Include(u => u.ContributedProjects)
+                    .ThenInclude(p => p.TeamMembers)
+                    .SingleOrDefaultAsync(u => u.Id == userId);
+                //User not found with the provided Id
+                if (user == null)
+                {
+                    return Result.Fail<UserViewDto>($"User with id={userId} not found.");
+                }
+
+                var friend = await _context.Users
+                    .Include(u => u.Friends)
+                    .Include(u => u.ContributedProjects)
+                    .ThenInclude(p => p.TeamMembers)
+                    .SingleOrDefaultAsync(u => u.Id == friendId);
+                //User not found with the provided Id
+                if (friend == null)
+                {
+                    return Result.Fail<UserViewDto>($"User(friend) with id={friendId} not found.");
+                }
+
+                //Both users are found
+                //Currently only the friend user being added to the user's friend list
+                //No pending request implemented yet
+                
+                user.AddFriend(friend);
+                return Result.Ok(user.ToUserViewDto());
+            }
+            catch (SqlException e)
+            {
+                return Result.Fail<UserViewDto>(e.Message);
+            }
+            catch (DbUpdateException e)
             {
                 return Result.Fail<UserViewDto>(e.Message);
             }

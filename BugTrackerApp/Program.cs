@@ -28,8 +28,7 @@ builder.Services.AddCors(options =>
         });
 });
 
-builder.Services.AddControllers()
-    .AddJsonOptions(opt => opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -38,6 +37,7 @@ builder.Services.AddSwaggerGen();
 // Add datastore service
 builder.Services.AddDbContext<BugTrackerAppContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
 // Add data logic services
 builder.Services.AddTransient<IUserService, UserService>();
@@ -69,12 +69,22 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 
 var app = builder.Build();
 
-using var scope = app.Services.CreateScope();
-var services = scope.ServiceProvider;
-var initialiser = services.GetRequiredService<DataSeeder>();
-var db = services.GetRequiredService<BugTrackerAppContext>();
-db.Database.Migrate();
-initialiser.Initialize();
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var initializer = services.GetRequiredService<DataSeeder>();
+        var db = services.GetRequiredService<BugTrackerAppContext>();
+        initializer.Initialize();
+    }
+    catch (Exception e)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(e, "An error occurred while seeding the database.");
+    }
+}
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

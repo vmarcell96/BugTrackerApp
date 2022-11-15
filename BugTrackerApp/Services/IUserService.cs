@@ -19,5 +19,7 @@ namespace BugTrackerApp.Services
 
         Task<Result<UserLoginDto>> GetLoginDtoByUserId(int userId);
         Task<Result<UserViewDto>> UpdateUserWithAdmin(UserUpdateAdminDto userUpdateAdminDto);
+        Task<Result<List<UserViewDto>>> GetFriends(int userId);
+        Task<Result<UserViewDto>> AddFriend(int userId, int friendId);
     }
 }

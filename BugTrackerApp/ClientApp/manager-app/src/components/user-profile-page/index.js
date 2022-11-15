@@ -13,21 +13,25 @@ import useAuth from '../../hooks/useAuth';
 import axios from "../../apis/axiosInstance";
 //Css
 import './profile.css'
+import { useState } from 'react';
 
 const Profile = () => {
     const { id } = useParams();
-    const { response: user, setResponse: setUser, error, loading, axiosFetch } = useAxiosFunction();
+    const { response, setResponse, error, loading, axiosFetch } = useAxiosFunction();
     const { auth } = useAuth();
+
+    const [user, setUser] = useState();
 
     const isUserLoggedIn = auth?.id === id;
 
 
-    const getUserData = () => {
-        axiosFetch({
+    const getUserData = async () => {
+        const resp = await axiosFetch({
             axiosInstance: axios,
             method: "GET",
             url: `/api/users/${id}`,
         });
+        setUser(resp);
     };
 
     useEffect(() => {

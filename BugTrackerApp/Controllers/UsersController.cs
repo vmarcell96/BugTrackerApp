@@ -151,5 +151,31 @@ namespace BugTrackerApp.Controllers
             }
             return StatusCode(200, updatedUser.Value);
         }
+
+        [Route("GetFriends")]
+        [HttpPost]
+        public async Task<IActionResult> GetFriends(int userId)
+        {
+            Result<List<UserViewDto>> friends = await _userService.GetFriends(userId);
+            if (friends.Failure)
+            {
+                _logger.LogError(friends.Error);
+                return BadRequest(friends.Error);
+            }
+            return StatusCode(200, friends.Value);
+        }
+        
+        [Route("AddFriend")]
+        [HttpPost]
+        public async Task<IActionResult> AddFriend(int userId, int friendId)
+        {
+            Result<UserViewDto> user = await _userService.AddFriend(userId, friendId);
+            if (user.Failure)
+            {
+                _logger.LogError(user.Error);
+                return BadRequest(user.Error);
+            }
+            return StatusCode(200, user.Value);
+        }
     }
 }

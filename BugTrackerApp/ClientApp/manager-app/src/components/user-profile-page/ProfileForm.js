@@ -25,15 +25,15 @@ const ProfileForm = ({ user, setUser }) => {
         setUpdatedUser({ ...updatedUser, [e.target.id]: e.target.value });
     };
 
-    const handleUpdate = (e) => {
+    const handleUpdate = async (e) => {
         e.preventDefault();
-        axiosFetch({
+        const resp = await axiosFetch({
             axiosInstance: axios,
             method: "PUT",
             url: `/api/users`,
             requestConfig: updatedUser,
         });
-        setUser(updatedUser);
+        setUser(resp);
     };
 
     return (

@@ -7,9 +7,12 @@ import { Table, Card, Row, Col } from "react-bootstrap"
 import { Link } from "react-router-dom"
 import BugViewModal from "./BugViewModal";
 import { useRef } from "react";
+import { ProjectContext } from './index';
+import { useContext } from "react";
 
-const ProjectBugs = forwardRef(({ project, setProject }, ref) => {
+const ProjectBugs = forwardRef(({ }, ref) => {
 
+    const { project, setProject } = useContext(ProjectContext);
     const [fixedBugs, setFixedBugs] = useState([]);
     const [unFixedBugs, setUnFixedBugs] = useState([]);
     const [unassignedBugs, setUnassignedBugs] = useState([]);

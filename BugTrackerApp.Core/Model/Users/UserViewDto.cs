@@ -1,4 +1,5 @@
-﻿using BugTrackerApp.Data.Entity;
+﻿using BugTrackerApp.Core.Model.Projects;
+using BugTrackerApp.Data.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,8 +16,8 @@ namespace BugTrackerApp.Core.Model.Users
         public string LastName { get; set; }
         public string Role { get; set; }
 
-        public List<int> asd = new List<int>();
+        public List<ProjectViewDto> ContributedProjects;
 
-        public IReadOnlyList<Project> ContributedProjects = new List<Project>();
+        public List<UserViewDto> Friends;
     }
 }

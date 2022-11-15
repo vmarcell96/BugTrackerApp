@@ -25,7 +25,7 @@ namespace BugTrackerApp.Controllers
         public async Task<IActionResult> GetAllProjects()
         {
             Result<List<ProjectViewDto>> projects = await _projectService.GetAllProjects();
-            if (projects.Error != String.Empty)
+            if (projects.Failure)
             {
                 _logger.LogError(projects.Error);
                 return BadRequest(projects.Error);
@@ -37,7 +37,7 @@ namespace BugTrackerApp.Controllers
         public async Task<IActionResult> GetProjectById(int id)
         {
             Result<ProjectViewDto> project = await _projectService.GetProjectById(id);
-            if (project.Error != String.Empty)
+            if (project.Failure)
             {
                 _logger.LogError(project.Error);
                 return BadRequest(project.Error);
@@ -98,7 +98,7 @@ namespace BugTrackerApp.Controllers
             }
             Result<ProjectViewDto> project = await _projectService.AddBugToProject(bug);
 
-            if (project.Error != String.Empty)
+            if (project.Failure)
             {
                 _logger.LogError(project.Error);
                 return BadRequest(project.Error);

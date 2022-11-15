@@ -4,9 +4,12 @@ import { useState } from "react";
 import useAxiosFunction from "../../hooks/useAxiosFunction";
 import axios from "../../apis/axiosInstance";
 import { useEffect } from "react";
+import { ProjectContext } from './index';
+import { useContext } from "react";
 
-const BugViewModal = forwardRef(({ project, setProject }, ref) => {
+const BugViewModal = forwardRef(({ }, ref) => {
 
+    const { project, setProject } = useContext(ProjectContext);
     const [show, setShow] = useState(false);
     const [bug, setBug] = useState();
     const [isEditMode, setIsEditMode] = useState(false);
