@@ -22,7 +22,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
         policy =>
         {
-            policy.WithOrigins("http://localhost:3000", "https://wonderful-water-041ca0803.2.azurestaticapps.net", "https://witty-moss-016813c03.2.azurestaticapps.net")
+            policy.WithOrigins("http://localhost:3000", "https://witty-moss-016813c03.2.azurestaticapps.net")
                 .AllowAnyHeader()
                 .AllowAnyMethod();
         });
