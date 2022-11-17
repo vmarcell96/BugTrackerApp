@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { forwardRef } from "react";
 import { useEffect } from "react";
-import { useImperativeHandle } from "react";
-import { useMemo } from "react";
 import { Table, Card, Row, Col } from "react-bootstrap"
 import { Link } from "react-router-dom"
 import BugViewModal from "./BugViewModal";
@@ -51,7 +49,7 @@ const ProjectBugs = forwardRef(({ }, ref) => {
                                                 <tr key={bug.id}>
                                                     <td className="link" onClick={() => { handleClick(bug) }}>{bug.title}</td>
                                                     <td>{bug.priority}</td>
-                                                    <td><Link className="link" to={`/profile/${(project.teamMembers.find(t => t.id == bug.assigneeId)).userId}`}>{(project.teamMembers.find(t => t.id == bug.assigneeId)).userName}</Link></td>
+                                                    <td><Link className="link" to={`/profile/${(project.teamMembers.find(t => t.userId == bug.assigneeId)).userId}`}>{(project.teamMembers.find(t => t.userId == bug.assigneeId)).userName}</Link></td>
                                                 </tr>
                                             )}
                                         </tbody>

@@ -14,24 +14,49 @@ import axios from "../../apis/axiosInstance";
 //Css
 import './profile.css'
 import { useState } from 'react';
+import UserFriends from './UserFriends';
+import { createContext } from 'react';
+
+export const UserContext = createContext({});
 
 const Profile = () => {
     const { id } = useParams();
-    const { response, setResponse, error, loading, axiosFetch } = useAxiosFunction();
+    const {  loading, axiosFetch } = useAxiosFunction();
     const { auth } = useAuth();
 
     const [user, setUser] = useState();
+    const [friends, setFriends] = useState([]);
+    const [pendingRequests, setPendingRequests] = useState([]);
+    const [users, setUsers] = useState([]);
 
     const isUserLoggedIn = auth?.id === id;
 
 
     const getUserData = async () => {
-        const resp = await axiosFetch({
+        const user = await axiosFetch({
             axiosInstance: axios,
             method: "GET",
             url: `/api/users/${id}`,
         });
-        setUser(resp);
+        setUser(user);
+        const usersFriends = await axiosFetch({
+            axiosInstance: axios,
+            method: "POST",
+            url: `/api/users/GetFriends?userId=${id}`,
+        });
+        setFriends(usersFriends);
+        const pendingRequests = await axiosFetch({
+            axiosInstance: axios,
+            method: "POST",
+            url: `/api/users/GetPendingFriendRequests?userId=${user.id}`,
+        });
+        setPendingRequests(pendingRequests);
+        const users = await axiosFetch({
+            axiosInstance: axios,
+            method: "GET",
+            url: `/api/users`,
+        });
+        setUsers(users);
     };
 
     useEffect(() => {
@@ -49,33 +74,37 @@ const Profile = () => {
                 </div>
             )}
             {/* Loading Spin */}
-            {/* Error */}
-            {!loading && error && <p style={{ color: "red" }}>{error}</p>}
-            {/* Error */}
-            {!loading && user && 
-            <Container className=''>
-                <Row className=''>
-                    <Col xs={12} md={6}>
-                        <Row>
-                            <Col className='p-2 d-flex justify-content-center'>
-                                <ProfileCard user={user} />
+            {!loading && user && friends && pendingRequests &&
+                <UserContext.Provider value={{ user, setUser, friends, setFriends, isUserLoggedIn, pendingRequests, setPendingRequests, users }} >
+                    <Container className=''>
+                        <Row className=''>
+                            <Col xs={12} md={6}>
+                                <Row>
+                                    <Col className='p-2 d-flex justify-content-center'>
+                                        <ProfileCard />
+                                    </Col>
+                                </Row>
+                            </Col>
+                            <Col xs={12} md={6}>
+                                {isUserLoggedIn && <Row >
+                                    <Col className='p-2 d-flex justify-content-center'>
+                                        <ProfileForm />
+                                    </Col>
+                                </Row>}
+                                <Row>
+                                    <Col className='p-2 d-flex justify-content-center'>
+                                        <UserProjects />
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col className='p-2 d-flex justify-content-center'>
+                                        <UserFriends />
+                                    </Col>
+                                </Row>
                             </Col>
                         </Row>
-                    </Col>
-                    <Col xs={12} md={6}>
-                        {isUserLoggedIn && <Row >
-                            <Col className='p-2 d-flex justify-content-center'>
-                                <ProfileForm isUserLoggedIn={isUserLoggedIn} user={user} setUser={setUser} />
-                            </Col>
-                        </Row>}
-                        <Row>
-                            <Col className='p-2 d-flex justify-content-center'>
-                                <UserProjects user={user} isUserLoggedIn={isUserLoggedIn} />
-                            </Col>
-                        </Row>
-                    </Col>
-                </Row>
-            </Container>}
+                    </Container>
+                </UserContext.Provider>}
         </>
     )
 }

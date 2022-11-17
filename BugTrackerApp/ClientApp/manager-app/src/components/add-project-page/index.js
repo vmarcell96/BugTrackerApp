@@ -1,21 +1,22 @@
 //Packages
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { Button, Card, Dropdown, Container, Row, Col, Modal } from "react-bootstrap";
+import { Button, Card, Container, Row, Col } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 //Misc
 import axios from "../../apis/axiosInstance";
 //Hooks
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import useAxiosFunction from "../../hooks/useAxiosFunction";
 import useAuth from "../../hooks/useAuth";
 //Css
 
 function AddProject() {
     const [isPublic, setIsPublic] = useState(true);
-    const { response, error, loading, axiosFetch } = useAxiosFunction();
+    const { error, loading, axiosFetch } = useAxiosFunction();
     const { auth } = useAuth();
     let navigate = useNavigate();
+
 
     const [newProject, setNewProject] = useState({
         name: "",
@@ -24,10 +25,10 @@ function AddProject() {
         isPublic: isPublic,
     });
 
+
     const onChange = (e) => {
         setNewProject({ ...newProject, [e.target.id]: e.target.value });
     };
-
 
 
     const handleSubmit = async (e) => {
@@ -41,7 +42,19 @@ function AddProject() {
         navigate(`/profile/${auth.id}`);
     };
 
+
     return (
+        <>
+        {/* Loading Spin */}
+        {loading && (
+            <div className="d-flex justify-content-center">
+                <div className="spinner-border" role="status">
+                    <span className="sr-only">Loading...</span>
+                </div>
+            </div>
+        )}
+        {/* Loading Spin */}
+        {!loading &&
         <Container>
             <Row>
                 <Col className="p-2 d-flex justify-content-center">
@@ -101,7 +114,8 @@ function AddProject() {
                     </Card>}
                 </Col>
             </Row>
-        </Container>
+        </Container>}
+        </>
     );
 }
 

@@ -21,16 +21,17 @@ namespace BugTrackerApp.Core.Extensions
 
         public static UserViewDto ToUserViewDto(this User user)
         {
-            return new UserViewDto
+            var projectViewDtos = ((List<Project>)user.ContributedProjects).ToProjectViewDto();
+            var userView = new UserViewDto
             {
                 Id = user.Id,
                 UserName = user.UserName,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Role = user.Role,
-                ContributedProjects = user.ContributedProjects.ToProjectViewDto(),
-                Friends = user.Friends.ToUserViewDto(),
+                ContributedProjects = projectViewDtos,
             };
+            return userView;
         }
 
         public static List<UserViewDto> ToUserViewDto(this List<User> users)
@@ -54,6 +55,29 @@ namespace BugTrackerApp.Core.Extensions
             };
         }
 
+        public static UserFriendDto ToUserFriendDto(this User user)
+        {
+            var friend = new UserFriendDto
+            {
+                UserId = user.Id,
+                UserName = user.UserName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Role = user.Role,
+            };
+            return friend;
+        }
+
+        public static List<UserFriendDto> ToUserFriendDto(this List<User> users)
+        {
+            var userViews = new List<UserFriendDto>();
+            foreach (var user in users)
+            {
+                userViews.Add(ToUserFriendDto(user));
+            }
+            return userViews;
+        }
+
         public static UserAuthenticationDto ToUserAuthenticationDto(this UserLoginDto userLoginDto)
         {
             return new UserAuthenticationDto
@@ -74,15 +98,26 @@ namespace BugTrackerApp.Core.Extensions
             };
         }
 
-        public static UserTeamMember ToUserTeamMember(this User user)
+
+        public static UserTeamMemberDto ToUserTeamMemberDto(this User user)
         {
-            return new UserTeamMember
+            return new UserTeamMemberDto
             {
                 UserId = user.Id,
                 UserName = user.UserName,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
             };
+        }
+
+        public static List<UserTeamMemberDto> ToUserTeamMemberDto(this List<User> users)
+        {
+            var userViews = new List<UserTeamMemberDto>();
+            foreach (var user in users)
+            {
+                userViews.Add(ToUserTeamMemberDto(user));
+            }
+            return userViews;
         }
     }
 }

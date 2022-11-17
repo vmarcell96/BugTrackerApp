@@ -15,17 +15,21 @@ import axios from "../../apis/axiosInstance";
 //Css
 import './projectView.css'
 import ProjectInfo from './ProjectInfo';
+import { useState } from 'react';
 
 export const ProjectContext = createContext({});
 
 const ProjectView = () => {
 
     const { id } = useParams();
-    const { response: project, setResponse: setProject, error, loading, axiosFetch } = useAxiosFunction();
+    const { response, setResponse, error, loading, axiosFetch } = useAxiosFunction();
     const { auth } = useAuth();
     const navigate = useNavigate();
     //Using imperative handle to set modal component's show state
     const addBugRef = useRef(null);
+    const [project, setProject] = useState();
+    const [user, setUser] = useState();
+    const [friends, setFriends] = useState();
 
     // Logged in user is member of the projects's team
     const isTeamMember = useMemo(() => {
@@ -33,12 +37,27 @@ const ProjectView = () => {
     }, [project]);
 
 
-    const getProjectData = () => {
-        axiosFetch({
+
+    const getProjectData = async () => {
+        const user = await axiosFetch({
             axiosInstance: axios,
             method: "GET",
-            url: `/api/projects/${id}`,
+            url: `/api/users/${auth.id}`,
         });
+        if (user !== undefined) {
+            setUser(user);
+            const currentProject = user.contributedProjects.find(p => p.id == id);
+            setProject(currentProject);
+        }
+        const friends = await axiosFetch({
+            axiosInstance: axios,
+            method: "POST",
+            url: `/api/users/getfriends?userId=${auth.id}`,
+        });
+        if (friends !== undefined) {
+            setFriends(friends);
+        }
+        
     };
 
     useEffect(() => {
@@ -47,9 +66,17 @@ const ProjectView = () => {
 
     return (
         <>
-
-            {!loading && project &&
-            <ProjectContext.Provider value={{ project, setProject }}>
+            {/* Loading Spin */}
+            {loading && (
+                <div className="d-flex justify-content-center">
+                    <div className="spinner-border" role="status">
+                        <span className="sr-only">Loading...</span>
+                    </div>
+                </div>
+            )}
+            {/* Loading Spin */}
+            {!loading && project && user &&
+            <ProjectContext.Provider value={{ project, setProject, isTeamMember, user, friends }}>
                 {(isTeamMember || project.isPublic) &&
                     <Container>
                         <Row>

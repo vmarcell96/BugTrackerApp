@@ -7,12 +7,13 @@ namespace BugTrackerApp.Core.Extensions
     {
         public static ProjectViewDto ToProjectViewDto(this Project project)
         {
+            var userTeamMembers = ((List<User>)project.Users).ToUserTeamMemberDto();
             return new ProjectViewDto
             {
                 Id = project.Id,
                 Name = project.Name,
                 Description = project.Description,
-                TeamMembers = (List<UserTeamMember>)project.TeamMembers,
+                TeamMembers = userTeamMembers,
                 Bugs = (List<Bug>)project.Bugs,
                 IsPublic = project.IsPublic,
                 CreatorId = project.CreatorId
@@ -40,25 +41,5 @@ namespace BugTrackerApp.Core.Extensions
             };
         }
 
-        public static Project ToProjectEntity(this ProjectViewDto project)
-        {
-            Project projectEntity = new Project
-            {
-                Id = project.Id,
-                Name = project.Name,
-                Description = project.Description,
-                IsPublic = project.IsPublic,
-                CreatorId = project.CreatorId
-            };
-            foreach (var teamMemb in project.TeamMembers)
-            {
-                projectEntity.AddTeamMember(teamMemb);
-            }
-            foreach (var bug in project.Bugs)
-            {
-                projectEntity.AddBug(bug);
-            }
-            return projectEntity;
-        }
     }
 }

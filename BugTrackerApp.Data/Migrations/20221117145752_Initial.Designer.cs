@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BugTrackerApp.Data.Migrations
 {
     [DbContext(typeof(BugTrackerAppContext))]
-    [Migration("20221114193835_UsersHaveFriends")]
-    partial class UsersHaveFriends
+    [Migration("20221117145752_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -66,6 +66,28 @@ namespace BugTrackerApp.Data.Migrations
                     b.ToTable("Bug");
                 });
 
+            modelBuilder.Entity("BugTrackerApp.Data.Entity.FriendRequest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsAccepted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ReceiverId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SenderId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FriendRequests");
+                });
+
             modelBuilder.Entity("BugTrackerApp.Data.Entity.Project", b =>
                 {
                     b.Property<int>("Id")
@@ -88,12 +110,7 @@ namespace BugTrackerApp.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Projects");
                 });
@@ -142,51 +159,28 @@ namespace BugTrackerApp.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("BugTrackerApp.Data.Entity.UserTeamMember", b =>
+            modelBuilder.Entity("ProjectUser", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("ContributedProjectsId")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ProjectId")
+                    b.Property<int>("UsersId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.HasKey("ContributedProjectsId", "UsersId");
 
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.HasIndex("UsersId");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProjectId");
-
-                    b.ToTable("UserTeamMember");
+                    b.ToTable("ProjectUser");
                 });
 
             modelBuilder.Entity("BugTrackerApp.Data.Entity.Bug", b =>
@@ -198,25 +192,17 @@ namespace BugTrackerApp.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BugTrackerApp.Data.Entity.Project", b =>
-                {
-                    b.HasOne("BugTrackerApp.Data.Entity.User", null)
-                        .WithMany("ContributedProjects")
-                        .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("BugTrackerApp.Data.Entity.User", b =>
-                {
-                    b.HasOne("BugTrackerApp.Data.Entity.User", null)
-                        .WithMany("Friends")
-                        .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("BugTrackerApp.Data.Entity.UserTeamMember", b =>
+            modelBuilder.Entity("ProjectUser", b =>
                 {
                     b.HasOne("BugTrackerApp.Data.Entity.Project", null)
-                        .WithMany("TeamMembers")
-                        .HasForeignKey("ProjectId")
+                        .WithMany()
+                        .HasForeignKey("ContributedProjectsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BugTrackerApp.Data.Entity.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -224,15 +210,6 @@ namespace BugTrackerApp.Data.Migrations
             modelBuilder.Entity("BugTrackerApp.Data.Entity.Project", b =>
                 {
                     b.Navigation("Bugs");
-
-                    b.Navigation("TeamMembers");
-                });
-
-            modelBuilder.Entity("BugTrackerApp.Data.Entity.User", b =>
-                {
-                    b.Navigation("ContributedProjects");
-
-                    b.Navigation("Friends");
                 });
 #pragma warning restore 612, 618
         }

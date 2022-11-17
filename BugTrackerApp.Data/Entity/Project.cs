@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Azure;
+using System.ComponentModel.DataAnnotations;
 
 namespace BugTrackerApp.Data.Entity
 {
@@ -14,18 +15,16 @@ namespace BugTrackerApp.Data.Entity
         [Required]
         public int CreatorId { get; set; }
 
-        private readonly IList<UserTeamMember> _teamMembers = new List<UserTeamMember>();
-        public IReadOnlyList<UserTeamMember> TeamMembers => (IReadOnlyList<UserTeamMember>)_teamMembers;
+        private readonly IList<User> _users = new List<User>();
+        public IReadOnlyList<User> Users => (IReadOnlyList<User>)_users;
 
         private readonly IList<Bug> _bugs = new List<Bug>();
-        public IReadOnlyList<Bug> Bugs => (IReadOnlyList<Bug>)_bugs;      
+        public IReadOnlyList<Bug> Bugs => (IReadOnlyList<Bug>)_bugs;
 
-        public void AddTeamMember(UserTeamMember teamMember)
+        public void AddTeamMember(User user)
         {
-            teamMember.ProjectId = Id;
-            _teamMembers.Add(teamMember);
+            _users.Add(user);
         }
-
         public void AddBug(Bug bug)
         {
             _bugs.Add(bug);

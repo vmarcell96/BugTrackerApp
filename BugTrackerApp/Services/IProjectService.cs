@@ -14,7 +14,7 @@ namespace BugTrackerApp.Services
 
         public Task<Result<ProjectViewDto>> AddBugToProject(Bug entity);
 
-        public Task<Result<ProjectViewDto>> AddTeamMemberToProject(UserTeamMember teamMemb);
+        public Task<Result<ProjectViewDto>> AddTeamMemberToProject(int userId, int projectId);
 
         public Task<Result<ProjectViewDto>> UpdateProject(ProjectUpdateDto updateDto);
         public Task<Result<ProjectViewDto>> UpdateBug(Bug bug);

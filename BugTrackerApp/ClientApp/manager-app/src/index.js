@@ -14,7 +14,7 @@ import RequireAuth from './components/RequireAuth';
 import AddUserModal from './components/users-table-page/AddUserModal';
 import UpdateUserModal from './components/users-table-page/UpdateUserModal';
 import Profile from './components/user-profile-page';
-import AddProject from './components/add-project-page/AddProject';
+import AddProject from './components/add-project-page/index';
 import ProjectView from './components/project-view-page';
 import BugViewModal from './components/project-view-page/BugViewModal';
 import AddBugModal from './components/project-view-page/AddBugModal';

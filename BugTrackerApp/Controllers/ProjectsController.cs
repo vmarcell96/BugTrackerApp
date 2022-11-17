@@ -68,7 +68,7 @@ namespace BugTrackerApp.Controllers
 
         [Route("AddMember")]
         [HttpPost]
-        public async Task<IActionResult> AddTeamMemberToProject(UserTeamMember newMember)
+        public async Task<IActionResult> AddTeamMemberToProject(int userId, int projectId)
         {
             if (!ModelState.IsValid)
             {
@@ -76,7 +76,7 @@ namespace BugTrackerApp.Controllers
                 _logger.LogError(String.Join(' ', errorMessages));
                 return BadRequest(new ErrorResponse(errorMessages));
             }
-            Result<ProjectViewDto> project = await _projectService.AddTeamMemberToProject(newMember);
+            Result<ProjectViewDto> project = await _projectService.AddTeamMemberToProject(userId, projectId);
 
             if (project.Failure)
             {

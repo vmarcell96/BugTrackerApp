@@ -165,11 +165,37 @@ namespace BugTrackerApp.Controllers
             return StatusCode(200, friends.Value);
         }
         
-        [Route("AddFriend")]
+        [Route("SendFriendRequest")]
         [HttpPost]
-        public async Task<IActionResult> AddFriend(int userId, int friendId)
+        public async Task<IActionResult> SendFriendRequest(int senderId, int receiverId)
         {
-            Result<UserViewDto> user = await _userService.AddFriend(userId, friendId);
+            Result<FriendRequest> request = await _userService.SendFriendRequest(senderId, receiverId);
+            if (request.Failure)
+            {
+                _logger.LogError(request.Error);
+                return BadRequest(request.Error);
+            }
+            return StatusCode(200, request.Value);
+        }
+
+        [Route("AcceptFriendRequest")]
+        [HttpPost]
+        public async Task<IActionResult> AcceptFriendRequest(int requestId)
+        {
+            Result<FriendRequest> user = await _userService.AcceptFriendRequest(requestId);
+            if (user.Failure)
+            {
+                _logger.LogError(user.Error);
+                return BadRequest(user.Error);
+            }
+            return StatusCode(200, user.Value);
+        }
+
+        [Route("GetPendingFriendRequests")]
+        [HttpPost]
+        public async Task<IActionResult> GetPendingFriendRequests(int userId)
+        {
+            Result<List<FriendRequest>> user = await _userService.GetPendingFriendRequests(userId);
             if (user.Failure)
             {
                 _logger.LogError(user.Error);

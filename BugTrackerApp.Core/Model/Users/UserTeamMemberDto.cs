@@ -1,14 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BugTrackerApp.Core.Model.Projects;
+using BugTrackerApp.Data.Entity;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace BugTrackerApp.Data.Entity
+namespace BugTrackerApp.Core.Model.Users
 {
-    public class UserTeamMember
+    public class UserTeamMemberDto
     {
-        public int Id { get; set; }
         [Required]
         public int UserId { get; set; }
-        [Required]
-        public int ProjectId { get; set; }
         [Required]
         public string UserName { get; set; }
         [Required]
@@ -16,6 +20,5 @@ namespace BugTrackerApp.Data.Entity
         [Required]
         public string LastName { get; set; }
         public DateTime JoinDate { get; } = DateTime.Now;
-
     }
 }
