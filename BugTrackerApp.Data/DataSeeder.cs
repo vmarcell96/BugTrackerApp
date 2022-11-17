@@ -12,9 +12,9 @@ namespace BugTrackerApp.Data
             _context = context;
         }
 
+
         public void Initialize()
         {
-            _context.Database.Migrate();
 
             if (!_context.Users.Any())
             {

@@ -77,7 +77,7 @@ using (var scope = app.Services.CreateScope())
     {
         var initializer = services.GetRequiredService<DataSeeder>();
         var db = services.GetRequiredService<BugTrackerAppContext>();
-        db.Database.EnsureDeleted();
+        db.Database.EnsureCreated();
         db.Database.Migrate();
         initializer.Initialize();
     }
