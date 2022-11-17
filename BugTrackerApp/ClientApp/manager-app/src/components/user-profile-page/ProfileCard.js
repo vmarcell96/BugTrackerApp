@@ -5,14 +5,18 @@ import pic from "./def2.jpg"
 import { faLinkedin } from '@fortawesome/free-brands-svg-icons'
 import { faMailBulk } from '@fortawesome/free-solid-svg-icons'
 import { Button, Card } from 'react-bootstrap';
+import { useContext } from 'react'
+import { UserContext } from '.'
 
-const ProfileCard = (props) => {
+const ProfileCard = () => {
+
+    const { user } = useContext(UserContext);
 
     return (
         <Card className="p-0 profile-card">
             <Card.Img variant="top" src={pic} />
             <Card.Body className="infopart">
-                <h1 id="name">{props.user.firstName} {props.user.lastName}</h1>
+                <h1 id="name">{user.firstName} {user.lastName}</h1>
                 <h4 id="profession">Fullstack Developer</h4>
                 <p id="email">vajdam96@gmail.com</p>
                 <div id="button-box">

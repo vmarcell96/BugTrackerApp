@@ -32,6 +32,7 @@ const AddBugModal = forwardRef(({ }, ref) => {
 
     const onChange = (e) => {
         setNewBug({ ...newBug, [e.target.id]: e.target.value });
+        console.log(newBug)
     };
 
     const handleSubmit = async (e) => {
@@ -63,6 +64,8 @@ const AddBugModal = forwardRef(({ }, ref) => {
             setShow(!show);
         },
     }));
+    
+    console.log(project.teamMembers)
 
     return (
         <>
@@ -110,8 +113,9 @@ const AddBugModal = forwardRef(({ }, ref) => {
                                     <Form.Label>Assigned Developer:</Form.Label>
                                     <Form.Select id="assigneeId" onChange={onChange}>
                                         <option value={0}>Nobody yet</option>
+                                        
                                         {project.teamMembers.map(dev =>
-                                            <option id={dev.id} value={dev.id}>{dev.userName}</option>
+                                            <option id={dev.userId} value={dev.userId}>{dev.userName}</option>
                                         )}
                                     </Form.Select>
                                 </Form.Group>

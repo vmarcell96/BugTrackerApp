@@ -117,7 +117,7 @@ const BugViewModal = forwardRef(({ }, ref) => {
                                 >
                                     <option value={0}>Nobody yet</option>
                                     {project.teamMembers.map(dev =>
-                                        <option id={dev.id} value={dev.id}>{dev.userName}</option>
+                                        <option id={dev.userId} value={dev.userId}>{dev.userName}</option>
                                     )}
                                 </Form.Select>
                             </Form.Group>

@@ -6,11 +6,14 @@ import { useState } from 'react';
 import useAxiosFunction from '../../hooks/useAxiosFunction';
 //Misc
 import axios from "../../apis/axiosInstance";
+import { useContext } from 'react'
+import { UserContext } from '.'
 
-const ProfileForm = ({ user, setUser }) => {
+const ProfileForm = () => {
 
     const [isEditMode, setIsEditMode] = useState(false);
     const { error, loading, axiosFetch } = useAxiosFunction();
+    const { user, setUser, isUserLoggedIn } = useContext(UserContext); 
 
     const [updatedUser, setUpdatedUser] = useState({
         id: user.id,
@@ -108,11 +111,12 @@ const ProfileForm = ({ user, setUser }) => {
                         )}
 
                     </Form>
+                        {isUserLoggedIn &&
                         <div className="d-flex justify-content-center">
                             <Button className='mb-3' variant={isEditMode ? "secondary" : "primary"} onClick={() => { setIsEditMode(!isEditMode); }}>
                                 {isEditMode ? 'Cancel' : 'Edit'}
                             </Button>
-                        </div>
+                        </div>}
                 </Card.Body>}
             </Card>
         </>

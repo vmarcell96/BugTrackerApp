@@ -29,9 +29,8 @@ namespace BugTrackerApp.Data
                     UserName = "Admin",
                     HashedPassword = BCrypt.Net.BCrypt.HashPassword("12345678"),
                     Role = "Admin",
-                    Friends = {  },
                     ContributedProjects = {  }
-            },
+                },
                 new()
                 {
                     FirstName = "Anna",
@@ -39,14 +38,20 @@ namespace BugTrackerApp.Data
                     UserName = "User",
                     HashedPassword = BCrypt.Net.BCrypt.HashPassword("12345678"),
                     Role = "User",
-                    Friends = {  },
                     ContributedProjects = {  }
                 },
                 };
 
                 _context.Users.AddRange(users);
                 _context.SaveChanges();
+
+
+
             }
+
+
+
+
 
         }
     }

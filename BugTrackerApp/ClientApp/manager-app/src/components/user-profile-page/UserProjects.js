@@ -9,8 +9,12 @@ import { useState } from 'react'
 import useDateFormat from '../../hooks/useDateFormat'
 //Misc
 import axios from "../../apis/axiosInstance";
+import { useContext } from 'react'
+import { UserContext } from '.'
 
-const UserProjects = ({ user, isUserLoggedIn }) => {
+const UserProjects = () => {
+
+    const { user, isUserLoggedIn } = useContext(UserContext);
     const { auth } = useAuth();
     const { response: projects, setResponse: setProjects, error, loading, axiosFetch } = useAxiosFunction();
     const [usersProjects, setUsersProjects] = useState([]);

@@ -50,7 +50,7 @@ namespace BugTrackerApp.Controllers
             }
 
             Result<UserLoginDto> user = await _userService.GetLoginDtoByUserName(loginRequest.Username);
-            if (user.Error != String.Empty)
+            if (user.Failure)
             {
                 _logger.LogError(user.Error);
                 return BadRequest(user.Error);
@@ -98,7 +98,7 @@ namespace BugTrackerApp.Controllers
 
             Result<RefreshToken> refreshTokenResult = await _refreshTokenService.GetByRefreshToken(refreshRequest.RefreshToken);
 
-            if (refreshTokenResult.Error != String.Empty)
+            if (refreshTokenResult.Failure)
             {
                 _logger.LogError(refreshTokenResult.Error);
                 return NotFound(refreshTokenResult.Error);
@@ -106,7 +106,7 @@ namespace BugTrackerApp.Controllers
 
             Result<UserViewDto> userResult = await _userService.GetUserById(refreshTokenResult.Value.UserId);
 
-            if (userResult.Error != String.Empty)
+            if (userResult.Failure)
             {
                 _logger.LogError(userResult.Error);
                 return BadRequest(userResult.Error);
@@ -114,7 +114,7 @@ namespace BugTrackerApp.Controllers
 
             Result deleteResult = await _refreshTokenService.Delete(refreshTokenResult.Value.Id);
 
-            if (deleteResult.Error != String.Empty)
+            if (deleteResult.Failure)
             {
                 _logger.LogError(deleteResult.Error);
                 return BadRequest(deleteResult.Error);
@@ -130,7 +130,7 @@ namespace BugTrackerApp.Controllers
 
             var addRefreshTokenResult = await _refreshTokenService.AddNewRefreshToken(newRefreshToken);
 
-            if (addRefreshTokenResult.Error != String.Empty)
+            if (addRefreshTokenResult.Failure)
             {
                 _logger.LogError(addRefreshTokenResult.Error);
                 return BadRequest(addRefreshTokenResult.Error);
@@ -152,7 +152,7 @@ namespace BugTrackerApp.Controllers
 
             var deleteResult = await _refreshTokenService.DeleteAll(userId);
 
-            if (deleteResult.Error != String.Empty)
+            if (deleteResult.Failure)
             {
                 _logger.LogError(deleteResult.Error);
                 return BadRequest(deleteResult.Error);
