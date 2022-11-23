@@ -85,6 +85,7 @@ Password: 12345678
 
 ## Production build
 
+(Currently not working due to Azure subscription issues)
 [Deployed to Azure.](https://witty-moss-016813c03.2.azurestaticapps.net/)(Login takes some time because of Azure's server speed)
 
 ## Run Locally
