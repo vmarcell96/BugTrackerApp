@@ -4,12 +4,12 @@ using BugTrackerApp.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using BugTrackerApp.Core.Model.AuthenticationModels.Responses;
-using BugTrackerApp.Core.Model.AuthenticationModels;
 using BugTrackerApp.Services.PasswordHashers;
 using BugTrackerApp.Data.Entity;
 
 namespace BugTrackerApp.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class UsersController : Controller
@@ -25,7 +25,6 @@ namespace BugTrackerApp.Controllers
             _passwordHasher = passwordHasher ?? throw new ArgumentNullException(nameof(passwordHasher));
         }
 
-        //[Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
         {
@@ -39,7 +38,6 @@ namespace BugTrackerApp.Controllers
         }
 
 
-        //[Authorize]
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetUserById(int id)
         {
@@ -85,7 +83,6 @@ namespace BugTrackerApp.Controllers
             return StatusCode(200);
         }
 
-        //[Authorize]
         [Route("Update")]
         [HttpPut]
         public async Task<IActionResult> UpdateUser(UserUpdateDto userUpdateDto)
@@ -123,7 +120,7 @@ namespace BugTrackerApp.Controllers
 
 
         //Admin roled users can change a user's role too on contrary with user roled users who can only change username,firstname,lastname
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [Route("AdminUpdate")]
         [HttpPut]
         public async Task<IActionResult> UpdateUserWithAdminUser(UserUpdateAdminDto userUpdateAdminDto)

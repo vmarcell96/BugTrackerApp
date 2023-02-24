@@ -4,6 +4,7 @@ using BugTrackerApp.Core.Model.AuthenticationModels.Responses;
 using BugTrackerApp.Core.Model.Projects;
 using BugTrackerApp.Data.Entity;
 using BugTrackerApp.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BugTrackerApp.Controllers
@@ -21,6 +22,7 @@ namespace BugTrackerApp.Controllers
             _logger = logger;
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAllProjects()
         {
@@ -45,6 +47,7 @@ namespace BugTrackerApp.Controllers
             return StatusCode(200, project.Value);
         }
 
+        [Authorize]
         [Route("AddProject")]
         [HttpPost()]
         public async Task<IActionResult> AddProject(ProjectCreateDto createDto)
@@ -66,6 +69,7 @@ namespace BugTrackerApp.Controllers
 
         }
 
+        [Authorize]
         [Route("AddMember")]
         [HttpPost]
         public async Task<IActionResult> AddTeamMemberToProject(int userId, int projectId)
@@ -86,6 +90,7 @@ namespace BugTrackerApp.Controllers
             return StatusCode(201, project.Value);
         }
 
+        [Authorize]
         [Route("AddBug")]
         [HttpPost]
         public async Task<IActionResult> AddBugToProject(Bug bug)
@@ -106,6 +111,7 @@ namespace BugTrackerApp.Controllers
             return StatusCode(201, project.Value);
         }
 
+        [Authorize]
         [Route("updateProject")]
         [HttpPut]
         public async Task<IActionResult> UpdateProject(ProjectUpdateDto updateDto)
@@ -126,6 +132,7 @@ namespace BugTrackerApp.Controllers
             return StatusCode(200, project.Value);
         }
 
+        [Authorize]
         [Route("updateBug")]
         [HttpPut]
         public async Task<IActionResult> UpdateBug(Bug bug)

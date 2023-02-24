@@ -77,6 +77,7 @@ namespace BugTrackerApp.Controllers
         }
 
         //If your access token is expired you can get a valid one with the help of your refresh token
+        [Authorize]
         [HttpPost("refresh")]
         public async Task<IActionResult> Refresh(RefreshRequest refreshRequest)
         {
@@ -140,7 +141,7 @@ namespace BugTrackerApp.Controllers
         }
 
         //This way if a refresh token gets stolen you can invalidate all with logging out
-        //[Authorize]
+        [Authorize]
         [HttpDelete("logout")]
         public async Task<IActionResult> Logout()
         {

@@ -12,14 +12,18 @@ namespace BugTrackerApp.Services
     public class UserService : IUserService
     {
         private readonly BugTrackerAppContext _context;
+        private readonly ILogger<UserService> _logger;
 
-        public UserService(BugTrackerAppContext context)
+        public UserService(BugTrackerAppContext context, ILogger<UserService> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         private async Task<User?> GetUserEntityById(int id)
         {
+            _logger.LogDebug("Logic for getting single user ({id})", id);
+
             var user = await _context.Users
                 .Include(u => u.ContributedProjects)
                     .ThenInclude(p => p.Users)
